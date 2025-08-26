@@ -66,7 +66,7 @@
         strong { color: var(--text-color); font-weight: 700; }
         .intro-subtext { text-align: center; font-size: 1.1em; color: var(--text-muted); }
         
-        #logo-container { text-align: center; margin: 30px 0; }
+        #logo-container { text-align: center; margin: 0 0 30px 0; } /* ZMIANA - marginesy dla nowej pozycji */
         #logo-container img, #logo-container svg { max-width: 160px; height: auto; }
 
         .progress-bar {
@@ -165,7 +165,8 @@
         #results-content { display: none; }
 
         #capture-area { padding: 1px; } 
-        #logo-container-results { margin-bottom: 30px; }
+        #logo-container-results { text-align: center; margin-bottom: 40px; }
+        #logo-container-results img, #logo-container-results svg { max-width: 160px; height: auto; }
         #score-container { font-size: 3em; font-weight: 700; line-height: 1.1; }
         #score-display { color: var(--primary-color); font-size: 2em; }
         
@@ -179,26 +180,12 @@
             border: 1px solid var(--border-color); margin-top: 20px;
         }
         
-        .result-card.glow-critical {
-            border-color: var(--glow-critical);
-            box-shadow: 0 0 25px rgba(255, 77, 77, 0.3);
-        }
-        .result-card.glow-reactive {
-            border-color: var(--glow-reactive);
-            box-shadow: 0 0 25px rgba(255, 165, 0, 0.3);
-        }
-        .result-card.glow-proactive {
-            border-color: var(--glow-proactive);
-            box-shadow: 0 0 25px rgba(0, 170, 255, 0.3);
-        }
-        .result-card.glow-strategic {
-            border-color: var(--glow-strategic);
-            box-shadow: 0 0 25px rgba(244, 244, 244, 0.2);
-        }
+        .result-card.glow-critical { border-color: var(--glow-critical); box-shadow: 0 0 25px rgba(255, 77, 77, 0.3); }
+        .result-card.glow-reactive { border-color: var(--glow-reactive); box-shadow: 0 0 25px rgba(255, 165, 0, 0.3); }
+        .result-card.glow-proactive { border-color: var(--glow-proactive); box-shadow: 0 0 25px rgba(0, 170, 255, 0.3); }
+        .result-card.glow-strategic { border-color: var(--glow-strategic); box-shadow: 0 0 25px rgba(244, 244, 244, 0.2); }
 
-        .result-card h3, #ai-synthesis-container h3 { 
-            color: var(--text-color); margin-bottom: 15px;
-        }
+        .result-card h3, #ai-synthesis-container h3 { color: var(--text-color); margin-bottom: 15px; }
         
         #ai-loader { display: none; margin-top: 20px; }
         @keyframes pulse { 0% { opacity: 0.5; } 50% { opacity: 1; } 100% { opacity: 0.5; } }
@@ -216,19 +203,20 @@
             font-size: 0.8em; color: var(--text-muted); margin-bottom: 15px;
         }
         .signature-footer img, .signature-footer svg {
-            width: 100px;
-            height: auto;
-            opacity: 0.7;
+            width: 100px; height: auto; opacity: 0.7;
         }
         
-        .on-first-step .signature-footer, .on-results-step .signature-footer { 
-            display: none; 
-        }
+        .on-first-step .signature-footer, .on-results-step .signature-footer { display: none; }
 
         @media (max-width: 768px) {
             .audit-container { padding: 20px; }
             h1 { font-size: 2em; }
             h2 { font-size: 1.5em; }
+            
+            /* ZMIANA - Mniejsza interlinia dla podtytułu na mobile */
+            .intro-subtext {
+                line-height: 1.4;
+            }
             
             .btn {
                 padding: 10px 20px;
@@ -251,11 +239,11 @@
         
         <form id="audit-form" autocomplete="off">
             <div class="form-step active">
-                <h1>Audyt Kondycji Marki</h1>
-                <p class="intro-subtext">Narzędzie diagnostyczne dla liderów, którzy chcą przestać zgadywać i zacząć wygrywać.</p>
                 <div id="logo-container">
                     <img src="twoje-logo.svg.svg" alt="Logo Firmy">
                 </div>
+                <h1>Audyt Kondycji Marki</h1>
+                <p class="intro-subtext">Narzędzie diagnostyczne dla liderów, którzy chcą przestać zgadywać i zacząć wygrywać.</p>
                 <div class="form-navigation" style="justify-content: center;">
                     <button type="button" class="btn btn-primary btn-next">Zaczynam</button>
                 </div>
@@ -434,8 +422,8 @@
                 </div>
                 <div id="results-content" style="display:none;">
                     <div id="capture-area">
-                        <div id="logo-container-results" style="text-align: center; margin-bottom: 40px;">
-                            <img src="twoje-logo.svg.svg" alt="Logo Firmy" style="max-width: 160px; height: auto;">
+                        <div id="logo-container-results">
+                            <img src="twoje-logo.svg.svg" alt="Logo Firmy">
                         </div>
                         <h2>Twoja diagnoza</h2>
                         <div id="score-container">
@@ -450,16 +438,16 @@
                             <h3>Kluczowe wnioski z analizy</h3>
                             <p id="ai-synthesis-text"></p>
                         </div>
+                        <div class="signature-footer" style="margin-top: 40px;">
+                            <p>Audyt przygotowany przez:</p>
+                            <img src="twoje-logo.svg.svg" alt="Logo Firmy">
+                        </div>
                     </div>
                     <button type="button" id="download-btn" class="btn">Pobierz diagnozę (PNG)</button>
                     <div id="next-steps" style="display: none;">
                         <h3>Co dalej?</h3>
                         <p>Diagnoza to punkt startowy. Jeśli Twój wynik jest poniżej 52 punktów i jesteś gotów, by zacząć proces naprawczy, umówmy się na bezpłatną konsultację.</p>
-                        <a href="https://calendly.com/biuro-volium/30min" target="_blank" id="final-cta-btn" class="btn btn-primary">Zarezerwuj 15-minutową konsultację</a>
-                    </div>
-                    <div class="signature-footer">
-                        <p>Audyt przygotowany przez:</p>
-                        <img src="twoje-logo.svg.svg" alt="Logo Firmy">
+                        <a href="LINK_DO_TWOJEGO_KALENDARZA" target="_blank" id="final-cta-btn" class="btn btn-primary">Zarezerwuj 15-minutową konsultację</a>
                     </div>
                 </div>
             </div>
@@ -592,7 +580,7 @@
                     document.getElementById('ai-loader').style.display = 'block';
                     const answers = [ document.getElementById('mirror-q1').value, document.getElementById('mirror-q2').value, document.getElementById('mirror-q3').value, document.getElementById('mirror-q4').value ];
                     
-                    fetch('https://audyt-backend.onrender.com/api/analyze', {
+                    fetch('http://localhost:3000/api/analyze', {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify({ score: finalScore, answers: answers }),
@@ -626,7 +614,7 @@
                     padding: '40px', textAlign: 'center'
                 });
                 
-                const logoHTML = document.getElementById('logo-container').innerHTML;
+                const logoHTML = document.getElementById('logo-container-results').innerHTML;
                 const signatureHTML = document.querySelector('#results-content .signature-footer').innerHTML;
 
                 printableArea.innerHTML = `
