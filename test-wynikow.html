@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Strony Wyników Audytu</title>
+    
+    <link href="https://api.fontshare.com/v2/css?f[]=satoshi@700,500,400&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+
+    <style>
+        :root {
+            --bg-color: #080808;
+            --surface-color: #0F0F0F;
+            --primary-color: #F4F4F4;
+            --primary-glow: rgba(244, 244, 244, 0.4);
+            --text-color: #D8D8D8;
+            --text-muted: #707070;
+            --border-color: #2C2C2C;
+            --glow-critical: #ff4d4d;
+            --glow-reactive: #ffa500;
+            --glow-proactive: #00aaff;
+            --glow-strategic: #F4F4F4;
+        }
+        
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: 'Satoshi', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+            font-weight: 400;
+        }
+
+        .audit-container {
+            width: 100%; max-width: 800px; background: var(--surface-color);
+            border: 1px solid var(--border-color); border-radius: 16px; padding: 40px;
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+        }
+        
+        h1, h2, h3 {
+            font-weight: 700; letter-spacing: -0.01em; line-height: 1.1;
+            text-align: center; color: var(--text-color);
+        }
+        h1 { font-size: 2.5em; margin-bottom: 10px; }
+        h2 { font-size: 2em; margin-bottom: 25px; margin-top: 10px; }
+        h3 { font-size: 1.5em; }
+
+        p {
+            font-size: 1em; line-height: 1.7; color: var(--text-muted);
+            margin-bottom: 15px; font-weight: 400;
+        }
+        .result-card p, #ai-synthesis-container p { color: var(--text-muted); }
+        strong { color: var(--text-color); font-weight: 600; }
+        
+        .btn {
+            padding: 12px 30px; border: none; border-radius: 50px; font-family: 'Satoshi', sans-serif;
+            font-weight: 700; font-size: 1em; cursor: pointer; transition: all 0.3s ease;
+            background: var(--surface-color); color: var(--text-color); border: 1px solid var(--border-color);
+            text-transform: uppercase;
+            text-decoration: none;
+            display: inline-block;
+        }
+        .btn:hover { border-color: var(--text-color); }
+        .btn-primary {
+            background: var(--primary-color); color: #000000; border: 1px solid var(--primary-color);
+        }
+        .btn-primary:hover {
+            box-shadow: 0 0 20px var(--primary-glow); transform: translateY(-2px);
+        }
+        
+        #results-step { text-align: center; }
+        
+        #results-content { animation: fadeIn 1s forwards; }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        #capture-area { padding: 20px 1px; } /* Dodano padding dla PNG */
+        #score-container { font-size: 3em; font-weight: 700; line-height: 1.1; }
+        #score-display { color: var(--primary-color); font-size: 2em; }
+        
+        .result-card, #ai-synthesis-container {
+            background: var(--surface-color); padding: 30px; border-radius: 12px;
+            border: 1px solid var(--border-color); margin-top: 20px;
+            transition: all 0.5s ease-in-out;
+        }
+        
+        .result-card.glow-critical { border-color: var(--glow-critical); box-shadow: 0 0 25px rgba(255, 77, 77, 0.3); }
+        .result-card.glow-reactive { border-color: var(--glow-reactive); box-shadow: 0 0 25px rgba(255, 165, 0, 0.3); }
+        .result-card.glow-proactive { border-color: var(--glow-proactive); box-shadow: 0 0 25px rgba(0, 170, 255, 0.3); }
+        .result-card.glow-strategic { border-color: var(--glow-strategic); box-shadow: 0 0 25px rgba(244, 244, 244, 0.2); }
+
+        .result-card h3, #ai-synthesis-container h3 { 
+            color: var(--text-color); margin-bottom: 15px;
+        }
+        
+        #final-cta-btn { margin-top: 20px; }
+        #download-btn { margin: 25px auto; }
+        #next-steps h3 { margin-bottom: 15px; }
+        #next-steps { margin-top: 40px; }
+
+        .quote {
+            font-style: italic;
+            color: var(--text-muted);
+            border-left: 3px solid var(--border-color);
+            padding-left: 20px;
+            margin: 40px 0;
+            text-align: left;
+        }
+
+        .signature-footer {
+            text-align: center; margin-top: 50px; border-top: 1px solid var(--border-color);
+            padding-top: 30px;
+        }
+        .signature-footer p {
+            font-size: 0.8em; color: var(--text-muted); margin-bottom: 15px;
+        }
+        .signature-footer img, .signature-footer svg {
+            width: 100px; height: auto; opacity: 0.7;
+        }
+        
+        @media (max-width: 768px) {
+            .audit-container { padding: 20px; }
+            h1 { font-size: 2em; }
+            h2 { font-size: 1.5em; }
+            .btn { padding: 10px 20px; font-size: 0.85em; }
+        }
+    </style>
+</head>
+<body>
+    <div class="audit-container">
+        
+        <div class="form-step active" id="results-step">
+            <div id="results-content">
+                <div id="capture-area">
+                    <h2>Twoja diagnoza</h2>
+                    <div id="score-container">
+                        <span id="score-display">35</span> / 60
+                    </div>
+                    <div class="result-card glow-reactive">
+                        <h3 id="result-title">Działanie reaktywne (Niespójny pracownik)</h3>
+                        <p id="result-description">Twoja marka ma przebłyski geniuszu, ale brakuje jej konsekwencji. Generuje to nieprzewidywalne rezultaty. Pracujesz ciężej, niż musisz, bo marka nie wykonuje swojej pracy.</p>
+                    </div>
+                    <div id="ai-synthesis-container">
+                        <h3>Kluczowe wnioski z analizy</h3>
+                        <p id="ai-synthesis-text">Analiza wskazuje na świadomość istniejących wyzwań i problemów, co jest pierwszym krokiem do zmiany. W Twoich odpowiedziach pojawiają się wątpliwości dotyczące spójności i konkurencji. Sugeruje to, że najpilniejszym zadaniem jest uporządkowanie strategii i stworzenie jasnych ram dla dalszych działań marketingowych.</p>
+                    </div>
+                </div>
+
+                <div id="next-steps">
+                    <h3>Diagnoza to nie wyrok. To punkt startowy.</h3>
+                    <p>Niezależnie od wyniku, fakt, że przeszedłeś przez ten audyt, stawia Cię w elitarnej grupie świadomych liderów, którzy wolą podejmować decyzje w oparciu o dane, a nie przeczucia.</p>
+                    <p>Zidentyfikowałeś słabe punkty. Zobaczyłeś, gdzie tracisz energię i pieniądze. Pytanie brzmi: co teraz z tym zrobisz?</p>
+                    <p>Zmiana nie polega na "nowym logo". Polega na wgraniu do Twojej firmy spójnego systemu operacyjnego, który zamieni chaos w momentum, zgadywanie w precyzję, a niewykorzystany potencjał w realny zysk.</p>
+                    <p>Jeśli Twój wynik jest poniżej 52 punktów i jesteś gotów, by zacząć ten proces, umówmy się na 15-minutową, bezpłatną konsultację diagnostyczną.</p>
+                    
+                    <div class="quote">
+                        <p>"[Tutaj miejsce na inspirujący cytat, który zmotywuje do działania]"</p>
+                    </div>
+
+                    <a href="LINK_DO_TWOJEGO_KALENDARZA" target="_blank" id="final-cta-btn" class="btn btn-primary">KLIKNIJ TUTAJ, ABY ZAREZERWOWAĆ TERMIN</a>
+                </div>
+
+                <button type="button" id="download-btn" class="btn">Pobierz diagnozę (PNG)</button>
+
+                <div class="signature-footer">
+                    <p>Audyt przygotowany przez:</p>
+                    <img src="twoje-logo.svg.svg" alt="Logo Firmy">
+                </div>
+            </div>
+        </div>
+
+    </div>
+</body>
+</html>
