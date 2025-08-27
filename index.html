@@ -241,7 +241,7 @@
                     <button type="button" class="btn btn-primary btn-next">Zaczynam</button>
                 </div>
             </div>
-            
+
             <div class="form-step">
                 <h2>Sekcja I: Fundamenty</h2>
                 <div class="question-block">
@@ -447,7 +447,7 @@
                              <p>Twój wynik świadczy o mistrzostwie w budowaniu marki. Utrzymanie pozycji lidera to jednak ciągłe wyzwanie. Chętnie wymienię się z Tobą spostrzeżeniami podczas partnerskiej sesji strategicznej.</p>
                         </div>
 
-                        <a href="LINK_DO_TWOJEGO_KALENDARZA" target="_blank" id="final-cta-btn" class="btn btn-primary">Zarezerwuj 15-minutową konsultację</a>
+                        <a href="https://calendly.com/biuro-volium/30min" target="_blank" id="final-cta-btn" class="btn btn-primary">Zarezerwuj 15-minutową konsultację</a>
                     </div>
                     <button type="button" id="download-btn" class="btn">Pobierz diagnozę (PNG)</button>
 
@@ -469,17 +469,6 @@
             const downloadBtn = document.getElementById('download-btn');
             let currentStep = 0;
             let finalScore, finalResultTitle, finalResultDesc, finalAiText;
-            
-            const scaleLabelsLong = ["Zdecydowanie nie", "Raczej nie", "Trudno powiedzieć", "Raczej tak", "Zdecydowanie tak"];
-            const scaleLabelsShort = ["Wcale", "Rzadko", "Czasami", "Często", "Zawsze"];
-
-            const updateScaleDescriptions = () => {
-                const allDescriptions = document.querySelectorAll('.scale-description');
-                const labels = window.innerWidth <= 768 ? scaleLabelsShort : scaleLabelsLong;
-                allDescriptions.forEach((span, index) => {
-                    span.textContent = labels[index % 5];
-                });
-            };
 
             const updateUI = () => {
                 auditContainer.classList.remove('on-first-step', 'on-results-step');
@@ -587,19 +576,19 @@
                     let title = '', description = '';
                     if (finalScore <= 25) { 
                         title = 'Stan krytyczny (Chaotyczny sabotażysta)'; 
-                        description = 'Twoja marka aktywnie sabotuje Twoje wysiłki...';
+                        description = 'Twoja marka aktywnie sabotuje Twoje wysiłki. Każdego dnia tracisz pieniądze na nieskutecznym marketingu i rywalizujesz ceną. To wymaga natychmiastowej interwencji.';
                         resultCard.classList.add('glow-critical');
                     } else if (finalScore <= 38) { 
                         title = 'Działanie reaktywne (Niespójny pracownik)'; 
-                        description = 'Twoja marka ma przebłyski geniuszu...';
+                        description = 'Twoja marka ma przebłyski geniuszu, ale brakuje jej konsekwencji. Generuje to nieprzewidywalne rezultaty. Pracujesz ciężej, niż musisz, bo marka nie wykonuje swojej pracy.';
                         resultCard.classList.add('glow-reactive');
                     } else if (finalScore <= 51) { 
                         title = 'Proaktywny fundament (Solidny specjalista)'; 
-                        description = 'Twoja marka stanowi zdrowy fundament...';
+                        description = 'Twoja marka stanowi zdrowy fundament dla wzrostu, jednak może brakować jej odwagi, by dyktować warunki na rynku. Działasz poprawnie, ale bez strategicznej przewagi.';
                         resultCard.classList.add('glow-proactive');
                     } else { 
                         title = 'Aktywo strategiczne (Autonomiczny lider)'; 
-                        description = 'Gratulacje. Twoja marka to Twój najlepszy pracownik...';
+                        description = 'Gratulacje. Twoja marka to Twój najlepszy pracownik. Sprzedaje, gdy śpisz i daje Ci moc dyktowania cen. Posiadasz przewagę, która pozwala Ci definiować zasady gry.';
                         resultCard.classList.add('glow-strategic');
                     }
                     finalResultTitle = title; finalResultDesc = description;
@@ -659,9 +648,21 @@
 
                 printableArea.innerHTML = `
                     <div style="text-align: center; margin-bottom: 40px;">${logoHTML}</div>
-                    <h2 style="font-size: 2em; ...">${finalResultTitle}</h2>
-                    ... (reszta HTML) ...
-                    <div style="text-align: center; margin-top: 50px; ...">${signatureHTML}</div>
+                    <h2 style="font-size: 2em; font-weight: 700; color: #D8D8D8; margin-bottom: 25px; line-height: 1.1;">Twoja diagnoza</h2>
+                    <div style="font-size: 3em; font-weight: 700; color: #D8D8D8; line-height: 1.1;">
+                        <span style="color: #F4F4F4; font-size: 2em;">${finalScore}</span> / 60
+                    </div>
+                    <div style="background: #0F0F0F; padding: 30px; border-radius: 12px; border: 1px solid #2C2C2C; margin-top: 20px;">
+                        <h3 style="font-size: 1.5em; font-weight: 700; color: #D8D8D8; margin-bottom: 15px; line-height: 1.1;">${finalResultTitle}</h3>
+                        <p style="font-size: 1em; color: #707070; line-height: 1.7; font-weight: 400;">${finalResultDesc}</p>
+                    </div>
+                    <div style="background: #0F0F0F; padding: 30px; border-radius: 12px; border: 1px solid #2C2C2C; margin-top: 20px;">
+                        <h3 style="font-size: 1.5em; font-weight: 700; color: #D8D8D8; margin-bottom: 15px; line-height: 1.1;">Kluczowe wnioski z analizy</h3>
+                        <p style="font-size: 1em; color: #707070; line-height: 1.7; font-weight: 400;">${finalAiText}</p>
+                    </div>
+                    <div style="text-align: center; margin-top: 50px; border-top: 1px solid #2C2C2C; padding-top: 30px;">
+                        ${signatureHTML}
+                    </div>
                 `;
                 
                 html2canvas(printableArea, { scale: 2, useCORS: true })
@@ -671,7 +672,8 @@
                     downloadLink.setAttribute('href', canvas.toDataURL('image/png'));
                     downloadLink.click();
                 }).catch(err => {
-                    console.error('Błąd:', err);
+                    console.error('Błąd podczas generowania obrazu:', err);
+                    alert('Wystąpił błąd podczas generowania obrazu.');
                 }).finally(() => {
                     document.body.removeChild(printableArea);
                     downloadBtn.innerText = originalButtonText;
