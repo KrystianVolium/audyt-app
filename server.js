@@ -18,7 +18,7 @@ app.use(cors());
 app.use(express.json());
 
 
-// ZMIANA - Mniej agresywna wersja filtra
+// Mniej agresywna wersja filtra
 const isInputGibberish = (answers) => {
     const lowQualityWords = ['nie wiem', 'trudno powiedzieć', 'test', 'asdf', 'brak', 'xd', 'ok'];
     let totalLength = 0;
@@ -30,20 +30,13 @@ const isInputGibberish = (answers) => {
         
         totalLength += lowerCaseAnswer.length;
 
-        // Sprawdź 1: Czy to słowo niskiej jakości?
         if (lowQualityWords.includes(lowerCaseAnswer)) return true;
-        
-        // Sprawdź 2: Czy to jeden znak powtórzony wiele razy (np. "aaaaa")?
         if (/^(\w)\1+$/.test(lowerCaseAnswer)) return true;
-        
-        // Sprawdź 3: Czy to same cyfry?
         if (/^\d+$/.test(lowerCaseAnswer)) return true;
-
-        // USUNIĘTO ZBYT AGRESYWNE REGUŁY
     }
     
-    // Sprawdź 4: Czy suma znaków we wszystkich odpowiedziach jest bardzo mała?
-    if (totalLength > 0 && totalLength < 20) return true;
+    // ZMIANA - Teraz poprawnie wyłapuje, jeśli suma znaków jest bardzo mała (w tym 0)
+    if (totalLength < 20) return true;
 
     return false;
 };
