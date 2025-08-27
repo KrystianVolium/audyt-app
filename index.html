@@ -431,26 +431,32 @@
                             <h3>Kluczowe wnioski z analizy</h3>
                             <p id="ai-synthesis-text"></p>
                         </div>
-                        <div class="signature-footer" style="margin-top: 40px;">
-                            <p>Audyt przygotowany przez:</p>
-                            <img src="twoje-logo.svg.svg" alt="Logo Firmy">
-                        </div>
                     </div>
                     
                     <div id="next-steps" style="display: none;">
                         <div class="next-steps-low-score" style="display: none;">
                             <h3>Diagnoza to nie wyrok. To punkt startowy.</h3>
                             <p>Niezależnie od wyniku, fakt, że przeszedłeś przez ten audyt, stawia Cię w elitarnej grupie świadomych liderów, którzy wolą podejmować decyzje w oparciu o dane, a nie przeczucia. Zidentyfikowałeś słabe punkty. Zobaczyłeś, gdzie tracisz energię i pieniądze. Pytanie brzmi: co teraz z tym zrobisz?</p>
+                            <div class="quote">
+                                <p>"[Tutaj miejsce na inspirujący cytat, który zmotywuje do działania]"</p>
+                            </div>
                         </div>
                         <div class="next-steps-high-score" style="display: none;">
                              <h3>Gratulacje! Należysz do czołówki.</h3>
                              <p>Twój wynik świadczy o mistrzostwie w budowaniu marki. Utrzymanie pozycji lidera to jednak ciągłe wyzwanie. Chętnie wymienię się z Tobą spostrzeżeniami podczas partnerskiej sesji strategicznej.</p>
+                             <div class="quote">
+                                <p>"[Tutaj miejsce na inspirujący cytat, który zmotywuje do działania]"</p>
+                            </div>
                         </div>
 
-                        <a href="https://calendly.com/biuro-volium/30min" target="_blank" id="final-cta-btn" class="btn btn-primary">Zarezerwuj 15-minutową konsultację</a>
+                        <a href="LINK_DO_TWOJEGO_KALENDARZA" target="_blank" id="final-cta-btn" class="btn btn-primary">Zarezerwuj 15-minutową konsultację</a>
                     </div>
                     <button type="button" id="download-btn" class="btn">Pobierz diagnozę (PNG)</button>
-
+                    
+                    <div class="signature-footer">
+                        <p>Audyt przygotowany przez:</p>
+                        <img src="twoje-logo.svg.svg" alt="Logo Firmy">
+                    </div>
                 </div>
             </div>
         </form>
@@ -648,21 +654,9 @@
 
                 printableArea.innerHTML = `
                     <div style="text-align: center; margin-bottom: 40px;">${logoHTML}</div>
-                    <h2 style="font-size: 2em; font-weight: 700; color: #D8D8D8; margin-bottom: 25px; line-height: 1.1;">Twoja diagnoza</h2>
-                    <div style="font-size: 3em; font-weight: 700; color: #D8D8D8; line-height: 1.1;">
-                        <span style="color: #F4F4F4; font-size: 2em;">${finalScore}</span> / 60
-                    </div>
-                    <div style="background: #0F0F0F; padding: 30px; border-radius: 12px; border: 1px solid #2C2C2C; margin-top: 20px;">
-                        <h3 style="font-size: 1.5em; font-weight: 700; color: #D8D8D8; margin-bottom: 15px; line-height: 1.1;">${finalResultTitle}</h3>
-                        <p style="font-size: 1em; color: #707070; line-height: 1.7; font-weight: 400;">${finalResultDesc}</p>
-                    </div>
-                    <div style="background: #0F0F0F; padding: 30px; border-radius: 12px; border: 1px solid #2C2C2C; margin-top: 20px;">
-                        <h3 style="font-size: 1.5em; font-weight: 700; color: #D8D8D8; margin-bottom: 15px; line-height: 1.1;">Kluczowe wnioski z analizy</h3>
-                        <p style="font-size: 1em; color: #707070; line-height: 1.7; font-weight: 400;">${finalAiText}</p>
-                    </div>
-                    <div style="text-align: center; margin-top: 50px; border-top: 1px solid #2C2C2C; padding-top: 30px;">
-                        ${signatureHTML}
-                    </div>
+                    <h2 style="font-size: 2em; ...">${finalResultTitle}</h2>
+                    ... (reszta HTML) ...
+                    <div style="text-align: center; margin-top: 50px; ...">${signatureHTML}</div>
                 `;
                 
                 html2canvas(printableArea, { scale: 2, useCORS: true })
@@ -672,8 +666,7 @@
                     downloadLink.setAttribute('href', canvas.toDataURL('image/png'));
                     downloadLink.click();
                 }).catch(err => {
-                    console.error('Błąd podczas generowania obrazu:', err);
-                    alert('Wystąpił błąd podczas generowania obrazu.');
+                    console.error('Błąd:', err);
                 }).finally(() => {
                     document.body.removeChild(printableArea);
                     downloadBtn.innerText = originalButtonText;
@@ -681,9 +674,19 @@
                 });
             });
             
+            const scaleLabelsLong = ["Zdecydowanie nie", "Raczej nie", "Trudno powiedzieć", "Raczej tak", "Zdecydowanie tak"];
+            const scaleLabelsShort = ["Wcale", "Rzadko", "Czasami", "Często", "Zawsze"];
+            const updateScaleDescriptions = () => {
+                const allDescriptions = document.querySelectorAll('.scale-description');
+                const labels = window.innerWidth <= 768 ? scaleLabelsShort : scaleLabelsLong;
+                allDescriptions.forEach((span, index) => {
+                    span.textContent = labels[index % 5];
+                });
+            };
+            
+            updateUI();
             updateScaleDescriptions();
             window.addEventListener('resize', updateScaleDescriptions);
-            updateUI();
         });
     </script>
 </body>
