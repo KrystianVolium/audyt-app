@@ -18,7 +18,7 @@ app.use(cors());
 app.use(express.json());
 
 
-// Mniej agresywna wersja filtra
+// Poprawiona wersja filtra
 const isInputGibberish = (answers) => {
     const lowQualityWords = ['nie wiem', 'trudno powiedzieć', 'test', 'asdf', 'brak', 'xd', 'ok'];
     let totalLength = 0;

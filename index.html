@@ -199,11 +199,6 @@
         #next-steps { margin-top: 40px; }
         #next-steps h3 { margin-bottom: 15px; }
 
-        .quote {
-            font-style: italic; color: var(--text-muted); border-left: 3px solid var(--border-color);
-            padding-left: 20px; margin: 40px 0; text-align: left;
-        }
-
         .signature-footer {
             text-align: center; margin-top: 50px; border-top: 1px solid var(--border-color);
             padding-top: 30px;
@@ -246,7 +241,7 @@
                     <button type="button" class="btn btn-primary btn-next">Zaczynam</button>
                 </div>
             </div>
-
+            
             <div class="form-step">
                 <h2>Sekcja I: Fundamenty</h2>
                 <div class="question-block">
@@ -436,32 +431,26 @@
                             <h3>Kluczowe wnioski z analizy</h3>
                             <p id="ai-synthesis-text"></p>
                         </div>
+                        <div class="signature-footer" style="margin-top: 40px;">
+                            <p>Audyt przygotowany przez:</p>
+                            <img src="twoje-logo.svg.svg" alt="Logo Firmy">
+                        </div>
                     </div>
                     
                     <div id="next-steps" style="display: none;">
                         <div class="next-steps-low-score" style="display: none;">
                             <h3>Diagnoza to nie wyrok. To punkt startowy.</h3>
                             <p>Niezależnie od wyniku, fakt, że przeszedłeś przez ten audyt, stawia Cię w elitarnej grupie świadomych liderów, którzy wolą podejmować decyzje w oparciu o dane, a nie przeczucia. Zidentyfikowałeś słabe punkty. Zobaczyłeś, gdzie tracisz energię i pieniądze. Pytanie brzmi: co teraz z tym zrobisz?</p>
-                            <div class="quote">
-                                <p>"[Tutaj miejsce na inspirujący cytat, który zmotywuje do działania]"</p>
-                            </div>
                         </div>
                         <div class="next-steps-high-score" style="display: none;">
                              <h3>Gratulacje! Należysz do czołówki.</h3>
                              <p>Twój wynik świadczy o mistrzostwie w budowaniu marki. Utrzymanie pozycji lidera to jednak ciągłe wyzwanie. Chętnie wymienię się z Tobą spostrzeżeniami podczas partnerskiej sesji strategicznej.</p>
-                             <div class="quote">
-                                <p>"[Tutaj miejsce na inspirujący cytat, który zmotywuje do działania]"</p>
-                            </div>
                         </div>
 
                         <a href="LINK_DO_TWOJEGO_KALENDARZA" target="_blank" id="final-cta-btn" class="btn btn-primary">Zarezerwuj 15-minutową konsultację</a>
                     </div>
                     <button type="button" id="download-btn" class="btn">Pobierz diagnozę (PNG)</button>
-                    
-                    <div class="signature-footer">
-                        <p>Audyt przygotowany przez:</p>
-                        <img src="twoje-logo.svg.svg" alt="Logo Firmy">
-                    </div>
+
                 </div>
             </div>
         </form>
@@ -621,7 +610,7 @@
                     document.getElementById('ai-loader').style.display = 'block';
                     const answers = [ document.getElementById('mirror-q1').value, document.getElementById('mirror-q2').value, document.getElementById('mirror-q3').value, document.getElementById('mirror-q4').value ];
                     
-                    fetch('http://localhost:3000/api/analyze', {
+                    fetch('https://audyt-backend.onrender.com/api/analyze', {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify({ score: finalScore, answers: answers }),
@@ -637,7 +626,6 @@
                         const nextStepsContainer = document.getElementById('next-steps');
                         const lowScoreText = document.querySelector('.next-steps-low-score');
                         const highScoreText = document.querySelector('.next-steps-high-score');
-                        const quote = document.querySelector('.quote');
                         
                         if (finalScore < 52) {
                             lowScoreText.style.display = 'block';
@@ -646,7 +634,6 @@
                             lowScoreText.style.display = 'none';
                             highScoreText.style.display = 'block';
                         }
-                        quote.style.display = 'block';
                         nextStepsContainer.style.display = 'block';
                     });
 
