@@ -18,53 +18,50 @@ app.use(cors());
 app.use(express.json());
 
 
-// Ulepszona funkcja "Filtr jakości"
+// ZMIANA - Mniej agresywna wersja filtra
 const isInputGibberish = (answers) => {
     const lowQualityWords = ['nie wiem', 'trudno powiedzieć', 'test', 'asdf', 'brak', 'xd', 'ok'];
     let totalLength = 0;
     
     for (const answer of answers) {
         const lowerCaseAnswer = answer.toLowerCase().trim();
+        
         if (lowerCaseAnswer.length === 0) continue;
+        
         totalLength += lowerCaseAnswer.length;
 
+        // Sprawdź 1: Czy to słowo niskiej jakości?
         if (lowQualityWords.includes(lowerCaseAnswer)) return true;
+        
+        // Sprawdź 2: Czy to jeden znak powtórzony wiele razy (np. "aaaaa")?
         if (/^(\w)\1+$/.test(lowerCaseAnswer)) return true;
+        
+        // Sprawdź 3: Czy to same cyfry?
         if (/^\d+$/.test(lowerCaseAnswer)) return true;
-        if (/[bcdfghjklmnpqrstvwxyz]{5,}/.test(lowerCaseAnswer)) return true;
-        if (/(.)\1{2,}/.test(lowerCaseAnswer)) return true;
+
+        // USUNIĘTO ZBYT AGRESYWNE REGUŁY
     }
     
+    // Sprawdź 4: Czy suma znaków we wszystkich odpowiedziach jest bardzo mała?
     if (totalLength > 0 && totalLength < 20) return true;
 
     return false;
 };
 
 
-// --- ENDPOINT API Z DIAGNOSTYKĄ ---
+// --- ENDPOINT API ---
 app.post('/api/analyze', async (req, res) => {
-  // === POCZĄTEK DIAGNOSTYKI ===
-  console.log("\n--- OTRZYMANO NOWE ZAPYTANIE ---");
   try {
     const { score, answers } = req.body;
-    console.log("Odebrane odpowiedzi:", answers);
     
     if (!score || !answers) {
-      console.log("BŁĄD: Brakujące dane.");
       return res.status(400).json({ error: 'Brakujące dane w zapytaniu.' });
     }
 
-    const isGibberish = isInputGibberish(answers);
-    console.log("Wynik filtra 'isInputGibberish':", isGibberish);
-
-    if (isGibberish) {
-        console.log("Wykryto dane niskiej jakości. Odsyłam ostrą odpowiedź.");
+    if (isInputGibberish(answers)) {
         const sharpResponse = "Twoje odpowiedzi na pytania otwarte wydają się być przypadkowe lub zbyt lakoniczne. Prawdziwa diagnoza strategiczna wymaga refleksji i zaangażowania. Jeśli brakuje czasu na rzetelne wypełnienie audytu, prawdopodobnie trudno będzie znaleźć go na wdrożenie fundamentalnych zmian w firmie. Gdy będziesz gotów na pogłębioną analizę, wróć i spróbuj ponownie.";
         return res.json({ analysis: sharpResponse });
     }
-
-    console.log("Dane poprawne. Przechodzę do generowania promptu AI.");
-    // === KONIEC DIAGNOSTYKI ===
 
     const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash-latest" });
 
