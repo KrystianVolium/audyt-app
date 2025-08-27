@@ -18,47 +18,59 @@ app.use(cors());
 app.use(express.json());
 
 
-// Funkcja - "Filtr jakości" dla odpowiedzi
+// Ulepszona funkcja "Filtr jakości"
 const isInputGibberish = (answers) => {
-    const lowQualityWords = ['nie wiem', 'trudno powiedzieć', 'test', 'asdf', 'brak'];
+    const lowQualityWords = ['nie wiem', 'trudno powiedzieć', 'test', 'asdf', 'brak', 'xd', 'ok'];
     let totalLength = 0;
     
     for (const answer of answers) {
         const lowerCaseAnswer = answer.toLowerCase().trim();
+        if (lowerCaseAnswer.length === 0) continue;
         totalLength += lowerCaseAnswer.length;
 
         if (lowQualityWords.includes(lowerCaseAnswer)) return true;
         if (/^(\w)\1+$/.test(lowerCaseAnswer)) return true;
         if (/^\d+$/.test(lowerCaseAnswer)) return true;
+        if (/[bcdfghjklmnpqrstvwxyz]{5,}/.test(lowerCaseAnswer)) return true;
+        if (/(.)\1{2,}/.test(lowerCaseAnswer)) return true;
     }
     
-    if (totalLength < 15) return true;
+    if (totalLength > 0 && totalLength < 20) return true;
 
     return false;
 };
 
 
-// --- ENDPOINT API ---
+// --- ENDPOINT API Z DIAGNOSTYKĄ ---
 app.post('/api/analyze', async (req, res) => {
+  // === POCZĄTEK DIAGNOSTYKI ===
+  console.log("\n--- OTRZYMANO NOWE ZAPYTANIE ---");
   try {
     const { score, answers } = req.body;
+    console.log("Odebrane odpowiedzi:", answers);
     
     if (!score || !answers) {
+      console.log("BŁĄD: Brakujące dane.");
       return res.status(400).json({ error: 'Brakujące dane w zapytaniu.' });
     }
 
-    if (isInputGibberish(answers)) {
+    const isGibberish = isInputGibberish(answers);
+    console.log("Wynik filtra 'isInputGibberish':", isGibberish);
+
+    if (isGibberish) {
+        console.log("Wykryto dane niskiej jakości. Odsyłam ostrą odpowiedź.");
         const sharpResponse = "Twoje odpowiedzi na pytania otwarte wydają się być przypadkowe lub zbyt lakoniczne. Prawdziwa diagnoza strategiczna wymaga refleksji i zaangażowania. Jeśli brakuje czasu na rzetelne wypełnienie audytu, prawdopodobnie trudno będzie znaleźć go na wdrożenie fundamentalnych zmian w firmie. Gdy będziesz gotów na pogłębioną analizę, wróć i spróbuj ponownie.";
         return res.json({ analysis: sharpResponse });
     }
+
+    console.log("Dane poprawne. Przechodzę do generowania promptu AI.");
+    // === KONIEC DIAGNOSTYKI ===
 
     const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash-latest" });
 
     let prompt;
 
-    // Logika warunkowa: wybierz odpowiedni prompt na podstawie wyniku
     if (score >= 52) {
-        // NOWY PROMPT DLA WYSOKICH WYNIKÓW
         prompt = `
           PROMPT SYSTEMOWY: BrandPeer Review Pro - Analiza dla Lidera Rynku
           
@@ -78,12 +90,11 @@ app.post('/api/analyze', async (req, res) => {
           2. Generowanie Odpowiedzi (DOKŁADNIE 3 AKAPITY, bez formatowania):
              Akapit 1 (Gratulacje i Walidacja): Zacznij od szczerego i bezpośredniego pogratulowania wyniku. Potwierdź, że taki rezultat świadczy o niezwykłej klarowności i spójności strategicznej, plasując firmę w absolutnej czołówce. Odnieś się do jednej z odpowiedzi jako dowodu tej dojrzałości.
              Akapit 2 (Obserwacja Partnerska): Przedstaw swoją jedną, wnikliwą obserwację. Użyj sformułowań typu "Ciekawym wątkiem, który wyłania się z Pana odpowiedzi, jest...", "Jako zewnętrzny obserwator, intryguje mnie kwestia...". Skup się na przyszłych wyzwaniach lidera – utrzymaniu innowacyjności, skalowaniu kultury, ekspansji. To ma być inspiracja do dalszego myślenia, a nie krytyka.
-             Akapit 3 (Zaproszenie do Dialogu): Zmień całkowicie Call To Action. Zamiast oferować "pomoc", zaproponuj partnerską wymianę myśli. Celem jest nawiązanie relacji. Użyj sformułowania w stylu: "Utrzymanie się na szczycie jest często trudniejsze niż jego zdobycie. Z ogromną przyjemnością wymieniłbym się z Panem spostrzeżeniami na temat strategii dla liderów rynkowych podczas krótkiej, partnerskiej sesji strategicznej. Taka rozmowa często bywa źródłem inspiracji dla obu stron."
+             Akapit 3 (Zaproszenie do Dialogu): Zmień całkowicie Call To Action. Celem jest nawiązanie relacji. Użyj sformułowania w stylu: "Utrzymanie się na szczycie jest często trudniejsze niż jego zdobycie. Z ogromną przyjemnością wymieniłbym się z Panem spostrzeżeniami na temat strategii dla liderów rynkowych podczas krótkiej, partnerskiej sesji strategicznej. Taka rozmowa często bywa źródłem inspiracji dla obu stron."
           
           TON I STYL: Partnerski, pełen szacunku, inspirujący, na poziomie C-level. Mówisz jak równy z równym.
         `;
     } else {
-        // STANDARDOWY PROMPT DLA WYNIKÓW PONIŻEJ 52
         let dynamicInstructions = "";
         if (score <= 25) {
             dynamicInstructions += "ANALIZA SPECJALNA: Wynik punktowy jest krytycznie niski. W swojej analizie bądź bardzo bezpośredni i skup się na absolutnych podstawach. Podkreśl pilną potrzebę działania strategicznego, aby uniknąć stagnacji lub kryzysu.\n";
