@@ -14,8 +14,12 @@ const PORT = 3000;
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
 
 // --- MIDDLEWARE ---
-app.use(cors());
-app.use(express.json());
+// Zezwalamy na połączenia TYLKO z Twojej strony na Netlify
+const corsOptions = {
+  origin: 'https://audyt-kondycji-marki.netlify.app'
+};
+app.use(cors(corsOptions));
+app.use(express.json()); // Ta linia zostaje bez zmian
 
 
 // Poprawiona wersja filtra
