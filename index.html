@@ -634,25 +634,107 @@
                 downloadBtn.innerText = 'GENEROWANIE...';
                 downloadBtn.disabled = true;
 
+                // 1. Stwórz główny kontener dla PNG w pamięci
                 const printableArea = document.createElement('div');
-                document.body.appendChild(printableArea);
-
                 Object.assign(printableArea.style, {
-                    width: '800px', position: 'absolute', top: '-9999px', left: '-9999px',
-                    backgroundColor: '#0F0F0F', fontFamily: 'Satoshi, sans-serif',
-                    padding: '40px', textAlign: 'center'
+                    width: '800px',
+                    position: 'absolute',
+                    top: '-9999px',
+                    left: '-9999px',
+                    backgroundColor: '#0F0F0F',
+                    fontFamily: 'Satoshi, sans-serif',
+                    padding: '40px',
+                    textAlign: 'center',
+                    color: '#D8D8D8'
                 });
-                
+
+                // 2. Pobierz bezpieczne, kontrolowane przez nas fragmenty HTML
                 const logoHTML = document.getElementById('logo-container-results').innerHTML;
                 const signatureHTML = document.querySelector('#results-content .signature-footer').innerHTML;
-
-                printableArea.innerHTML = `
-                    <div style="text-align: center; margin-bottom: 40px;">${logoHTML}</div>
-                    <h2 style="font-size: 2em; ...">${finalResultTitle}</h2>
-                    ... (reszta HTML) ...
-                    <div style="text-align: center; margin-top: 50px; ...">${signatureHTML}</div>
-                `;
                 
+                // 3. Stwórz i dodaj elementy w bezpieczny sposób, używając .innerText dla danych z zewnątrz
+                const logoDiv = document.createElement('div');
+                logoDiv.style.textAlign = 'center';
+                logoDiv.style.marginBottom = '40px';
+                logoDiv.innerHTML = logoHTML;
+
+                const mainTitle = document.createElement('h2');
+                mainTitle.style.fontSize = '2em';
+                mainTitle.style.fontWeight = '700';
+                mainTitle.style.marginBottom = '25px';
+                mainTitle.style.lineHeight = '1.1';
+                mainTitle.innerText = 'Twoja diagnoza';
+
+                const scoreContainer = document.createElement('div');
+                scoreContainer.style.fontSize = '3em';
+                scoreContainer.style.fontWeight = '700';
+                scoreContainer.style.lineHeight = '1.1';
+                scoreContainer.innerHTML = `<span style="color: #F4F4F4; font-size: 2em;">${finalScore}</span> / 60`;
+
+                const resultCard = document.createElement('div');
+                Object.assign(resultCard.style, {
+                    background: '#0F0F0F', padding: '30px', borderRadius: '12px',
+                    border: '1px solid #2C2C2C', marginTop: '20px'
+                });
+
+                const resultCardTitle = document.createElement('h3');
+                resultCardTitle.style.fontSize = '1.5em';
+                resultCardTitle.style.fontWeight = '700';
+                resultCardTitle.style.marginBottom = '15px';
+                resultCardTitle.style.lineHeight = '1.1';
+                resultCardTitle.innerText = finalResultTitle; // BEZPIECZNE
+
+                const resultCardDesc = document.createElement('p');
+                resultCardDesc.style.fontSize = '1em';
+                resultCardDesc.style.color = '#707070';
+                resultCardDesc.style.lineHeight = '1.7';
+                resultCardDesc.style.fontWeight = '400';
+                resultCardDesc.innerText = finalResultDesc; // BEZPIECZNE
+
+                resultCard.appendChild(resultCardTitle);
+                resultCard.appendChild(resultCardDesc);
+                
+                const aiCard = document.createElement('div');
+                 Object.assign(aiCard.style, {
+                    background: '#0F0F0F', padding: '30px', borderRadius: '12px',
+                    border: '1px solid #2C2C2C', marginTop: '20px'
+                });
+
+                const aiCardTitle = document.createElement('h3');
+                aiCardTitle.style.fontSize = '1.5em';
+                aiCardTitle.style.fontWeight = '700';
+                aiCardTitle.style.marginBottom = '15px';
+                aiCardTitle.style.lineHeight = '1.1';
+                aiCardTitle.innerText = 'Kluczowe wnioski z analizy';
+
+                const aiCardText = document.createElement('p');
+                aiCardText.style.fontSize = '1em';
+                aiCardText.style.color = '#707070';
+                aiCardText.style.lineHeight = '1.7';
+                aiCardText.style.fontWeight = '400';
+                aiCardText.innerText = finalAiText; // BEZPIECZNE
+
+                aiCard.appendChild(aiCardTitle);
+                aiCard.appendChild(aiCardText);
+                
+                const signatureDiv = document.createElement('div');
+                Object.assign(signatureDiv.style, {
+                    textAlign: 'center', marginTop: '50px',
+                    borderTop: '1px solid #2C2C2C', paddingTop: '30px'
+                });
+                signatureDiv.innerHTML = signatureHTML;
+
+                // 4. Złóż wszystkie "klocki" w całość
+                printableArea.appendChild(logoDiv);
+                printableArea.appendChild(mainTitle);
+                printableArea.appendChild(scoreContainer);
+                printableArea.appendChild(resultCard);
+                printableArea.appendChild(aiCard);
+                printableArea.appendChild(signatureDiv);
+
+                document.body.appendChild(printableArea);
+                
+                // 5. Wygeneruj obraz z bezpiecznie zbudowanego elementu
                 html2canvas(printableArea, { scale: 2, useCORS: true })
                 .then(canvas => {
                     let downloadLink = document.createElement('a');
@@ -660,7 +742,8 @@
                     downloadLink.setAttribute('href', canvas.toDataURL('image/png'));
                     downloadLink.click();
                 }).catch(err => {
-                    console.error('Błąd:', err);
+                    console.error('Błąd podczas generowania obrazu:', err);
+                    alert('Wystąpił błąd podczas generowania obrazu.');
                 }).finally(() => {
                     document.body.removeChild(printableArea);
                     downloadBtn.innerText = originalButtonText;
