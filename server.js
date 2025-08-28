@@ -8,7 +8,7 @@ const { GoogleGenerativeAI } = require('@google/generative-ai');
 
 // --- KONFIGURACJA ---
 const app = express();
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
 
 // Inicjalizujemy klienta Google AI, używając naszego sekretnego klucza
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
