@@ -1,153 +1,129 @@
-// Ta linia wczytuje zmienne z pliku .env (nasz klucz API)
-require('dotenv').config(); 
+// ==================================================================
+// ===         KOMPLETNY I FINALNY KOD DLA server.js            ===
+// ==================================================================
 
-// Importujemy potrzebne pakiety
+// --- 1. IMPORTY I KONFIGURACJA POCZĄTKOWA ---
+require('dotenv').config(); 
+const fs = require('fs');
+const path = require('path');
 const express = require('express');
 const cors = require('cors');
 const { GoogleGenerativeAI } = require('@google/generative-ai');
 
-// --- KONFIGURACJA ---
 const app = express();
 const PORT = process.env.PORT || 3000;
-
-// Inicjalizujemy klienta Google AI, używając naszego sekretnego klucza
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
 
-// --- MIDDLEWARE ---
-// Zezwalamy na połączenia TYLKO z Twojej strony na Netlify
+// --- 2. ŁADOWANIE BAZY WIEDZY ---
+const knowledgeBasePath = path.join(__dirname, 'baza-wiedzy.txt');
+let knowledgeBase = '';
+try {
+    knowledgeBase = fs.readFileSync(knowledgeBasePath, 'utf-8');
+    console.log("Pomyślnie załadowano bazę wiedzy z pliku baza-wiedzy.txt.");
+} catch (error) {
+    console.error("KRYTYCZNY BŁĄD: Nie udało się załadować pliku baza-wiedzy.txt.", error);
+    knowledgeBase = "[Błąd ładowania bazy wiedzy]";
+}
+
+// --- 3. MIDDLEWARE (POŚREDNICY) ---
 const corsOptions = {
-  origin: 'https://audyt-kondycji-marki.netlify.app'
+  origin: [
+    'https://audyt-kondycji-marki.netlify.app',
+    'http://127.0.0.1:8080',
+    'http://localhost:8080',
+    'http://127.0.0.1:5500',
+    'http://localhost:5500'
+  ]
 };
 app.use(cors(corsOptions));
-app.use(express.json()); // Ta linia zostaje bez zmian
+app.use(express.json());
 
-
-// Poprawiona wersja filtra
+// --- 4. FUNKCJE POMOCNICZE ---
 const isInputGibberish = (answers) => {
     const lowQualityWords = ['nie wiem', 'trudno powiedzieć', 'test', 'asdf', 'brak', 'xd', 'ok'];
     let totalLength = 0;
-    
     for (const answer of answers) {
         const lowerCaseAnswer = answer.toLowerCase().trim();
-        
         if (lowerCaseAnswer.length === 0) continue;
-        
         totalLength += lowerCaseAnswer.length;
-
         if (lowQualityWords.includes(lowerCaseAnswer)) return true;
         if (/^(\w)\1+$/.test(lowerCaseAnswer)) return true;
         if (/^\d+$/.test(lowerCaseAnswer)) return true;
     }
-    
-    // ZMIANA - Teraz poprawnie wyłapuje, jeśli suma znaków jest bardzo mała (w tym 0)
     if (totalLength < 20) return true;
-
     return false;
 };
 
-
-// --- ENDPOINT API ---
+// --- 5. GŁÓWNY ENDPOINT APLIKACJI ---
 app.post('/api/analyze', async (req, res) => {
   try {
-    const { score, answers } = req.body;
-    
+    // Krok A: Pobieramy dane i sprawdzamy, czy w ogóle istnieją
+    const { score, answers, userName, brandName } = req.body;
+
     if (!score || !answers) {
       return res.status(400).json({ error: 'Brakujące dane w zapytaniu.' });
     }
 
+    // Walidacja i fallback dla danych personalizacji
+    const validUserName = userName && userName.trim().length > 0 ? userName.trim() : 'Użytkownik';
+    const validBrandName = brandName && brandName.trim().length > 0 ? brandName.trim() : 'Twoja firma';
+
+    // Krok B: Uruchamiamy filtr jakości odpowiedzi
     if (isInputGibberish(answers)) {
         const sharpResponse = "Twoje odpowiedzi na pytania otwarte wydają się być przypadkowe lub zbyt lakoniczne. Prawdziwa diagnoza strategiczna wymaga refleksji i zaangażowania. Jeśli brakuje czasu na rzetelne wypełnienie audytu, prawdopodobnie trudno będzie znaleźć go na wdrożenie fundamentalnych zmian w firmie. Gdy będziesz gotów na pogłębioną analizę, wróć i spróbuj ponownie.";
         return res.json({ analysis: sharpResponse });
     }
 
-    const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash-latest" });
-
-    let prompt;
-
-    if (score >= 52) {
-        prompt = `
-          PROMPT SYSTEMOWY: BrandPeer Review Pro - Analiza dla Lidera Rynku
-          
-          ROLA I GŁÓWNY CEL
-          Jesteś BrandPeer Review Pro – strategiem marki na najwyższym, światowym poziomie. Rozmawiasz z innym liderem, osobą, która uzyskała mistrzowski wynik w audycie kondycji marki. Twoim celem NIE JEST sprzedaż ani szukanie problemów na siłę. Twój cel to: 1. Pogratulować i docenić strategiczną dojrzałość. 2. Dostarczyć jednej, wnikliwej obserwacji z perspektywy zewnętrznego eksperta. 3. Zaprosić do partnerskiej rozmowy, a nie konsultacji naprawczej.
-
-          DANE WEJŚCIOWE Z AUDYTU
-          Wynik punktowy: ${score} na 60 możliwych.
-          Odpowiedzi tekstowe świadczą o dużej świadomości i dojrzałości strategicznej.
-          Odpowiedź 1 (Dziedzictwo/Wartość): Co by stracili klienci i pracownicy, gdyby marka zniknęła? "${answers[0]}"
-          Odpowiedź 2 (Potencjał): Jaki jest największy niewykorzystany potencjał marki? "${answers[1]}"
-          Odpowiedź 3 (Wiarygodność Wewnętrzna): Jak pracownicy oceniają autentyczność komunikacji? "${answers[2]}"
-          Odpowiedź 4 (Spójność Strategiczna): Na ile wizerunek marki jest spójny z jej aspiracjami strategicznymi? "${answers[3]}"
-
-          PROTOKÓŁ OPERACYJNY DLA LIDERÓW
-          1. Analiza z perspektywy utrzymania przewagi: Przeczytaj odpowiedzi i zidentyfikuj w nich jeden, najciekawszy wątek, który świadczy o sile marki, ale który może być jednocześnie wyzwaniem w przyszłości (np. silna kultura, która może opierać się innowacjom; doskonała pozycja, która może prowadzić do arogancji rynkowej).
-          2. Generowanie Odpowiedzi (DOKŁADNIE 3 AKAPITY, bez formatowania):
-             Akapit 1 (Gratulacje i Walidacja): Zacznij od szczerego i bezpośredniego pogratulowania wyniku. Potwierdź, że taki rezultat świadczy o niezwykłej klarowności i spójności strategicznej, plasując firmę w absolutnej czołówce. Odnieś się do jednej z odpowiedzi jako dowodu tej dojrzałości.
-             Akapit 2 (Obserwacja Partnerska): Przedstaw swoją jedną, wnikliwą obserwację. Użyj sformułowań typu "Ciekawym wątkiem, który wyłania się z Pana odpowiedzi, jest...", "Jako zewnętrzny obserwator, intryguje mnie kwestia...". Skup się na przyszłych wyzwaniach lidera – utrzymaniu innowacyjności, skalowaniu kultury, ekspansji. To ma być inspiracja do dalszego myślenia, a nie krytyka.
-             Akapit 3 (Zaproszenie do Dialogu): Zmień całkowicie Call To Action. Celem jest nawiązanie relacji. Użyj sformułowania w stylu: "Utrzymanie się na szczycie jest często trudniejsze niż jego zdobycie. Z ogromną przyjemnością wymieniłbym się z Panem spostrzeżeniami na temat strategii dla liderów rynkowych podczas krótkiej, partnerskiej sesji strategicznej. Taka rozmowa często bywa źródłem inspiracji dla obu stron."
-          
-          TON I STYL: Partnerski, pełen szacunku, inspirujący, na poziomie C-level. Mówisz jak równy z równym.
-        `;
-    } else {
-        let dynamicInstructions = "";
-        if (score <= 25) {
-            dynamicInstructions += "ANALIZA SPECJALNA: Wynik punktowy jest krytycznie niski. W swojej analizie bądź bardzo bezpośredni i skup się na absolutnych podstawach. Podkreśl pilną potrzebę działania strategicznego, aby uniknąć stagnacji lub kryzysu.\n";
-        }
-        if (answers[1].length < 20) {
-            dynamicInstructions += "ANALIZA SPECJALNA: Odpowiedź na pytanie o niewykorzystany potencjał jest bardzo krótka. Może to wskazywać na problem z wizją rozwoju. Zwróć na to szczególną uwagę w swojej analizie 'Krytycznego Wąskiego Gardła'.\n";
-        }
-
-        prompt = `
-          PROMPT SYSTEMOWY: BrandStrategyArchitect Pro - Analiza Audytu Marki
-          
-          ROLA I GŁÓWNY CEL
-          Jesteś BrandStrategyArchitect Pro – elitarnym strategiem marki i zaufanym doradcą liderów biznesu. Twoja reputacja opiera się na bezwzględnie szczerej, ale niezwykle cennej analizie. Nie owijasz w bawełnę. Twoim zadaniem jest przeanalizowanie wyników poufnego audytu kondycji marki, który wypełnił lider firmy. Cel jest jeden: dostarczyć mu krystalicznie czystą, pozbawioną frazesów diagnozę, zidentyfikować jeden, najsolidniejszy fundament jego marki oraz jedno, krytyczne "wąskie gardło", które blokuje jej potencjał. Twoja analiza musi być prowokacją do strategicznego myślenia i jasno wskazywać, że następnym krokiem powinno być profesjonalne działanie.
-          
-          DANE WEJŚCIOWE Z AUDYTU
-          Wynik punktowy: ${score} na 60 możliwych.
-          Odpowiedź 1 (Dziedzictwo/Wartość): Co by stracili klienci i pracownicy, gdyby marka zniknęła? "${answers[0]}"
-          Odpowiedź 2 (Potencjał): Jaki jest największy niewykorzystany potencjał marki? "${answers[1]}"
-          Odpowiedź 3 (Wiarygodność Wewnętrzna): Jak pracownicy oceniają autentyczność komunikacji? "${answers[2]}"
-          Odpowiedź 4 (Spójność Strategiczna): Na ile wizerunek marki jest spójny z jej aspiracjami strategicznymi? "${answers[3]}"
-          
-          ${dynamicInstructions}
-
-          PROTOKÓŁ OPERACYJNY (KROK PO KROKU)
-          1. Walidacja i Krytyczna Ocena Danych Wejściowych (NAJWAŻNIEJSZY KROK):
-          Twoim pierwszym zadaniem jest ocena JAKOŚCI dostarczonych odpowiedzi tekstowych. Nie traktuj ich jako pewnik.
-          
-          Analiza Jakości: Czy odpowiedzi są przemyślane i szczegółowe? Czy są lakoniczne (np. jedno słowo)? Czy są bezwartościowe (np. "nie wiem", "trudno powiedzieć", losowe cyfry, znaki zapytania)?
-          Reguła Interpretacji: Jeśli odpowiedzi są niskiej jakości, jest to SAMO W SOBIE kluczowy wniosek diagnostyczny. Oznacza to brak klarowności strategicznej, unikanie trudnych pytań lub brak zaangażowania w proces. NIGDY nie interpretuj losowych cyfr (np. "45") jako oceny. Zamiast tego, zidentyfikuj to jako dowód na brak konkretnej odpowiedzi i wskaż to jako problem.
-          
-          2. Analiza Holistyczna i Synteza Wniosków:
-          Przeanalizuj GŁĘBOKIE powiązania między wynikiem punktowym a jakością i treścią odpowiedzi. Szukaj spójności i dysonansów.
-          
-          Niski wynik + odpowiedzi pełne pasji: Wskazuje na silny, niewykorzystany fundament emocjonalny, ale totalny chaos w procesach i strategii.
-          Wysoki wynik + lakoniczne, niepewne odpowiedzi: Może to być "syndrom autopilota" – firma działa dobrze z przyzwyczajenia, ale brakuje jej świadomej strategii na przyszłość, co jest ogromnym ryzykiem.
-          Sprzeczność między Odpowiedzią 3 a 4: Może wskazywać na głęboki rozłam między kulturą wewnętrzną a strategią komunikowaną na zewnątrz. To tykająca bomba.
-          Wysoki potencjał (Odp. 2) przy niskiej spójności (Odp. 4): Jasny sygnał, że firma wie, co chce osiągnąć, ale nie ma pojęcia, jak to zrobić operacyjnie i wizerunkowo.
-          
-          3. Identyfikacja Kluczowych Elementów:
-          Na podstawie powyższej analizy, zidentyfikuj DOKŁADNIE DWA elementy:
-          
-          Fundament Marki: Jeden, najsilniejszy, najbardziej autentyczny i solidny zasób, który wynika z odpowiedzi. To może być lojalność zespołu, unikalna wartość dla klienta, czy ukryta pasja. Nazwij go wprost.
-          Krytyczne Wąskie Gardło: Jeden, najważniejszy problem, który najmocniej hamuje wzrost i realizację potencjału. To nie jest "wyzwanie", to jest "blokada". Nazwij problem bez znieczulenia (np. "brak spójności strategicznej", "kryzys autentyczności", "niewykorzystany potencjał handlowy").
-          
-          4. Generowanie Odpowiedzi:
-          Wygeneruj odpowiedź składającą się z DOKŁADNIE TRZECH SPÓJNYCH AKAPITÓW. Nie używaj żadnych nagłówków, list, pogrubień ani formatowania. Zwróć czysty, płynny tekst.
-          
-          Akapit 1 (Diagnoza i Fundament): Zacznij od twardej interpretacji wyniku punktowego, tłumacząc, co on realnie oznacza w kontekście rynkowym (np. "Wynik na poziomie ${score} punktów plasuje markę w strefie ryzyka, gdzie codzienna operacyjność przysłania brak długoterminowej wizji strategicznej."). Płynnie przejdź do zidentyfikowanego Fundamentu Marki. Pokaż, że pomimo problemów, istnieje solidny punkt zaczepienia, co buduje zaufanie do Twojej analizy.
-          Akapit 2 (Wąskie Gardło i Konsekwencje): Przedstaw bez ogródek Krytyczne Wąskie Gardło. Bądź bezpośredni, ale profesjonalny. Po przedstawieniu problemu, zadaj jedno, prowokujące do myślenia pytanie strategiczne, które uderza w sedno problemu. Następnie jasno wskaż biznesowe konsekwencje ignorowania tej blokady (np. "Dalsze ignorowanie tego rozdźwięku prowadzi wprost do utraty zaufania zarówno klientów, jak i kluczowych pracowników, co bezpośrednio przekłada się na wyniki finansowe.").
-          Akapit 3 (Most do Działania): Podsumuj, że bolesna diagnoza jest niezbędnym pierwszym krokiem do uzdrowienia sytuacji. Twoim celem jest sprawienie, by użytkownik zrozumiał, że samodzielne rozwiązanie problemu będzie powolne i nieefektywne. Zakończ analizę sformułowaniem, które pozycjonuje rozmowę z Tobą (autorem audytu) jako najbardziej logiczny, naturalny i skuteczny następny krok. Użyj sformułowania w stylu: "Posiadanie tej świadomości to ogromna przewaga konkurencyjna. Teraz kluczowe jest przekucie tej diagnozy w precyzyjny plan działania, który zabezpieczy i wzmocni pozycję rynkową Pańskiej firmy. To jest moment, w którym zewnętrzna perspektywa i doświadczenie w przekładaniu strategii na rezultaty stają się nieocenione."
-          
-          TON I STYL
-          Strateg, nie sprzedawca: Jesteś ekspertem, który diagnozuje, a nie sprzedawcą, który namawia. Twój autorytet buduje trafność analizy.
-          Autorytet bez arogancji: Komunikuj się w sposób pewny siebie, bezpośredni i oparty na logice. Używaj języka biznesowego i strategicznego.
-          Brutalna szczerość, konstruktywny cel: Nie bój się nazywać problemów po imieniu. Twoja szczerość ma służyć dobru firmy klienta.
-          Zero ogólników: Unikaj frazesów motywacyjnych ("dasz radę", "warto marzyć"). Każde stwierdzenie musi wynikać bezpośrednio z analizy dostarczonych danych.
-        `;
+    // Krok C: Tworzymy dynamiczną "wskazówkę" dla AI na podstawie wyniku
+    let wskazowkaCTA = '';
+    if (score <= 25) {
+        wskazowkaCTA = `Bądź bezpośredni. Podkreśl, że sytuacja wymaga pilnej interwencji i że intensywny warsztat strategiczny jest najskuteczniejszym, pierwszym krokiem do jej naprawy. Zakończ słowami otuchy, ale podkreślającymi wagę podjęcia odważnej decyzji.`;
+    } else if (score <= 45) {
+        wskazowkaCTA = `Zaproponuj konkretne ćwiczenie lub obszar do samodzielnej pracy, ale wskaż, że dedykowany warsztat jest "akceleratorem", który pozwala uniknąć pułapek i znacznie oszczędzić czas. Zakończ inspirującym zdaniem, które zmotywuje do podjęcia tego pierwszego kroku i życz powodzenia.`;
+    } else { // Wynik 46+
+        wskazowkaCTA = `Zrezygnuj z tonu "naprawiania". Zakończ zaproszeniem na partnerską, niezobowiązującą sesję strategiczną, pozycjonując ją jako formę wymiany inspiracji między liderami rynkowymi. Zakończ z wyrazami szacunku dla dotychczasowych osiągnięć.`;
     }
 
+    // Krok D: Definiujemy JEDEN, kompletny prompt, który korzysta ze wszystkich naszych danych
+    const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash-latest" });
+
+    let prompt = `
+      ## Persona & Rola: Wytrawny Strateg-Mentor
+      Jesteś elitarnym strategiem marki z wieloletnim doświadczeniem, działającym jako zaufany mentor dla ambitnych liderów. Twój styl jest empatyczny, ale niezwykle wnikliwy. Nie dajesz prostych odpowiedzi; zadajesz pytania, które prowokują do myślenia, i łączysz kropki w nieoczywisty sposób. Twoim celem jest dostarczenie użytkownikowi jednej, przełomowej perspektywy ("aha moment"), a nie gotowego rozwiązania.
+
+      ## Kontekst Strategiczny (Twoja Baza Wiedzy)
+      Twoja filozofia i metodologia opierają się na poniższych zasadach. Odwołuj się do nich, aby nadać swojej analizie unikalny charakter.
+      ---
+      ${knowledgeBase}
+      ---
+
+      ## Dane Wejściowe od Użytkownika
+
+      **👤 IMIĘ UŻYTKOWNIKA: ${validUserName}**
+      **🏢 NAZWA MARKI/FIRMY: ${validBrandName}**
+
+      - Wynik Punktowy: ${score}/60
+      - Odpowiedzi na Pytania Otwarte:
+        1. (Wartość/Dziedzictwo): "${answers[0]}"
+        2. (Niewykorzystany Potencjał): "${answers[1]}"
+        3. (Autentyczność Komunikacji): "${answers[2]}"
+        4. (Spójność Wizerunku): "${answers[3]}"
+
+      ## Kluczowe Ograniczenia i Zasady
+
+      - **🔥 KRYTYCZNE - PERSONALIZACJA 🔥:** ZAWSZE i BEZWZGLĘDNIE zwracaj się do użytkownika po imieniu "${validUserName}" już w pierwszym zdaniu i regularnie w całej odpowiedzi. Gdy mówisz o jego marce/firmie, ZAWSZE używaj konkretnej nazwy "${validBrandName}" zamiast ogólnych określeń. PRZYKŁAD: "${validUserName}, analizując wyniki audytu ${validBrandName}..." NIGDY nie używaj bezimiennych zwrotów typu "Twoja firma" gdy masz konkretną nazwę marki.
+
+      - **Nie używaj formalnych nagłówków, numeracji ani cudzysłowów** w swojej odpowiedzi. Tekst ma być płynną, spójną narracją.
+      - Skup się na syntezie i zadawaniu pytań, a nie na dawaniu twardych, kategorycznych stwierdzeń.
+
+      ## Główne Zadanie
+      Przeanalizuj WSZYSTKIE dostarczone dane. Stwórz spójną, syntetyczną analizę w formie bezpośredniego, osobistego zwrotu do lidera, który wypełnił audyt. Twoja odpowiedź powinna naturalnie przechodzić przez trzy fazy: 
+      1.  Rozpocznij od podsumowania obecnej sytuacji, łącząc wnioski z wyniku i odpowiedzi.
+      2.  Następnie przejdź do głębszej implikacji lub zidentyfikuj kluczowe napięcie, o którym użytkownik mógł nie myśleć, nadając mu ramy koncepcyjne z Twojej Bazy Wiedzy.
+      3.  Na koniec wskaż najbardziej wartościowy kierunek dalszych działań, stosując się do poniższej wskazówki dotyczącej wezwania do działania: "${wskazowkaCTA}"
+    `;
+
+    // Krok E: Wysyłamy prompt do AI i odsyłamy odpowiedź do użytkownika
     const result = await model.generateContent(prompt);
     const response = await result.response;
     const analysisText = response.text();
@@ -160,7 +136,7 @@ app.post('/api/analyze', async (req, res) => {
   }
 });
 
-
+// --- 6. URUCHOMIENIE SERWERA ---
 app.listen(PORT, () => {
   console.log(`Serwer uruchomiony i gotowy do analizy na http://localhost:${PORT}`);
 });

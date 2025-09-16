@@ -4,10 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Audyt Kondycji Marki | Wersja Finalna</title>
-    
+ 
     <link href="https://api.fontshare.com/v2/css?f[]=satoshi@700,500,400&display=swap" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-
+ 
     <style>
         :root {
             --bg-color: #080808;
@@ -22,10 +22,10 @@
             --glow-proactive: #00aaff;
             --glow-strategic: #F4F4F4;
         }
-        
+ 
         * { box-sizing: border-box; margin: 0; padding: 0; }
         html { scroll-behavior: smooth; }
-
+ 
         body {
             font-family: 'Satoshi', sans-serif;
             background-color: var(--bg-color);
@@ -37,13 +37,13 @@
             padding: 20px;
             font-weight: 400;
         }
-
+ 
         .audit-container {
             width: 100%; max-width: 800px; background: var(--surface-color);
             border: 1px solid var(--border-color); border-radius: 16px; padding: 40px;
             box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
         }
-        
+ 
         h1, h2, h3 {
             font-weight: 700; letter-spacing: -0.01em; line-height: 1.1;
             text-align: center; color: var(--text-color);
@@ -51,24 +51,24 @@
         h1 { font-size: 2.5em; margin-bottom: 10px; }
         h2 { font-size: 2em; margin-bottom: 25px; margin-top: 10px; }
         h3 { font-size: 1.5em; }
-
+ 
         h3.pytanie-lustro-tytul {
             text-align: left; margin-top: 40px; margin-bottom: 15px;
         }
-        
+ 
         p {
             font-size: 1em; line-height: 1.7; color: var(--text-muted);
             margin-bottom: 15px; font-weight: 400;
         }
         .question-block p, .result-card p, #ai-synthesis-container p { color: var(--text-color); }
         .result-card p, #ai-synthesis-container p { color: var(--text-muted); }
-
+ 
         strong { color: var(--text-color); font-weight: 700; }
         .intro-subtext { text-align: center; font-size: 1.1em; color: var(--text-muted); }
-        
+ 
         #logo-container { text-align: center; margin: 0 0 30px 0; }
         #logo-container img, #logo-container svg { max-width: 160px; height: auto; }
-
+ 
         .progress-bar {
             width: 100%; height: 10px; background-color: var(--border-color);
             border-radius: 5px; margin-bottom: 40px; overflow: hidden;
@@ -78,11 +78,11 @@
             width: 0%; height: 100%; background-color: var(--primary-color);
             border-radius: 5px; transition: width 0.4s ease-in-out;
         }
-        
+ 
         .on-first-step .progress-bar, .on-results-step .progress-bar {
             opacity: 0; height: 0; margin-bottom: 0;
         }
-
+ 
         #audit-form { position: relative; }
         .form-step { display: none; animation: fadeIn 0.5s forwards; }
         .form-step.active { display: block; }
@@ -90,12 +90,12 @@
             from { opacity: 0; transform: translateY(10px); }
             to { opacity: 1; transform: translateY(0); }
         }
-
+ 
         .question-block {
             margin-bottom: 20px; padding: 20px; background: rgba(0,0,0,0.2);
             border-radius: 8px; border: 1px solid transparent; transition: border-color 0.3s;
         }
-        
+ 
         .scale-container {
             display: flex; justify-content: space-around; align-items: flex-start;
             margin-top: 15px; text-align: center;
@@ -120,7 +120,7 @@
             border-color: var(--primary-color); transform: scale(1.1);
             box-shadow: 0 0 15px var(--primary-glow);
         }
-
+ 
         textarea {
             width: 100%; min-height: 120px; padding: 15px; font-family: 'Satoshi', sans-serif;
             font-size: 1em; border: 1px solid var(--border-color); border-radius: 8px;
@@ -128,10 +128,10 @@
             transition: border-color 0.3s, box-shadow 0.3s;
             font-weight: 400;
         }
-        textarea:focus {
+        textarea:focus, input[type="text"]:focus {
             outline: none; border-color: var(--primary-color); box-shadow: 0 0 10px var(--primary-glow);
         }
-
+ 
         .form-navigation { display: flex; justify-content: space-between; margin-top: 30px; }
         .btn {
             padding: 12px 30px; border: none; border-radius: 50px; font-family: 'Satoshi', sans-serif;
@@ -147,30 +147,49 @@
         .btn-primary:hover {
             box-shadow: 0 0 20px var(--primary-glow); transform: translateY(-2px);
         }
-        
+ 
         #results-step { text-align: center; }
-        
+ 
         #pre-results-loader {
             min-height: 300px; display: flex; flex-direction: column;
             justify-content: center; align-items: center; animation: fadeIn 0.5s forwards;
         }
-        #pre-results-loader p { font-size: 1.2em; color: var(--text-muted); }
+
+        #radical-clarity-image {
+            max-width: 600px; width: 100%; height: auto;
+            margin-bottom: 30px;
+            animation: subtleGlow 3s ease-in-out infinite alternate;
+            background: transparent;
+            border: none;
+            box-shadow: none;
+        }
+
+        @keyframes subtleGlow {
+            0% { filter: brightness(1) drop-shadow(0 0 10px rgba(244, 244, 244, 0.3)); }
+            100% { filter: brightness(1.05) drop-shadow(0 0 20px rgba(244, 244, 244, 0.5)); }
+        }
+
+        #processing-text {
+            font-size: 1.3em; color: var(--primary-color); font-weight: 600;
+            animation: pulse 2s ease-in-out infinite;
+            text-align: center; letter-spacing: 0.5px;
+        }
         .progress-bar-final {
-            width: 80%; height: 12px; background-color: var(--border-color);
+            width: 100%; height: 12px; background-color: var(--border-color);
             border-radius: 6px; margin-top: 20px; overflow: hidden;
         }
         #progress-final {
             width: 0%; height: 100%; background-color: var(--primary-color);
-            border-radius: 6px; transition: width 1s ease-in-out;
+            border-radius: 6px;
         }
         #results-content { display: none; }
-
+ 
         #capture-area { padding: 1px; } 
         #logo-container-results { text-align: center; margin-bottom: 40px; }
         #logo-container-results img, #logo-container-results svg { max-width: 160px; height: auto; }
         #score-container { font-size: 3em; font-weight: 700; line-height: 1.1; }
         #score-display { color: var(--primary-color); font-size: 2em; }
-        
+ 
         .result-card {
             background: var(--surface-color); padding: 30px; border-radius: 12px;
             border: 1px solid var(--border-color); margin-top: 20px;
@@ -180,25 +199,29 @@
              background: var(--surface-color); padding: 30px; border-radius: 12px;
             border: 1px solid var(--border-color); margin-top: 20px;
         }
-        
+ 
         .result-card.glow-critical { border-color: var(--glow-critical); box-shadow: 0 0 25px rgba(255, 77, 77, 0.3); }
         .result-card.glow-reactive { border-color: var(--glow-reactive); box-shadow: 0 0 25px rgba(255, 165, 0, 0.3); }
         .result-card.glow-proactive { border-color: var(--glow-proactive); box-shadow: 0 0 25px rgba(0, 170, 255, 0.3); }
         .result-card.glow-strategic { border-color: var(--glow-strategic); box-shadow: 0 0 25px rgba(244, 244, 244, 0.2); }
-
-        .result-card h3, #ai-synthesis-container h3 { 
+ 
+        .result-card h3, #ai-synthesis-container h3, #next-steps-gibberish h3, #next-steps-content h3 {
             color: var(--text-color); margin-bottom: 15px;
         }
-        
+ 
         #ai-loader { display: none; margin-top: 20px; }
-        @keyframes pulse { 0% { opacity: 0.5; } 50% { opacity: 1; } 100% { opacity: 0.5; } }
+        @keyframes pulse {
+            0% { opacity: 0.6; transform: translateY(0px); }
+            50% { opacity: 1; transform: translateY(-2px); }
+            100% { opacity: 0.6; transform: translateY(0px); }
+        }
         #ai-loader p { animation: pulse 2s infinite; color: var(--text-muted); text-align: center; font-weight: 600;}
-        
+ 
         #final-cta-btn { margin-top: 40px; display: inline-block; }
         #download-btn { margin: 25px auto; display: none; }
         #next-steps { margin-top: 40px; }
         #next-steps h3 { margin-bottom: 15px; }
-
+ 
         .signature-footer {
             text-align: center; margin-top: 50px; border-top: 1px solid var(--border-color);
             padding-top: 30px;
@@ -209,9 +232,18 @@
         .signature-footer img, .signature-footer svg {
             width: 100px; height: auto; opacity: 0.7;
         }
-        
+ 
         .on-first-step .signature-footer, .on-results-step .signature-footer { 
             display: none; 
+        }
+ 
+        @keyframes fadeOut {
+            from { opacity: 1; transform: translateY(0); }
+            to { opacity: 0; transform: translateY(-10px); }
+        }
+
+        .fade-out {
+            animation: fadeOut 0.4s ease-out forwards;
         }
 
         @media (max-width: 768px) {
@@ -221,6 +253,24 @@
             .intro-subtext { line-height: 1.4; }
             .btn { padding: 10px 20px; font-size: 0.85em; }
             .scale-container label { width: 40px; height: 40px; font-size: 1.1em; }
+
+            #radical-clarity-image {
+                max-width: 400px; margin-bottom: 25px;
+            }
+
+            #processing-text {
+                font-size: 1.1em; letter-spacing: 0.3px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            #radical-clarity-image {
+                max-width: 350px; margin-bottom: 20px;
+            }
+
+            #processing-text {
+                font-size: 1em;
+            }
         }
     </style>
 </head>
@@ -229,7 +279,7 @@
         <div class="progress-bar">
             <div id="progress"></div>
         </div>
-        
+ 
         <form id="audit-form" autocomplete="off">
             <div class="form-step active">
                 <div id="logo-container">
@@ -237,15 +287,27 @@
                 </div>
                 <h1>Audyt Kondycji Marki</h1>
                 <p class="intro-subtext">Narzędzie diagnostyczne dla liderów, którzy chcą przestać zgadywać i zacząć wygrywać.</p>
+
+                <div style="max-width: 400px; margin: 30px auto;">
+                    <div style="margin-bottom: 20px;">
+                        <label for="user-name" style="display: block; margin-bottom: 8px; font-weight: 500; color: var(--text-color);">Twoje imię:</label>
+                        <input type="text" id="user-name" placeholder="np. Anna" style="width: 100%; padding: 12px; font-family: 'Satoshi', sans-serif; font-size: 1em; border: 1px solid var(--border-color); border-radius: 8px; background-color: var(--bg-color); color: var(--text-color); transition: border-color 0.3s, box-shadow 0.3s;">
+                    </div>
+                    <div style="margin-bottom: 20px;">
+                        <label for="brand-name" style="display: block; margin-bottom: 8px; font-weight: 500; color: var(--text-color);">Nazwa Twojej marki/firmy:</label>
+                        <input type="text" id="brand-name" placeholder="np. ABC Marketing" style="width: 100%; padding: 12px; font-family: 'Satoshi', sans-serif; font-size: 1em; border: 1px solid var(--border-color); border-radius: 8px; background-color: var(--bg-color); color: var(--text-color); transition: border-color 0.3s, box-shadow 0.3s;">
+                    </div>
+                </div>
+
                 <div class="form-navigation" style="justify-content: center;">
                     <button type="button" class="btn btn-primary btn-next">Zaczynam</button>
                 </div>
             </div>
-
+ 
             <div class="form-step">
-                <h2>Sekcja I: Fundamenty</h2>
+                <h2>Sekcja I: Rdzeń Strategiczny</h2>
                 <div class="question-block">
-                    <p><strong>1. Nasza firma ma jasno zdefiniowany cel (Brand Purpose), który rozumie każdy pracownik.</strong></p>
+                    <p><strong>1. Nasz cel istnienia (Brand Purpose) jest na tyle klarowny i wdrożony, że pracownicy na każdym szczeblu potrafią na jego podstawie samodzielnie podejmować spójne decyzje.</strong></p>
                     <div class="scale-container">
                         <div class="scale-item"><input type="radio" id="q1-1" name="q1" value="1"><label for="q1-1">1</label><span class="scale-description"></span></div>
                         <div class="scale-item"><input type="radio" id="q1-2" name="q1" value="2"><label for="q1-2">2</label><span class="scale-description"></span></div>
@@ -255,7 +317,7 @@
                     </div>
                 </div>
                 <div class="question-block">
-                     <p><strong>2. Decyzje strategiczne opieramy o długoterminową wizję, a nie krótkoterminowe trendy.</strong></p>
+                     <p><strong>2. Nasza długoterminowa wizja jest tak precyzyjnym filtrem, że regularnie i bez wahania odrzucamy "dobre" okazje i projekty, które do niej nie pasują.</strong></p>
                     <div class="scale-container">
                         <div class="scale-item"><input type="radio" id="q2-1" name="q2" value="1"><label for="q2-1">1</label><span class="scale-description"></span></div>
                         <div class="scale-item"><input type="radio" id="q2-2" name="q2" value="2"><label for="q2-2">2</label><span class="scale-description"></span></div>
@@ -265,7 +327,7 @@
                     </div>
                 </div>
                 <div class="question-block">
-                    <p><strong>3. Nasza marka działa jak "system operacyjny" i filtr dla kluczowych decyzji w firmie.</strong></p>
+                    <p><strong>3. Nasze zasady marki (Brand Principles) działają jak system operacyjny dla firmy, dostarczając jasnych kryteriów dla kluczowych decyzji - od marketingu, przez sprzedaż, po rekrutację.</strong></p>
                     <div class="scale-container">
                         <div class="scale-item"><input type="radio" id="q3-1" name="q3" value="1"><label for="q3-1">1</label><span class="scale-description"></span></div>
                         <div class="scale-item"><input type="radio" id="q3-2" name="q3" value="2"><label for="q3-2">2</label><span class="scale-description"></span></div>
@@ -282,11 +344,11 @@
                     <button type="button" class="btn btn-primary btn-next">Dalej</button>
                 </div>
             </div>
-
+ 
             <div class="form-step">
-                <h2>Sekcja II: Pozycjonowanie</h2>
+                <h2>Sekcja II: Pozycjonowanie Rynkowe</h2>
                  <div class="question-block">
-                    <p><strong>4. Potrafimy w jednym zdaniu wyjaśnić, dlaczego klient powinien wybrać nas, a nie konkurencję.</strong></p>
+                    <p><strong>4. Nasi idealni klienci postrzegają naszą ofertę jako unikatną i potrafią jasno wskazać, dlaczego jesteśmy dla nich jedynym logicznym wyborem na rynku.</strong></p>
                      <div class="scale-container">
                         <div class="scale-item"><input type="radio" id="q4-1" name="q4" value="1"><label for="q4-1">1</label><span class="scale-description"></span></div>
                         <div class="scale-item"><input type="radio" id="q4-2" name="q4" value="2"><label for="q4-2">2</label><span class="scale-description"></span></div>
@@ -296,7 +358,7 @@
                      </div>
                  </div>
                  <div class="question-block">
-                     <p><strong>5. Nasze ceny opieramy o wartość dla klienta, a nie tylko o koszty lub ceny konkurencji.</strong></p>
+                     <p><strong>5. Nasze rozmowy o cenie koncentrują się na zwrocie z inwestycji (ROI) i wartości biznesowej dla klienta, a nie na porównaniach z konkurencją czy liczbie roboczogodzin.</strong></p>
                      <div class="scale-container">
                         <div class="scale-item"><input type="radio" id="q5-1" name="q5" value="1"><label for="q5-1">1</label><span class="scale-description"></span></div>
                         <div class="scale-item"><input type="radio" id="q5-2" name="q5" value="2"><label for="q5-2">2</label><span class="scale-description"></span></div>
@@ -306,7 +368,7 @@
                      </div>
                  </div>
                  <div class="question-block">
-                     <p><strong>6. Nasz marketing jest precyzyjnie skierowany do jasno zdefiniowanej grupy docelowej.</strong></p>
+                     <p><strong>6. Dzięki precyzyjnej specjalizacji i komunikacji, przyciągamy niemal wyłącznie klientów, którzy idealnie pasują do naszego profilu i z którymi chcemy pracować.</strong></p>
                      <div class="scale-container">
                         <div class="scale-item"><input type="radio" id="q6-1" name="q6" value="1"><label for="q6-1">1</label><span class="scale-description"></span></div>
                         <div class="scale-item"><input type="radio" id="q6-2" name="q6" value="2"><label for="q6-2">2</label><span class="scale-description"></span></div>
@@ -323,11 +385,11 @@
                     <button type="button" class="btn btn-primary btn-next">Dalej</button>
                 </div>
             </div>
-
+ 
              <div class="form-step">
-                <h2>Sekcja III: Komunikacja</h2>
+                <h2>Sekcja III: Komunikacja i Budowanie Popytu</h2>
                 <div class="question-block">
-                    <p><strong>7. Mamy zdefiniowany głos marki (Tone of Voice), stosowany konsekwentnie we wszystkich kanałach.</strong></p>
+                    <p><strong>7. Nasz głos i styl wizualny (Tone of Voice & Style) są tak wyraziste, że klienci rozpoznaliby naszą komunikację, nawet gdyby usunąć z niej logo.</strong></p>
                     <div class="scale-container">
                         <div class="scale-item"><input type="radio" id="q7-1" name="q7" value="1"><label for="q7-1">1</label><span class="scale-description"></span></div>
                         <div class="scale-item"><input type="radio" id="q7-2" name="q7" value="2"><label for="q7-2">2</label><span class="scale-description"></span></div>
@@ -337,7 +399,7 @@
                     </div>
                 </div>
                 <div class="question-block">
-                    <p><strong>8. Treści, które tworzymy, budują autorytet i popyt, a nie są "ślepymi nabojami".</strong></p>
+                    <p><strong>8. Nasze treści (artykuły, wideo, case studies) są tak wartościowe, że regularnie generują konkretne zapytania od idealnych, wstępnie przekonanych klientów.</strong></p>
                     <div class="scale-container">
                         <div class="scale-item"><input type="radio" id="q8-1" name="q8" value="1"><label for="q8-1">1</label><span class="scale-description"></span></div>
                         <div class="scale-item"><input type="radio" id="q8-2" name="q8" value="2"><label for="q8-2">2</label><span class="scale-description"></span></div>
@@ -347,9 +409,9 @@
                     </div>
                 </div>
                 <div class="question-block">
-                    <p><strong>9. Każdy pracownik w ten sam spójny sposób opowiada historię naszej firmy i jej wartości.</strong></p>
+                    <p><strong>9. Każdy pracownik mający kontakt z klientem potrafi opowiedzieć historię naszej marki w sposób, który jasno uzasadnia naszą wartość i cenę.</strong></p>
                     <div class="scale-container">
-                        <div class="scale-item"><input type="radio"id="q9-1" name="q9" value="1"><label for="q9-1">1</label><span class="scale-description"></span></div>
+                        <div class="scale-item"><input type="radio" id="q9-1" name="q9" value="1"><label for="q9-1">1</label><span class="scale-description"></span></div>
                         <div class="scale-item"><input type="radio" id="q9-2" name="q9" value="2"><label for="q9-2">2</label><span class="scale-description"></span></div>
                         <div class="scale-item"><input type="radio" id="q9-3" name="q9" value="3"><label for="q9-3">3</label><span class="scale-description"></span></div>
                         <div class="scale-item"><input type="radio" id="q9-4" name="q9" value="4"><label for="q9-4">4</label><span class="scale-description"></span></div>
@@ -357,18 +419,18 @@
                     </div>
                 </div>
                 <h3 class="pytanie-lustro-tytul">Pytanie Lustro</h3>
-                <p>Gdyby Twoi pracownicy mieli anonimowo ocenić Waszą publiczną komunikację (reklamy, stronę WWW), na ile uznaliby ją za autentyczne odzwierciedlenie tego, jak naprawdę działacie i w co wierzycie wewnątrz firmy?</p>
+                <p>Gdybyś mógł zachować tylko jeden, jedyny element waszej komunikacji (jeden artykuł, film, case study), który najskuteczniej zamienia obcych ludzi w płacących klientów – co by to było i na czym polega jego siła?</p>
                 <textarea id="mirror-q3" placeholder="Twoja odpowiedź..."></textarea>
                 <div class="form-navigation">
                     <button type="button" class="btn btn-prev">Wróć</button>
                     <button type="button" class="btn btn-primary btn-next">Dalej</button>
                 </div>
             </div>
-            
+ 
             <div class="form-step">
-                <h2>Sekcja IV: Percepcja</h2>
+                <h2>Sekcja IV: Percepcja i Spójność Strategiczna</h2>
                 <div class="question-block">
-                    <p><strong>10. Nasza identyfikacja wizualna jest logicznym wynikiem naszej strategii i celów.</strong></p>
+                    <p><strong>10. Nasz wizerunek (design, materiały, strona WWW) jest w pełni spójny z naszą strategią cenową i pozycjonowaniem, skutecznie komunikując zamierzoną wartość klientom.</strong></p>
                     <div class="scale-container">
                         <div class="scale-item"><input type="radio" id="q10-1" name="q10" value="1"><label for="q10-1">1</label><span class="scale-description"></span></div>
                         <div class="scale-item"><input type="radio" id="q10-2" name="q10" value="2"><label for="q10-2">2</label><span class="scale-description"></span></div>
@@ -378,7 +440,7 @@
                     </div>
                 </div>
                 <div class="question-block">
-                    <p><strong>11. Całe doświadczenie klienta (od pierwszego kontaktu po obsługę) jest spójne i odzwierciedla obietnicę marki.</strong></p>
+                    <p><strong>11. Każdy punkt styku klienta z naszą marką – od reklamy, przez proces sprzedaży, po obsługę – jest celowo zaprojektowany, aby wzmacniać naszą główną obietnicę rynkową.</strong></p>
                     <div class="scale-container">
                         <div class="scale-item"><input type="radio" id="q11-1" name="q11" value="1"><label for="q11-1">1</label><span class="scale-description"></span></div>
                         <div class="scale-item"><input type="radio" id="q11-2" name="q11" value="2"><label for="q11-2">2</label><span class="scale-description"></span></div>
@@ -388,7 +450,7 @@
                     </div>
                 </div>
                 <div class="question-block">
-                    <p><strong>12. Nasz design precyzyjnie komunikuje nasze zamierzone pozycjonowanie rynkowe.</strong></p>
+                    <p><strong>12. Nasza marka jest postrzegana jako lider lub unikalny specjalista w swojej kategorii, co pozwala nam unikać bezpośredniej konkurencji cenowej.</strong></p>
                     <div class="scale-container">
                         <div class="scale-item"><input type="radio" id="q12-1" name="q12" value="1"><label for="q12-1">1</label><span class="scale-description"></span></div>
                         <div class="scale-item"><input type="radio" id="q12-2" name="q12" value="2"><label for="q12-2">2</label><span class="scale-description"></span></div>
@@ -398,69 +460,76 @@
                     </div>
                 </div>
                 <h3 class="pytanie-lustro-tytul">Pytanie Lustro</h3>
-                <p>Biorąc pod uwagę wszystkie Twoje odpowiedzi, w jakim stopniu Wasz obecny wizerunek jest spójny ze strategicznym poziomem, do którego aspirujecie? Co jest największą rozbieżnością?</p>
+                <p>Jaka jest jedna, najważniejsza zmiana w postrzeganiu Waszej marki, która pozwoliłaby Wam podwoić marżę lub zdobyć klientów, którzy dziś są poza Waszym zasięgiem?</p>
                 <textarea id="mirror-q4" placeholder="Twoja odpowiedź..."></textarea>
                 <div class="form-navigation">
                     <button type="button" class="btn btn-prev">Wróć</button>
                     <button type="button" id="calculate-btn" class="btn btn-primary">Zakończ i analizuj</button>
                 </div>
             </div>
-
+ 
             <div class="form-step" id="results-step">
                 <div id="pre-results-loader">
-                    <p>Analizowanie odpowiedzi...</p>
-                    <div class="progress-bar-final">
+                    <img id="radical-clarity-image" src="Radical Clarity.svg" alt="Radical Clarity">
+                    <p id="processing-text">Przetwarzam wnioski</p>
+                    <div class="progress-bar-final" style="display: none;">
                         <div id="progress-final"></div>
                     </div>
                 </div>
                 <div id="results-content" style="display:none;">
-                    <div id="capture-area">
-                        <div id="logo-container-results">
-                            <img src="twoje-logo.svg.svg" alt="Logo Firmy">
-                        </div>
-                        <h2>Twoja diagnoza</h2>
-                        <div id="score-container">
-                            <span id="score-display">0</span> / 60
-                        </div>
-                        <div class="result-card" style="display: none;">
-                            <h3 id="result-title"></h3>
-                            <p id="result-description"></p>
-                        </div>
-                        <div id="ai-loader" style="display: none;"><p>Przetwarzam wnioski...</p></div>
-                        <div id="ai-synthesis-container" style="display: none;">
-                            <h3>Kluczowe wnioski z analizy</h3>
-                            <p id="ai-synthesis-text"></p>
-                        </div>
+                    <div id="ai-loader">
+                        <p>AI analizuje dane, proszę czekać...</p>
                     </div>
-                    
-                    <div id="next-steps" style="display: none;">
-                        <div class="next-steps-low-score" style="display: none;">
-                            <h3>Diagnoza to nie wyrok. To punkt startowy.</h3>
-                            <p>Niezależnie od wyniku, fakt, że przeszedłeś przez ten audyt, stawia Cię w elitarnej grupie świadomych liderów, którzy wolą podejmować decyzje w oparciu o dane, a nie przeczucia. Zidentyfikowałeś słabe punkty. Zobaczyłeś, gdzie tracisz energię i pieniądze. Pytanie brzmi: co teraz z tym zrobisz?</p>
-                        </div>
-                        <div class="next-steps-high-score" style="display: none;">
-                             <h3>Gratulacje! Należysz do czołówki.</h3>
-                             <p>Twój wynik świadczy o mistrzostwie w budowaniu marki. Utrzymanie pozycji lidera to jednak ciągłe wyzwanie. Chętnie wymienię się z Tobą spostrzeżeniami podczas partnerskiej sesji strategicznej.</p>
-                        </div>
-
-                        <a href="https://calendly.com/biuro-volium/30min" target="_blank" id="final-cta-btn" class="btn btn-primary">Zarezerwuj 15-minutową konsultację</a>
+                <div id="capture-area">
+                    <div id="logo-container-results" style="text-align: center; margin-bottom: 40px;">
+                        <img src="twoje-logo.svg.svg" alt="Logo Firmy" style="max-width: 160px; height: auto;">
                     </div>
-                    <button type="button" id="download-btn" class="btn">Pobierz diagnozę (PNG)</button>
-                    
-                    <div class="signature-footer">
-                        <p>Audyt przygotowany przez:</p>
-                        <img src="twoje-logo.svg.svg" alt="Logo Firmy">
+                    <h2>Twoja diagnoza</h2>
+                    <div id="score-container">
+                        <span id="score-display">0</span> / 60
                     </div>
+                    <div class="result-card" style="display: none;">
+                        <h3 id="result-title"></h3>
+                        <p id="result-description"></p>
+                    </div>
+                    <div id="ai-synthesis-container" style="display: none;">
+                        <h3>Kluczowe wnioski z analizy</h3>
+                        <p id="ai-synthesis-text"></p>
+                    </div>
+                </div> <div id="next-steps-standard" style="display: none; margin-top: 30px;">
+                    <div id="next-steps-content">
+                    </div>
+                    <a href="https://calendly.com/biuro-volium/30min" target="_blank" id="final-cta-btn" class="btn btn-primary">Zarezerwuj 15-minutową konsultację</a>
+                </div>
+ 
+                <div id="next-steps-gibberish" style="display: none; text-align: center; margin-top: 30px;">
+                    <h3>Prawdziwa diagnoza wymaga zaangażowania.</h3>
+                    <p>To narzędzie zostało zaprojektowane, aby dostarczać realną wartość liderom, którzy są gotowi na szczerą autorefleksję.</p>
+                    <p style="margin-top:15px;">Jeśli jesteś gotów podejść do audytu na poważnie, zacznij od nowa.</p>
+                    <button type="button" id="restart-btn" class="btn btn-primary" style="margin-top: 20px;">Zacznij od nowa</button>
+                </div>
+ 
+                <button type="button" id="download-btn" class="btn">Pobierz diagnozę (PNG)</button>
+ 
+                <div class="signature-footer">
+                    <p>Audyt przygotowany przez:</p>
+                    <img src="twoje-logo.svg.svg" alt="Logo Firmy">
                 </div>
             </div>
         </form>
-
+ 
         <div class="signature-footer">
             <p>Audyt przygotowany przez:</p>
             <img src="twoje-logo.svg.svg" alt="Logo Firmy">
         </div>
     </div>
     <script>
+ 
+        const API_BASE_URL = 'http://localhost:3000';
+        let originalAuditText = '';
+        let finalScore, finalResultTitle, finalResultDesc, finalAiText;
+        let userName = '', brandName = '';
+
         document.addEventListener('DOMContentLoaded', () => {
             const auditContainer = document.querySelector('.audit-container');
             const formSteps = document.querySelectorAll('.form-step');
@@ -468,11 +537,10 @@
             const progress = document.getElementById('progress');
             const downloadBtn = document.getElementById('download-btn');
             let currentStep = 0;
-            let finalScore, finalResultTitle, finalResultDesc, finalAiText;
-            
+ 
             const scaleLabelsLong = ["Zdecydowanie nie", "Raczej nie", "Trudno powiedzieć", "Raczej tak", "Zdecydowanie tak"];
             const scaleLabelsShort = ["Wcale", "Rzadko", "Czasami", "Często", "Zawsze"];
-
+ 
             const updateScaleDescriptions = () => {
                 const allDescriptions = document.querySelectorAll('.scale-description');
                 const labels = window.innerWidth <= 768 ? scaleLabelsShort : scaleLabelsLong;
@@ -480,7 +548,7 @@
                     span.textContent = labels[index % 5];
                 });
             };
-
+ 
             const updateUI = () => {
                 auditContainer.classList.remove('on-first-step', 'on-results-step');
                 if (currentStep === 0) {
@@ -497,10 +565,39 @@
                     auditContainer.scrollIntoView({ behavior: 'smooth', block: 'start' });
                 }
             };
-
+ 
             const validateStep = (stepIndex) => {
                 const step = formSteps[stepIndex];
-                if (stepIndex > 0 && stepIndex < 5) {
+                if (stepIndex === 0) {
+                    // Walidacja pierwszego kroku - imię i nazwa marki
+                    const userNameInput = document.getElementById('user-name');
+                    const brandNameInput = document.getElementById('brand-name');
+
+                    userNameInput.style.borderColor = 'var(--border-color)';
+                    brandNameInput.style.borderColor = 'var(--border-color)';
+
+                    let isValid = true;
+
+                    if (userNameInput.value.trim().length === 0) {
+                        userNameInput.style.borderColor = 'red';
+                        isValid = false;
+                    }
+
+                    if (brandNameInput.value.trim().length === 0) {
+                        brandNameInput.style.borderColor = 'red';
+                        isValid = false;
+                    }
+
+                    if (!isValid) {
+                        alert('Proszę wypełnić wszystkie pola, aby przejść dalej.');
+                        return false;
+                    }
+
+                    // Zapisz dane
+                    userName = userNameInput.value.trim();
+                    brandName = brandNameInput.value.trim();
+                    return true;
+                } else if (stepIndex > 0 && stepIndex < 5) {
                     let allAnswered = true;
                     const questions = step.querySelectorAll('.question-block');
                     questions.forEach(q => {
@@ -510,7 +607,7 @@
                             allAnswered = false;
                         }
                     });
-            
+ 
                     const textarea = step.querySelector('textarea');
                     if (textarea) {
                         textarea.style.borderColor = 'var(--border-color)';
@@ -519,7 +616,7 @@
                             allAnswered = false;
                         }
                     }
-            
+ 
                     if (!allAnswered) {
                         alert('Proszę odpowiedzieć na wszystkie pytania w tej sekcji, aby przejść dalej.');
                     }
@@ -527,21 +624,21 @@
                 }
                 return true;
             };
-
+ 
             document.addEventListener('click', e => {
                 if (e.target.matches('.btn-next')) {
                     if (validateStep(currentStep)) { currentStep++; updateUI(); }
                 } else if (e.target.matches('#calculate-btn')) {
                     if (validateStep(currentStep)) { 
-                        handleCalculation(); 
-                        currentStep++; 
+                        handleCalculation();
+                        currentStep++;
                         updateUI();
                     }
                 } else if (e.target.matches('.btn-prev')) {
                     currentStep--; updateUI();
                 }
             });
-
+ 
             const animateValue = (obj, start, end, duration) => {
                 let startTimestamp = null;
                 const step = (timestamp) => {
@@ -552,7 +649,7 @@
                 };
                 window.requestAnimationFrame(step);
             };
-
+ 
             const calculateTotalScore = () => {
                 let totalScore = 0;
                 const allCheckedRadios = document.querySelectorAll('#audit-form input[type="radio"]:checked');
@@ -561,146 +658,190 @@
                 });
                 return totalScore;
             };
-            
+ 
             // NOWA WERSJA FILTRA - działa teraz też w frontendzie
             const isInputGibberish = (answers) => {
                 const lowQualityWords = ['nie wiem', 'trudno powiedzieć', 'test', 'asdf', 'brak', 'xd', 'ok'];
                 let totalLength = 0;
+ 
                 for (const answer of answers) {
                     const lowerCaseAnswer = answer.toLowerCase().trim();
                     if (lowerCaseAnswer.length === 0) continue;
+ 
                     totalLength += lowerCaseAnswer.length;
+ 
                     if (lowQualityWords.includes(lowerCaseAnswer)) return true;
                     if (/^(\w)\1+$/.test(lowerCaseAnswer)) return true;
                     if (/^\d+$/.test(lowerCaseAnswer)) return true;
-                    if (/[bcdfghjklmnpqrstvwxyz]{5,}/.test(lowerCaseAnswer)) return true;
-                    if (/(.)\1{2,}/.test(lowerCaseAnswer)) return true;
                 }
+ 
                 if (totalLength < 20) return true;
+ 
                 return false;
             };
-
+ 
+            // ZASTĄP STARĄ WERSJĘ FUNKCJI TĄ PONIŻEJ:
             const handleCalculation = () => {
                 finalScore = calculateTotalScore();
-                const answers = [ 
-                    document.getElementById('mirror-q1').value, 
-                    document.getElementById('mirror-q2').value, 
-                    document.getElementById('mirror-q3').value, 
-                    document.getElementById('mirror-q4').value 
-                ];
-                
-                const finalProgressBar = document.getElementById('progress-final');
-                finalProgressBar.style.width = '80%';
-                
-                setTimeout(() => { finalProgressBar.style.width = '100%'; }, 100);
+                const answers = [
+                document.getElementById('mirror-q1').value,
+                document.getElementById('mirror-q2').value,
+                document.getElementById('mirror-q3').value,
+                document.getElementById('mirror-q4').value
+            ];
+            document.getElementById('pre-results-loader').style.display = 'flex';
 
-                setTimeout(() => {
-                    document.getElementById('pre-results-loader').style.display = 'none';
-                    const resultsContent = document.getElementById('results-content');
-                    resultsContent.style.display = 'block';
-                    resultsContent.style.animation = 'fadeIn 1s forwards';
+            // Najpierw pokaż krok z wynikami
+            document.querySelectorAll('.form-step').forEach(step => step.classList.remove('active'));
+            document.getElementById('results-step').classList.add('active');
+            document.querySelector('.audit-container').classList.add('on-results-step');
+            // Pokaż loader
 
-                    animateValue(document.getElementById('score-display'), 0, finalScore, 1500);
+            document.getElementById('pre-results-loader').style.display = 'flex';
+ 
+            const progressBar = document.getElementById('progress-final');
+            if (progressBar) {
+                let width = 0;
+                const interval = setInterval(frame, 35);
+ 
+                function frame() {
+                    if (width >= 100) {
+                        clearInterval(interval);
+ 
+                        // Nie ukrywaj loadera jeszcze - zostaw grafikę podczas analizy AI
+ 
+                        if (isInputGibberish(answers)) {
+                            // Dla gibberish od razu pokazuj wyniki po 1 sekundzie
+                            setTimeout(() => {
+                                const sharpResponse = "Twoje odpowiedzi na pytania otwarte wydają się być przypadkowe lub zbyt lakoniczne. Prawdziwa diagnoza strategiczna wymaga refleksji i zaangażowania. Jeśli brakuje czasu na rzetelne wypełnienie audytu, prawdopodobnie trudno będzie znaleźć go na wdrożenie fundamentalnych zmian w firmie. Gdy będziesz gotów na pogłębioną analizę, wróć i spróbuj ponownie.";
 
-                    const resultCard = document.querySelector('.result-card');
-                    resultCard.classList.remove('glow-critical', 'glow-reactive', 'glow-proactive', 'glow-strategic');
+                                const loader = document.getElementById('pre-results-loader');
+                                loader.classList.add('fade-out');
+                                setTimeout(() => { loader.style.display = 'none'; }, 400);
 
-                    const resultTitle = document.getElementById('result-title');
-                    const resultDescription = document.getElementById('result-description');
-                    let title = '', description = '';
-                    if (finalScore <= 25) { 
-                        title = 'Stan krytyczny (Chaotyczny sabotażysta)'; 
-                        description = 'Twoja marka aktywnie sabotuje Twoje wysiłki. Każdego dnia tracisz pieniądze na nieskutecznym marketingu i rywalizujesz ceną. To wymaga natychmiastowej interwencji.';
-                        resultCard.classList.add('glow-critical');
-                    } else if (finalScore <= 38) { 
-                        title = 'Działanie reaktywne (Niespójny pracownik)'; 
-                        description = 'Twoja marka ma przebłyski geniuszu, ale brakuje jej konsekwencji. Generuje to nieprzewidywalne rezultaty. Pracujesz ciężej, niż musisz, bo marka nie wykonuje swojej pracy.';
-                        resultCard.classList.add('glow-reactive');
-                    } else if (finalScore <= 51) { 
-                        title = 'Proaktywny fundament (Solidny specjalista)'; 
-                        description = 'Twoja marka stanowi zdrowy fundament dla wzrostu, jednak może brakować jej odwagi, by dyktować warunki na rynku. Działasz poprawnie, ale bez strategicznej przewagi.';
-                        resultCard.classList.add('glow-proactive');
-                    } else { 
-                        title = 'Aktywo strategiczne (Autonomiczny lider)'; 
-                        description = 'Gratulacje. Twoja marka to Twój najlepszy pracownik. Sprzedaje, gdy śpisz i daje Ci moc dyktowania cen. Posiadasz przewagę, która pozwala Ci definiować zasady gry.';
-                        resultCard.classList.add('glow-strategic');
-                    }
-                    finalResultTitle = title; finalResultDesc = description;
-                    resultTitle.innerText = title;
-                    resultDescription.innerText = description;
-                    resultCard.style.display = 'block';
-                    
-                    // NOWA LOGIKA - Sprawdzamy jakość odpowiedzi PRZED wysłaniem
-                    if (isInputGibberish(answers)) {
-                        const sharpResponse = "Twoje odpowiedzi na pytania otwarte wydają się być przypadkowe lub zbyt lakoniczne. Prawdziwa diagnoza strategiczna wymaga refleksji i zaangażowania. Jeśli brakuje czasu na rzetelne wypełnienie audytu, prawdopodobnie trudno będzie znaleźć go na wdrożenie fundamentalnych zmian w firmie. Gdy będziesz gotów na pogłębioną analizę, wróć i spróbuj ponownie.";
-                        finalAiText = sharpResponse;
-                        document.getElementById('ai-synthesis-text').innerText = finalAiText;
-                        document.getElementById('ai-synthesis-container').style.display = 'block';
-                        downloadBtn.style.display = 'inline-block';
-                        // Pokazujemy CTA nawet przy ostrej odpowiedzi
-                        const nextStepsContainer = document.getElementById('next-steps');
-                        const lowScoreText = document.querySelector('.next-steps-low-score');
-                        lowScoreText.style.display = 'block';
-                        nextStepsContainer.style.display = 'block';
-                        return; // Zakończ funkcję, nie wysyłaj do AI
-                    }
+                                const resultsContent = document.getElementById('results-content');
+                                resultsContent.style.display = 'block';
+                                resultsContent.style.animation = 'fadeIn 1s forwards';
 
-                    document.getElementById('ai-loader').style.display = 'block';
-                    
-                    fetch('https://audyt-backend.onrender.com/api/analyze', {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({ score: finalScore, answers: answers }),
-                    })
-                    .then(response => { if (!response.ok) { throw new Error('Błąd serwera.'); } return response.json(); })
-                    .then(data => { finalAiText = data.analysis; document.getElementById('ai-synthesis-text').innerText = finalAiText; })
-                    .catch(error => { console.error('Błąd:', error); finalAiText = 'Wystąpił błąd podczas łączenia z serwerem analizy. Spróbuj ponownie później.'; document.getElementById('ai-synthesis-text').innerText = finalAiText; })
-                    .finally(() => {
-                        document.getElementById('ai-loader').style.display = 'none';
-                        document.getElementById('ai-synthesis-container').style.display = 'block';
-                        downloadBtn.style.display = 'inline-block';
-                        
-                        const nextStepsContainer = document.getElementById('next-steps');
-                        const lowScoreText = document.querySelector('.next-steps-low-score');
-                        const highScoreText = document.querySelector('.next-steps-high-score');
-                        
-                        if (finalScore < 52) {
-                            lowScoreText.style.display = 'block';
-                            highScoreText.style.display = 'none';
-                        } else {
-                            lowScoreText.style.display = 'none';
-                            highScoreText.style.display = 'block';
+                                document.getElementById('ai-synthesis-text').innerText = sharpResponse;
+                                document.getElementById('score-container').style.display = 'none';
+                                document.querySelector('.result-card').style.display = 'none';
+                                document.getElementById('download-btn').style.display = 'none';
+                                document.getElementById('next-steps-standard').style.display = 'none';
+                                document.querySelector('.signature-footer').style.display = 'none';
+                                document.getElementById('ai-synthesis-container').style.display = 'block';
+                                document.getElementById('next-steps-gibberish').style.display = 'block';
+                            }, 1000);
+                            return;
                         }
-                        nextStepsContainer.style.display = 'block';
-                    });
+ 
+                        // Przygotuj dane wyników ale nie pokazuj ich jeszcze
+ 
+                        const resultCard = document.querySelector('.result-card');
+                        const resultTitle = document.getElementById('result-title');
+                        const resultDescription = document.getElementById('result-description');
+                        let title = '', description = '';
+ 
+                        if (finalScore <= 25) {
+                            title = 'Stan krytyczny (Chaotyczny sabotażysta)';
+                            description = 'Twoja marka nie tylko nie pracuje na Twoją korzyść – ona aktywnie sabotuje Twoje wysiłki. Jest jak pracownik, który wprowadza chaos, myli klientów i podkopuje autorytet liderów. Każdego dnia tracisz pieniądze na nieskutecznym marketingu, odstraszasz idealnych klientów i rywalizujesz ceną, bo nie potrafisz zakomunikować swojej prawdziwej wartości. Działasz w trybie przetrwania, a Twoja firma jest niewidzialna dla tych, którzy powinni ją widzieć. To wymaga natychmiastowej interwencji strategicznej.';
+                            resultCard.className = 'result-card glow-critical';
+                        } else if (finalScore <= 51) {
+                            title = 'Działanie reaktywne (Niespójny pracownik)';
+                            description = 'Twoja marka jest jak pracownik, który ma przebłyski geniuszu, ale brakuje mu konsekwencji. Działa w zrywach – raz komunikacja jest świetna, a za chwilę przypadkowa. Generuje to nieprzewidywalne rezultaty i zmusza Twój zespół do ciągłego "zgadywania". Pracujesz ciężej, niż musisz, bo Twoja marka nie wykonuje swojej części pracy. Silnik Twojej firmy działa, ale na zanieczyszczonym paliwie i nie na pełnych obrotach. Masz potencjał, ale marnujesz go przez brak spójnego systemu.';
+                            resultCard.className = 'result-card glow-reactive';
+                        } else { // Wynik 52+
+                            title = 'Aktywo strategiczne (Autonomiczny lider)';
+                            description = 'Gratulacje. Twoja marka to Twój najlepszy i najciężej pracujący pracownik. To autonomiczny lider, który pracuje 24/7. Sprzedaje, gdy Ty śpisz, rekrutuje najlepsze talenty i daje Ci moc dyktowania cen. Posiadasz przewagę, która pozwala Ci definiować zasady gry w Twojej kategorii. To nie jest już tylko "wizerunek" – to potężne aktywo biznesowe, które generuje realny zysk.';
+                            resultCard.className = 'result-card glow-strategic';
+                        }
+                        resultTitle.innerText = title;
+                        resultDescription.innerText = description;
+                        // Nie pokazuj jeszcze result card
+ 
+                        const nextStepsContent = document.getElementById('next-steps-content');
+                        if (finalScore >= 52) {
+                            nextStepsContent.innerHTML = `<h3>Gratulacje! Należysz do czołówki.</h3><p>Twój wynik świadczy o mistrzostwie w budowaniu marki. Utrzymanie pozycji lidera to jednak ciągłe wyzwanie. Chętnie wymienię się z Tobą spostrzeżeniami podczas partnerskiej sesji strategicznej.</p>`;
+                        } else {
+                            nextStepsContent.innerHTML = `<h3>Diagnoza to nie wyrok. To punkt startowy.</h3><p>Niezależnie od wyniku, fakt, że przeszedłeś przez ten audyt, stawia Cię w elitarnej grupie świadomych liderów, którzy wolą podejmować decyzje w oparciu o dane, a nie przeczucia. Zidentyfikowałeś słabe punkty. Zobaczyłeś, gdzie tracisz energię i pieniądze. Pytanie brzmi: co teraz z tym zrobisz?</p>`;
+                        }
+ 
+                        // Rozpocznij analizę AI w tle podczas gdy grafika jest nadal widoczna
+                        fetch(`${API_BASE_URL}/api/analyze`, {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({
+                                score: finalScore,
+                                answers: answers,
+                                userName: userName,
+                                brandName: brandName
+                            }),
+                        })
+                        .then(response => { if (!response.ok) { throw new Error('Błąd serwera.'); } return response.json(); })
+                        .then(data => {
+                            finalAiText = data.analysis;
+                            document.getElementById('ai-synthesis-text').innerText = finalAiText;
+                        })
+                        .catch(error => {
+                            console.error('Błąd:', error);
+                            finalAiText = 'Wystąpił błąd podczas łączenia z serwerem analizy. Spróbuj ponownie później.';
+                            document.getElementById('ai-synthesis-text').innerText = finalAiText;
+                        })
+                        .finally(() => {
+                            // Dopiero teraz ukryj loader i pokaż wszystkie wyniki
+                            const loader = document.getElementById('pre-results-loader');
+                            loader.classList.add('fade-out');
 
-                }, 1200);
-            };
-            
+                            setTimeout(() => {
+                                loader.style.display = 'none';
+
+                                const resultsContent = document.getElementById('results-content');
+                                resultsContent.style.display = 'block';
+                                resultsContent.style.animation = 'fadeIn 1s forwards';
+
+                                // Pokaż wszystkie elementy wyników
+                                animateValue(document.getElementById('score-display'), 0, finalScore, 1500);
+                                resultCard.style.display = 'block';
+                                document.getElementById('ai-synthesis-container').style.display = 'block';
+                                document.getElementById('download-btn').style.display = 'inline-block';
+                                document.getElementById('next-steps-standard').style.display = 'block';
+                            }, 400);
+                        });
+ 
+                    } else {
+                        width++;
+                        progressBar.style.width = width + '%';
+
+                    }
+                }
+            }
+ 
+        };
+ 
             downloadBtn.addEventListener('click', () => {
                 const originalButtonText = downloadBtn.innerText;
                 downloadBtn.innerText = 'GENEROWANIE...';
                 downloadBtn.disabled = true;
-
+ 
                 const printableArea = document.createElement('div');
                 document.body.appendChild(printableArea);
-
+ 
                 Object.assign(printableArea.style, {
                     width: '800px', position: 'absolute', top: '-9999px', left: '-9999px',
                     backgroundColor: '#0F0F0F', fontFamily: 'Satoshi, sans-serif',
                     padding: '40px', textAlign: 'center', color: '#D8D8D8'
                 });
-
+ 
                 const logoHTML = document.getElementById('logo-container-results').innerHTML;
                 const signatureHTML = document.querySelector('#results-content .signature-footer').innerHTML;
-                
+ 
                 // NOWA LOGIKA - Odczytujemy styl poświaty z widocznej karty
                 const resultCardVisible = document.querySelector('.result-card');
                 const glowStyle = {
                     border: resultCardVisible.style.borderColor ? `1px solid ${resultCardVisible.style.borderColor}` : '1px solid #2C2C2C',
                     boxShadow: resultCardVisible.style.boxShadow || 'none'
                 };
-                
+ 
                 const printableResultCard = document.createElement('div');
                 Object.assign(printableResultCard.style, {
                     background: '#0F0F0F', padding: '30px', borderRadius: '12px',
@@ -708,7 +849,7 @@
                     border: glowStyle.border,
                     boxShadow: glowStyle.boxShadow
                 });
-
+ 
                 const resultCardTitle = document.createElement('h3');
                 resultCardTitle.style.fontSize = '1.5em';
                 resultCardTitle.style.fontWeight = '700';
@@ -716,23 +857,23 @@
                 resultCardTitle.style.marginBottom = '15px';
                 resultCardTitle.style.lineHeight = '1.1';
                 resultCardTitle.innerText = finalResultTitle;
-
+ 
                 const resultCardDesc = document.createElement('p');
                 resultCardDesc.style.fontSize = '1em';
                 resultCardDesc.style.color = '#707070';
                 resultCardDesc.style.lineHeight = '1.7';
                 resultCardDesc.style.fontWeight = '400';
                 resultCardDesc.innerText = finalResultDesc;
-                
+ 
                 printableResultCard.appendChild(resultCardTitle);
                 printableResultCard.appendChild(resultCardDesc);
-                
+ 
                 // Reszta budowania PNG pozostaje bez zmian
                 const logoDiv = document.createElement('div');
                 logoDiv.style.textAlign = 'center';
                 logoDiv.style.marginBottom = '40px';
                 logoDiv.innerHTML = logoHTML;
-
+ 
                 const mainTitle = document.createElement('h2');
                 mainTitle.style.fontSize = '2em';
                 mainTitle.style.fontWeight = '700';
@@ -740,20 +881,20 @@
                 mainTitle.style.marginBottom = '25px';
                 mainTitle.style.lineHeight = '1.1';
                 mainTitle.innerText = 'Twoja diagnoza';
-
+ 
                 const scoreContainer = document.createElement('div');
                 scoreContainer.style.fontSize = '3em';
                 scoreContainer.style.fontWeight = '700';
                 scoreContainer.style.color = '#D8D8D8';
                 scoreContainer.style.lineHeight = '1.1';
                 scoreContainer.innerHTML = `<span style="color: #F4F4F4; font-size: 2em;">${finalScore}</span> / 60`;
-
+ 
                 const aiCard = document.createElement('div');
                  Object.assign(aiCard.style, {
                     background: '#0F0F0F', padding: '30px', borderRadius: '12px',
                     border: '1px solid #2C2C2C', marginTop: '20px', textAlign: 'center'
                 });
-
+ 
                 const aiCardTitle = document.createElement('h3');
                 aiCardTitle.style.fontSize = '1.5em';
                 aiCardTitle.style.fontWeight = '700';
@@ -761,33 +902,33 @@
                 aiCardTitle.style.marginBottom = '15px';
                 aiCardTitle.style.lineHeight = '1.1';
                 aiCardTitle.innerText = 'Kluczowe wnioski z analizy';
-
+ 
                 const aiCardText = document.createElement('p');
                 aiCardText.style.fontSize = '1em';
                 aiCardText.style.color = '#707070';
                 aiCardText.style.lineHeight = '1.7';
                 aiCardText.style.fontWeight = '400';
                 aiCardText.innerText = finalAiText;
-
+ 
                 aiCard.appendChild(aiCardTitle);
                 aiCard.appendChild(aiCardText);
-                
+ 
                 const signatureDiv = document.createElement('div');
                 Object.assign(signatureDiv.style, {
                     textAlign: 'center', marginTop: '50px',
                     borderTop: '1px solid #2C2C2C', paddingTop: '30px'
                 });
                 signatureDiv.innerHTML = signatureHTML;
-
+ 
                 printableArea.appendChild(logoDiv);
                 printableArea.appendChild(mainTitle);
                 printableArea.appendChild(scoreContainer);
                 printableArea.appendChild(printableResultCard); // Używamy nowej karty z poświatą
                 printableArea.appendChild(aiCard);
                 printableArea.appendChild(signatureDiv);
-
+ 
                 document.body.appendChild(printableArea);
-                
+ 
                 html2canvas(printableArea, { scale: 2, useCORS: true })
                 .then(canvas => {
                     let downloadLink = document.createElement('a');
@@ -803,10 +944,18 @@
                     downloadBtn.disabled = false;
                 });
             });
-            
+ 
             updateScaleDescriptions();
             window.addEventListener('resize', updateScaleDescriptions);
             updateUI();
+            // Dodajemy obsługę przycisku "Zacznij od nowa"
+            document.addEventListener('click', e => {
+ 
+             if (e.target.matches('#restart-btn')) {
+                location.reload();
+            }
+        });
+ 
         });
     </script>
 </body>
