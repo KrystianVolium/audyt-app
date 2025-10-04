@@ -32,11 +32,15 @@ const corsOptions = {
     'http://127.0.0.1:8080',
     'http://localhost:8080',
     'http://127.0.0.1:5500',
-    'http://localhost:5500'
+    'http://localhost:5500',
+    'http://localhost:3000'
   ]
 };
 app.use(cors(corsOptions));
 app.use(express.json());
+
+// Serwowanie plików statycznych
+app.use(express.static(__dirname));
 
 // --- 4. FUNKCJE POMOCNICZE ---
 const isInputGibberish = (answers) => {
@@ -85,7 +89,7 @@ app.post('/api/analyze', async (req, res) => {
     }
 
     // Krok D: Definiujemy JEDEN, kompletny prompt, który korzysta ze wszystkich naszych danych
-    const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash-latest" });
+    const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash-exp" });
 
     let prompt = `
       ## Persona & Rola: Wytrawny Strateg-Mentor
