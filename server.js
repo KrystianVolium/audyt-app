@@ -62,7 +62,7 @@ const isInputGibberish = (answers) => {
 app.post('/api/analyze', async (req, res) => {
   try {
     // Krok A: Pobieramy dane i sprawdzamy, czy w ogóle istnieją
-    const { score, answers, userName, brandName } = req.body;
+    const { score, answers, userName, brandName, userSegment } = req.body;
 
     if (!score || !answers) {
       return res.status(400).json({ error: 'Brakujące dane w zapytaniu.' });
@@ -70,7 +70,8 @@ app.post('/api/analyze', async (req, res) => {
 
     // Walidacja i fallback dla danych personalizacji
     const validUserName = userName && userName.trim().length > 0 ? userName.trim() : 'Użytkownik';
-    const validBrandName = brandName && brandName.trim().length > 0 ? brandName.trim() : 'Twoja firma';
+    const validBrandName = brandName && brandName.trim().length > 0 ? brandName.trim() : (userSegment === 'personal' ? 'Twoja marka osobista' : 'Twoja firma');
+    const segmentContext = userSegment === 'personal' ? 'Marka Osobista (freelancer, ekspert, twórca, konsultant)' : 'Marka Firmy (zespół, organizacja, biznes B2B/B2C)';
 
     // Krok B: Uruchamiamy filtr jakości odpowiedzi
     if (isInputGibberish(answers)) {
@@ -105,6 +106,7 @@ app.post('/api/analyze', async (req, res) => {
 
       **👤 IMIĘ UŻYTKOWNIKA: ${validUserName}**
       **🏢 NAZWA MARKI/FIRMY: ${validBrandName}**
+      **📊 SEGMENT UŻYTKOWNIKA: ${segmentContext}**
 
       - Wynik Punktowy: ${score}/60
       - Odpowiedzi na Pytania Otwarte:
@@ -116,6 +118,8 @@ app.post('/api/analyze', async (req, res) => {
       ## Kluczowe Ograniczenia i Zasady
 
       - **🔥 KRYTYCZNE - PERSONALIZACJA 🔥:** ZAWSZE i BEZWZGLĘDNIE zwracaj się do użytkownika po imieniu "${validUserName}" już w pierwszym zdaniu i regularnie w całej odpowiedzi. Gdy mówisz o jego marce/firmie, ZAWSZE używaj konkretnej nazwy "${validBrandName}" zamiast ogólnych określeń. PRZYKŁAD: "${validUserName}, analizując wyniki audytu ${validBrandName}..." NIGDY nie używaj bezimiennych zwrotów typu "Twoja firma" gdy masz konkretną nazwę marki.
+
+      - **🎯 DOSTOSOWANIE DO SEGMENTU:** Użytkownik wybrał segment "${segmentContext}". Dostosuj swoją analizę, język i rekomendacje do tego kontekstu. ${userSegment === 'personal' ? 'Mów o nim jako o ekspercie/twórcy budującym osobistą markę, unikaj odniesień do zespołu czy pracowników. Skup się na jego osobistym wpływie, autentyczności i budowaniu autorytetu.' : 'Analizuj z perspektywy organizacji, zespołu i struktury firmowej. Odnosi się do pracowników, kultury organizacyjnej i systemów biznesowych.'}
 
       - **Nie używaj formalnych nagłówków, numeracji ani cudzysłowów** w swojej odpowiedzi. Tekst ma być płynną, spójną narracją.
       - Skup się na syntezie i zadawaniu pytań, a nie na dawaniu twardych, kategorycznych stwierdzeń.

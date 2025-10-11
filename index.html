@@ -273,6 +273,37 @@
                 font-size: 1em;
             }
         }
+
+        /* Segmenty użytkownika */
+        .segment-choice-container {
+            display: flex !important; gap: 20px; justify-content: space-between; margin: 40px auto;
+            max-width: 800px; align-items: stretch;
+        }
+        .segment-card {
+            flex: 0 0 calc(50% - 10px); max-width: 380px; min-width: 280px; padding: 30px;
+            border: 2px solid var(--border-color);
+            border-radius: 12px; cursor: pointer;
+            transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease, background-color 0.3s ease;
+            background: var(--surface-color); text-align: center;
+        }
+        .segment-card:hover {
+            border-color: var(--primary-color);
+            background-color: rgba(244, 244, 244, 0.03);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(244, 244, 244, 0.15);
+        }
+        .segment-card.selected {
+            border-color: var(--primary-color);
+        }
+        .segment-icon {
+            font-size: 3em; margin-bottom: 15px;
+        }
+        .segment-card h3 {
+            color: var(--text-color); margin-bottom: 10px; font-size: 1.3em;
+        }
+        .segment-card p {
+            color: var(--text-muted); font-size: 0.9em;
+        }
     </style>
 </head>
 <body>
@@ -282,7 +313,36 @@
         </div>
  
         <form id="audit-form" autocomplete="off">
+            <!-- Ekran 0: Wybór segmentu -->
             <div class="form-step active">
+                <div id="logo-container">
+                    <img src="twoje-logo.svg.svg" alt="Logo Firmy">
+                </div>
+                <h1>Audyt Kondycji Marki</h1>
+                <p class="intro-subtext">Narzędzie diagnostyczne dla liderów, którzy chcą przestać zgadywać i zacząć wygrywać.</p>
+
+                <h2 style="margin-top: 50px; margin-bottom: 10px;">Dla kogo budujesz markę?</h2>
+
+                <div class="segment-choice-container">
+                    <div class="segment-card" data-segment="company">
+                        <div class="segment-icon">🏢</div>
+                        <h3>Zarządzam Marką Firmy</h3>
+                        <p>Zespół, organizacja, biznes B2B/B2C</p>
+                    </div>
+                    <div class="segment-card" data-segment="personal">
+                        <div class="segment-icon">👤</div>
+                        <h3>Buduję Markę Osobistą</h3>
+                        <p>Freelancer, ekspert, twórca, konsultant</p>
+                    </div>
+                </div>
+
+                <div class="form-navigation" style="justify-content: center;">
+                    <button type="button" class="btn btn-primary btn-next" id="segment-next-btn" disabled style="opacity: 0.5;">Dalej</button>
+                </div>
+            </div>
+
+            <!-- Ekran 1: Personalizacja -->
+            <div class="form-step">
                 <div id="logo-container">
                     <img src="twoje-logo.svg.svg" alt="Logo Firmy">
                 </div>
@@ -295,19 +355,21 @@
                         <input type="text" id="user-name" placeholder="np. Anna" style="width: 100%; padding: 12px; font-family: 'Satoshi', sans-serif; font-size: 1em; border: 1px solid var(--border-color); border-radius: 8px; background-color: var(--bg-color); color: var(--text-color); transition: border-color 0.3s, box-shadow 0.3s;">
                     </div>
                     <div style="margin-bottom: 20px;">
-                        <label for="brand-name" style="display: block; margin-bottom: 8px; font-weight: 500; color: var(--text-color);">Nazwa Twojej marki/firmy:</label>
+                        <label for="brand-name" id="brand-name-label" style="display: block; margin-bottom: 8px; font-weight: 500; color: var(--text-color);">Nazwa Twojej marki/firmy:</label>
                         <input type="text" id="brand-name" placeholder="np. ABC Marketing" style="width: 100%; padding: 12px; font-family: 'Satoshi', sans-serif; font-size: 1em; border: 1px solid var(--border-color); border-radius: 8px; background-color: var(--bg-color); color: var(--text-color); transition: border-color 0.3s, box-shadow 0.3s;">
                     </div>
                 </div>
 
-                <div class="form-navigation" style="justify-content: center;">
+                <div class="form-navigation">
+                    <button type="button" class="btn btn-prev">Wróć</button>
                     <button type="button" class="btn btn-primary btn-next">Zaczynam</button>
                 </div>
             </div>
  
             <div class="form-step">
                 <h2>Sekcja I: Rdzeń Strategiczny</h2>
-                <div class="question-block">
+                <!-- Q1 dla Marki Firmy -->
+                <div class="question-block" data-segment="company">
                     <p><strong>1. Nasz cel istnienia (Brand Purpose) jest na tyle klarowny i wdrożony, że pracownicy na każdym szczeblu potrafią na jego podstawie samodzielnie podejmować spójne decyzje.</strong></p>
                     <div class="scale-container">
                         <div class="scale-item"><input type="radio" id="q1-1" name="q1" value="1"><label for="q1-1">1</label><span class="scale-description"></span></div>
@@ -315,6 +377,17 @@
                         <div class="scale-item"><input type="radio" id="q1-3" name="q1" value="3"><label for="q1-3">3</label><span class="scale-description"></span></div>
                         <div class="scale-item"><input type="radio" id="q1-4" name="q1" value="4"><label for="q1-4">4</label><span class="scale-description"></span></div>
                         <div class="scale-item"><input type="radio" id="q1-5" name="q1" value="5"><label for="q1-5">5</label><span class="scale-description"></span></div>
+                    </div>
+                </div>
+                <!-- Q1 dla Marki Osobistej -->
+                <div class="question-block" data-segment="personal">
+                    <p><strong>1. Mój cel istnienia jako eksperta/twórcy (Personal Brand Purpose) jest na tyle klarowny, że potrafię szybko ocenić czy nowy projekt, współpraca czy klient są zgodne z moją misją.</strong></p>
+                    <div class="scale-container">
+                        <div class="scale-item"><input type="radio" id="q1p-1" name="q1" value="1"><label for="q1p-1">1</label><span class="scale-description"></span></div>
+                        <div class="scale-item"><input type="radio" id="q1p-2" name="q1" value="2"><label for="q1p-2">2</label><span class="scale-description"></span></div>
+                        <div class="scale-item"><input type="radio" id="q1p-3" name="q1" value="3"><label for="q1p-3">3</label><span class="scale-description"></span></div>
+                        <div class="scale-item"><input type="radio" id="q1p-4" name="q1" value="4"><label for="q1p-4">4</label><span class="scale-description"></span></div>
+                        <div class="scale-item"><input type="radio" id="q1p-5" name="q1" value="5"><label for="q1p-5">5</label><span class="scale-description"></span></div>
                     </div>
                 </div>
                 <div class="question-block">
@@ -327,7 +400,8 @@
                         <div class="scale-item"><input type="radio" id="q2-5" name="q2" value="5"><label for="q2-5">5</label><span class="scale-description"></span></div>
                     </div>
                 </div>
-                <div class="question-block">
+                <!-- Q3 dla Marki Firmy -->
+                <div class="question-block" data-segment="company">
                     <p><strong>3. Nasze zasady marki (Brand Principles) działają jak system operacyjny dla firmy, dostarczając jasnych kryteriów dla kluczowych decyzji - od marketingu, przez sprzedaż, po rekrutację.</strong></p>
                     <div class="scale-container">
                         <div class="scale-item"><input type="radio" id="q3-1" name="q3" value="1"><label for="q3-1">1</label><span class="scale-description"></span></div>
@@ -337,8 +411,22 @@
                         <div class="scale-item"><input type="radio" id="q3-5" name="q3" value="5"><label for="q3-5">5</label><span class="scale-description"></span></div>
                     </div>
                 </div>
+                <!-- Q3 dla Marki Osobistej -->
+                <div class="question-block" data-segment="personal">
+                    <p><strong>3. Moje zasady marki osobistej (Brand Principles) działają jak wewnętrzny kompas – pomagają mi wybierać projekty, ustalać granice i komunikować wartości w sposób autentyczny i konsekwentny.</strong></p>
+                    <div class="scale-container">
+                        <div class="scale-item"><input type="radio" id="q3p-1" name="q3" value="1"><label for="q3p-1">1</label><span class="scale-description"></span></div>
+                        <div class="scale-item"><input type="radio" id="q3p-2" name="q3" value="2"><label for="q3p-2">2</label><span class="scale-description"></span></div>
+                        <div class="scale-item"><input type="radio" id="q3p-3" name="q3" value="3"><label for="q3p-3">3</label><span class="scale-description"></span></div>
+                        <div class="scale-item"><input type="radio" id="q3p-4" name="q3" value="4"><label for="q3p-4">4</label><span class="scale-description"></span></div>
+                        <div class="scale-item"><input type="radio" id="q3p-5" name="q3" value="5"><label for="q3p-5">5</label><span class="scale-description"></span></div>
+                    </div>
+                </div>
                 <h3 class="pytanie-lustro-tytul">Pytanie Lustro</h3>
-                <p>Gdybyś jutro zamknął firmę, za czym, oprócz produktu/usługi, najbardziej zatęskniliby Twoi klienci i pracownicy?</p>
+                <!-- Mirror Q1 dla Marki Firmy -->
+                <p data-segment="company">Gdybyś jutro zamknął firmę, za czym, oprócz produktu/usługi, najbardziej zatęskniliby Twoi klienci i pracownicy?</p>
+                <!-- Mirror Q1 dla Marki Osobistej -->
+                <p data-segment="personal">Gdybyś jutro zakończył swoją działalność, za czym najbardziej zatęskniłyby osoby, które cię obserwują i z tobą współpracują – oprócz samych produktów czy usług?</p>
                 <textarea id="mirror-q1" placeholder="Twoja odpowiedź..."></textarea>
                 <div class="form-navigation">
                     <button type="button" class="btn btn-prev">Wróć</button>
@@ -379,7 +467,10 @@
                      </div>
                  </div>
                 <h3 class="pytanie-lustro-tytul">Pytanie Lustro</h3>
-                <p>Jaki jest największy, niewykorzystany potencjał w Twojej firmie, który mógłby zrewolucjonizować Twoją pozycję na rynku?</p>
+                <!-- Mirror Q2 dla Marki Firmy -->
+                <p data-segment="company">Jaki jest największy, niewykorzystany potencjał w Twojej firmie, który mógłby zrewolucjonizować Twoją pozycję na rynku?</p>
+                <!-- Mirror Q2 dla Marki Osobistej -->
+                <p data-segment="personal">Jaki jest największy, niewykorzystany potencjał w Twojej osobistej marce eksperckiej, który mógłby zrewolucjonizować Twoją pozycję na rynku?</p>
                 <textarea id="mirror-q2" placeholder="Twoja odpowiedź..."></textarea>
                 <div class="form-navigation">
                     <button type="button" class="btn btn-prev">Wróć</button>
@@ -409,7 +500,8 @@
                         <div class="scale-item"><input type="radio" id="q8-5" name="q8" value="5"><label for="q8-5">5</label><span class="scale-description"></span></div>
                     </div>
                 </div>
-                <div class="question-block">
+                <!-- Q9 dla Marki Firmy -->
+                <div class="question-block" data-segment="company">
                     <p><strong>9. Każdy pracownik mający kontakt z klientem potrafi opowiedzieć historię naszej marki w sposób, który jasno uzasadnia naszą wartość i cenę.</strong></p>
                     <div class="scale-container">
                         <div class="scale-item"><input type="radio" id="q9-1" name="q9" value="1"><label for="q9-1">1</label><span class="scale-description"></span></div>
@@ -417,6 +509,17 @@
                         <div class="scale-item"><input type="radio" id="q9-3" name="q9" value="3"><label for="q9-3">3</label><span class="scale-description"></span></div>
                         <div class="scale-item"><input type="radio" id="q9-4" name="q9" value="4"><label for="q9-4">4</label><span class="scale-description"></span></div>
                         <div class="scale-item"><input type="radio" id="q9-5" name="q9" value="5"><label for="q9-5">5</label><span class="scale-description"></span></div>
+                    </div>
+                </div>
+                <!-- Q9 dla Marki Osobistej -->
+                <div class="question-block" data-segment="personal">
+                    <p><strong>9. W każdej interakcji – czy to w mediach społecznościowych, wystąpieniach czy rozmowach 1-on-1 – komunikuję moją unikalną wartość w sposób, który naturalnie przekłada się na zainteresowanie moją ofertą.</strong></p>
+                    <div class="scale-container">
+                        <div class="scale-item"><input type="radio" id="q9p-1" name="q9" value="1"><label for="q9p-1">1</label><span class="scale-description"></span></div>
+                        <div class="scale-item"><input type="radio" id="q9p-2" name="q9" value="2"><label for="q9p-2">2</label><span class="scale-description"></span></div>
+                        <div class="scale-item"><input type="radio" id="q9p-3" name="q9" value="3"><label for="q9p-3">3</label><span class="scale-description"></span></div>
+                        <div class="scale-item"><input type="radio" id="q9p-4" name="q9" value="4"><label for="q9p-4">4</label><span class="scale-description"></span></div>
+                        <div class="scale-item"><input type="radio" id="q9p-5" name="q9" value="5"><label for="q9p-5">5</label><span class="scale-description"></span></div>
                     </div>
                 </div>
                 <h3 class="pytanie-lustro-tytul">Pytanie Lustro</h3>
@@ -500,7 +603,7 @@
                 </div> <div id="next-steps-standard" style="display: none; margin-top: 30px;">
                     <div id="next-steps-content">
                     </div>
-                    <a href="https://calendly.com/biuro-volium/30min" target="_blank" id="final-cta-btn" class="btn btn-primary">Zarezerwuj 15-minutową konsultację</a>
+                    <a href="https://calendly.com/krystian-krystiandabrowski/30min" target="_blank" id="final-cta-btn" class="btn btn-primary">Zarezerwuj 15-minutową konsultację</a>
                 </div>
  
                 <div id="next-steps-gibberish" style="display: none; text-align: center; margin-top: 30px;">
@@ -538,7 +641,49 @@
             const progress = document.getElementById('progress');
             const downloadBtn = document.getElementById('download-btn');
             let currentStep = 0;
- 
+            let userSegment = ''; // 'company' lub 'personal'
+
+            // Obsługa wyboru segmentu
+            document.querySelectorAll('.segment-card').forEach(card => {
+                card.addEventListener('click', function() {
+                    document.querySelectorAll('.segment-card').forEach(c => c.classList.remove('selected'));
+                    this.classList.add('selected');
+                    userSegment = this.dataset.segment;
+                    const nextBtn = document.getElementById('segment-next-btn');
+                    nextBtn.disabled = false;
+                    nextBtn.style.opacity = '1';
+
+                    // Aktualizuj label dla brand name
+                    const brandLabel = document.getElementById('brand-name-label');
+                    const brandInput = document.getElementById('brand-name');
+                    if (userSegment === 'personal') {
+                        brandLabel.innerHTML = 'Nazwa Twojej marki osobistej <span style="color: var(--text-muted); font-weight: 400;">(opcjonalne)</span>:';
+                        brandInput.placeholder = 'np. Anna Kowalska Coaching';
+                    } else {
+                        brandLabel.textContent = 'Nazwa Twojej marki/firmy:';
+                        brandInput.placeholder = 'np. ABC Marketing';
+                    }
+
+                    // Aktualizuj widoczność pytań
+                    updateQuestionVisibility();
+                });
+            });
+
+            // Funkcja ukrywająca/pokazująca pytania w zależności od segmentu
+            const updateQuestionVisibility = () => {
+                document.querySelectorAll('[data-segment]:not(.segment-card)').forEach(el => {
+                    if (el.dataset.segment === userSegment) {
+                        el.style.display = '';
+                    } else {
+                        el.style.display = 'none';
+                    }
+                });
+                // Zawsze pokazuj obie karty segmentów
+                document.querySelectorAll('.segment-card').forEach(card => {
+                    card.style.display = '';
+                });
+            };
+
             const scaleLabelsLong = ["Zdecydowanie nie", "Raczej nie", "Trudno powiedzieć", "Raczej tak", "Zdecydowanie tak"];
             const scaleLabelsShort = ["Wcale", "Rzadko", "Czasami", "Często", "Zawsze"];
  
@@ -552,17 +697,17 @@
  
             const updateUI = () => {
                 auditContainer.classList.remove('on-first-step', 'on-results-step');
-                if (currentStep === 0) {
+                if (currentStep === 0 || currentStep === 1) {
                     auditContainer.classList.add('on-first-step');
                 } else if (currentStep === totalSteps - 1) {
                     auditContainer.classList.add('on-results-step');
                 }
                 formSteps.forEach((step, index) => { step.classList.toggle('active', index === currentStep); });
-                const questionSteps = totalSteps - 2;
-                const currentQuestionStep = Math.max(0, currentStep - 1);
+                const questionSteps = totalSteps - 3; // pomijamy: wybór segmentu, personalizację, wyniki
+                const currentQuestionStep = Math.max(0, currentStep - 2);
                 const progressPercent = (currentQuestionStep / questionSteps) * 100;
                 progress.style.width = `${progressPercent}%`;
-                if (currentStep > 0 && currentStep < totalSteps - 1) {
+                if (currentStep > 1 && currentStep < totalSteps - 1) {
                     auditContainer.scrollIntoView({ behavior: 'smooth', block: 'start' });
                 }
             };
@@ -570,7 +715,14 @@
             const validateStep = (stepIndex) => {
                 const step = formSteps[stepIndex];
                 if (stepIndex === 0) {
-                    // Walidacja pierwszego kroku - imię i nazwa marki
+                    // Walidacja wyboru segmentu
+                    if (!userSegment) {
+                        alert('Proszę wybrać segment - Marka Firmy lub Marka Osobista.');
+                        return false;
+                    }
+                    return true;
+                } else if (stepIndex === 1) {
+                    // Walidacja personalizacji - imię i nazwa marki
                     const userNameInput = document.getElementById('user-name');
                     const brandNameInput = document.getElementById('brand-name');
 
@@ -584,13 +736,14 @@
                         isValid = false;
                     }
 
-                    if (brandNameInput.value.trim().length === 0) {
+                    // Dla Marki Firmy wymagana jest nazwa marki, dla Marki Osobistej - opcjonalna
+                    if (userSegment === 'company' && brandNameInput.value.trim().length === 0) {
                         brandNameInput.style.borderColor = 'red';
                         isValid = false;
                     }
 
                     if (!isValid) {
-                        alert('Proszę wypełnić wszystkie pola, aby przejść dalej.');
+                        alert('Proszę wypełnić wszystkie wymagane pola, aby przejść dalej.');
                         return false;
                     }
 
@@ -598,9 +751,9 @@
                     userName = userNameInput.value.trim();
                     brandName = brandNameInput.value.trim();
                     return true;
-                } else if (stepIndex > 0 && stepIndex < 5) {
+                } else if (stepIndex > 1 && stepIndex < totalSteps - 1) {
                     let allAnswered = true;
-                    const questions = step.querySelectorAll('.question-block');
+                    const questions = step.querySelectorAll('.question-block:not([style*="display: none"])');
                     questions.forEach(q => {
                         q.style.borderColor = 'transparent';
                         if (!q.querySelector('input[type="radio"]:checked')) {
@@ -775,7 +928,8 @@
                                 score: finalScore,
                                 answers: answers,
                                 userName: userName,
-                                brandName: brandName
+                                brandName: brandName,
+                                userSegment: userSegment
                             }),
                         })
                         .then(response => { if (!response.ok) { throw new Error('Błąd serwera.'); } return response.json(); })
