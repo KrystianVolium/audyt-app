@@ -327,6 +327,215 @@
                 width: 100%;
             }
         }
+
+        /* === NEW: 3-SCREEN RESULTS FLOW === */
+        .result-screen {
+            opacity: 0;
+            transition: opacity 0.5s ease-in-out;
+        }
+        .result-screen.active {
+            opacity: 1;
+        }
+
+        /* SCREEN 1: Shareable Graphic */
+        #shareable-graphic-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 20px auto;
+            max-width: 100%;
+        }
+        #shareable-canvas {
+            max-width: 100%;
+            height: auto;
+            border-radius: 12px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+        }
+        .screen-1-buttons {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            margin-top: 30px;
+            flex-wrap: wrap;
+        }
+        .screen-1-buttons .btn {
+            padding: 15px 30px;
+            font-size: 1.1em;
+            min-width: 200px;
+        }
+
+        /* SCREEN 2: AI Analysis */
+        .analysis-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        .author-photo {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            margin: 0 auto 20px;
+            display: block;
+            border: 3px solid var(--primary-color);
+            box-shadow: 0 4px 16px rgba(178, 140, 255, 0.3);
+        }
+        .author-greeting {
+            font-size: 2em;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin: 0;
+        }
+        .ai-analysis-content {
+            background: rgba(44, 44, 44, 0.3);
+            border: 1px solid #2C2C2C;
+            border-radius: 12px;
+            padding: 40px;
+            margin: 30px auto;
+            max-width: 800px;
+            line-height: 1.8;
+            font-size: 1.1em;
+        }
+        #ai-loader-screen2 {
+            text-align: center;
+            padding: 60px 20px;
+            color: var(--text-muted);
+        }
+        #ai-loader-screen2 p {
+            animation: pulse 2s infinite;
+        }
+        #ai-analysis-text {
+            color: var(--text-primary);
+            white-space: pre-wrap;
+        }
+        #go-to-cta-btn {
+            display: block;
+            margin: 40px auto 0;
+            padding: 15px 40px;
+            font-size: 1.1em;
+            min-width: 250px;
+        }
+
+        /* SCREEN 3: CTA Hub */
+        .cta-hub-title {
+            text-align: center;
+            font-size: 2.5em;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 50px;
+        }
+        .cta-hub-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            max-width: 1000px;
+            margin: 0 auto 60px;
+        }
+        .cta-hub-card {
+            background: rgba(44, 44, 44, 0.3);
+            border: 2px solid #2C2C2C;
+            border-radius: 16px;
+            padding: 40px 30px;
+            text-align: center;
+            text-decoration: none;
+            color: var(--text-primary);
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            cursor: pointer;
+        }
+        .cta-hub-card:hover {
+            border-color: var(--primary-color);
+            box-shadow: 0 8px 32px rgba(178, 140, 255, 0.3);
+            transform: translateY(-5px);
+        }
+        .cta-icon {
+            font-size: 3em;
+            margin-bottom: 20px;
+        }
+        .cta-hub-card h3 {
+            font-size: 1.5em;
+            font-weight: 700;
+            margin: 0 0 15px 0;
+            color: var(--text-primary);
+        }
+        .cta-hub-card p {
+            font-size: 1em;
+            color: var(--text-muted);
+            margin: 0;
+            line-height: 1.6;
+        }
+        .social-footer {
+            text-align: center;
+            padding-top: 40px;
+            border-top: 1px solid #2C2C2C;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        .social-footer p {
+            color: var(--text-muted);
+            margin-bottom: 15px;
+        }
+        .social-links {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+        }
+        .social-links a {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 0.95em;
+            transition: color 0.3s ease;
+        }
+        .social-links a:hover {
+            color: var(--primary-color);
+        }
+
+        /* Responsive adjustments for new screens */
+        @media (max-width: 768px) {
+            #shareable-canvas {
+                border-radius: 8px;
+            }
+            .screen-1-buttons {
+                flex-direction: column;
+                gap: 15px;
+            }
+            .screen-1-buttons .btn {
+                width: 100%;
+                min-width: auto;
+            }
+            .author-photo {
+                width: 100px;
+                height: 100px;
+            }
+            .author-greeting {
+                font-size: 1.5em;
+            }
+            .ai-analysis-content {
+                padding: 25px;
+                font-size: 1em;
+            }
+            .cta-hub-title {
+                font-size: 1.8em;
+            }
+            .cta-hub-container {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            .cta-hub-card {
+                padding: 30px 20px;
+            }
+        }
+        @media (max-width: 480px) {
+            .author-greeting {
+                font-size: 1.3em;
+            }
+            .cta-hub-title {
+                font-size: 1.5em;
+            }
+            .cta-icon {
+                font-size: 2.5em;
+            }
+        }
     </style>
 </head>
 <body>
@@ -710,6 +919,7 @@
             </div>
  
             <div class="form-step" id="results-step">
+                <!-- Pre-loader (pokazywany na początku) -->
                 <div id="pre-results-loader">
                     <img id="radical-clarity-image" src="Radical Clarity.svg" alt="Radical Clarity">
                     <p id="processing-text">Przetwarzam wnioski</p>
@@ -717,47 +927,75 @@
                         <div id="progress-final"></div>
                     </div>
                 </div>
-                <div id="results-content" style="display:none;">
-                    <div id="ai-loader">
-                        <p>AI analizuje dane, proszę czekać...</p>
+
+                <!-- EKRAN 1: Shareable Graphic -->
+                <div id="result-screen-1" class="result-screen" style="display: none;">
+                    <div id="shareable-graphic-container">
+                        <canvas id="shareable-canvas" width="1080" height="1920"></canvas>
                     </div>
-                <div id="capture-area">
-                    <div id="logo-container-results" style="text-align: center; margin-bottom: 40px;">
-                        <img src="twoje-logo.svg.svg" alt="Logo Firmy" style="max-width: 160px; height: auto;">
-                    </div>
-                    <h2>Twoja diagnoza</h2>
-                    <div id="score-container">
-                        <span id="score-display">0</span> / 60
-                    </div>
-                    <div class="result-card" style="display: none;">
-                        <h3 id="result-title"></h3>
-                        <p id="result-description"></p>
-                    </div>
-                    <div id="ai-synthesis-container" style="display: none;">
-                        <h3>Kluczowe wnioski z analizy</h3>
-                        <p id="ai-synthesis-text"></p>
-                    </div>
-                </div> <div id="next-steps-standard" style="display: none; margin-top: 30px;">
-                    <div id="next-steps-content">
-                    </div>
-                    <div class="cta-buttons-container">
-                        <a href="https://calendly.com/krystian-krystiandabrowski/30min" target="_blank" id="final-cta-btn" class="btn btn-primary">Umów bezpłatną konsultację</a>
-                        <a href="https://www.figma.com/deck/S2Rr6ywbpVeFuv4JxvAzOy/Krystian-D%C4%85browski---Oferta?node-id=33-541&t=kr2DQPRcDIY7AbDL-1&scaling=min-zoom&content-scaling=fixed&page-id=0%3A1" target="_blank" class="btn btn-primary">Zobacz moją ofertę</a>
+                    <div class="screen-1-buttons">
+                        <button type="button" id="download-graphic-btn" class="btn btn-primary">
+                            📥 Pobierz PNG
+                        </button>
+                        <button type="button" id="go-to-analysis-btn" class="btn btn-primary">
+                            Zobacz pełną analizę →
+                        </button>
                     </div>
                 </div>
 
+                <!-- EKRAN 2: AI Analysis -->
+                <div id="result-screen-2" class="result-screen" style="display: none;">
+                    <div class="analysis-header">
+                        <img src="Janawnioski.svg" alt="Krystian Dąbrowski" class="author-photo">
+                        <h2 class="author-greeting">Cześć, tu Krystian</h2>
+                    </div>
+                    <div class="ai-analysis-content">
+                        <div id="ai-loader-screen2">
+                            <p>AI analizuje dane, proszę czekać...</p>
+                        </div>
+                        <div id="ai-analysis-text" style="display: none;"></div>
+                    </div>
+                    <button type="button" id="go-to-cta-btn" class="btn btn-primary">
+                        Dalej - Zobacz opcje →
+                    </button>
+                </div>
+
+                <!-- EKRAN 3: CTA Hub -->
+                <div id="result-screen-3" class="result-screen" style="display: none;">
+                    <h2 class="cta-hub-title">Gotowy na przełom?</h2>
+                    <div class="cta-hub-container">
+                        <a href="https://calendly.com/krystian-krystiandabrowski/30min" target="_blank" class="cta-hub-card">
+                            <div class="cta-icon">🗓️</div>
+                            <h3>Umów konsultację</h3>
+                            <p>15 minut, darmowa rozmowa strategiczna</p>
+                        </a>
+                        <a href="https://www.figma.com/deck/S2Rr6ywbpVeFuv4JxvAzOy/Krystian-D%C4%85browski---Oferta?node-id=33-541&t=kr2DQPRcDIY7AbDL-1&scaling=min-zoom&content-scaling=fixed&page-id=0%3A1" target="_blank" class="cta-hub-card">
+                            <div class="cta-icon">📋</div>
+                            <h3>Zobacz ofertę</h3>
+                            <p>Strategia & Branding dla ambitnych marek</p>
+                        </a>
+                        <a href="#newsletter" class="cta-hub-card" id="newsletter-cta">
+                            <div class="cta-icon">💌</div>
+                            <h3>Zapisz się na newsletter</h3>
+                            <p>Tygodniowe insights o strategii marki</p>
+                        </a>
+                    </div>
+                    <div class="social-footer">
+                        <p>Znajdź mnie również na:</p>
+                        <div class="social-links">
+                            <a href="#" target="_blank">LinkedIn</a>
+                            <a href="#" target="_blank">Instagram</a>
+                            <a href="#" target="_blank">Twitter</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Gibberish handling -->
                 <div id="next-steps-gibberish" style="display: none; text-align: center; margin-top: 30px;">
                     <h3>Prawdziwa diagnoza wymaga zaangażowania.</h3>
                     <p>To narzędzie zostało zaprojektowane, aby dostarczać realną wartość liderom, którzy są gotowi na szczerą autorefleksję.</p>
                     <p style="margin-top:15px;">Jeśli jesteś gotów podejść do audytu na poważnie, zacznij od nowa.</p>
                     <button type="button" id="restart-btn" class="btn btn-primary" style="margin-top: 20px;">Zacznij od nowa</button>
-                </div>
-
-                <button type="button" id="download-btn" class="btn" style="margin-top: 20px;">Pobierz diagnozę (PNG)</button>
- 
-                <div class="signature-footer">
-                    <p>Audyt przygotowany przez:</p>
-                    <img src="twoje-logo.svg.svg" alt="Logo Firmy">
                 </div>
             </div>
         </form>
@@ -943,7 +1181,130 @@
                 };
                 window.requestAnimationFrame(step);
             };
- 
+
+            // === NEW: 3-SCREEN FLOW FUNCTIONS ===
+
+            // Function to switch between result screens
+            const showResultScreen = (screenNumber) => {
+                document.querySelectorAll('.result-screen').forEach(screen => {
+                    screen.style.display = 'none';
+                    screen.classList.remove('active');
+                });
+                const targetScreen = document.getElementById(`result-screen-${screenNumber}`);
+                if (targetScreen) {
+                    targetScreen.style.display = 'block';
+                    setTimeout(() => targetScreen.classList.add('active'), 50);
+                }
+            };
+
+            // Function to draw shareable graphic on canvas (9:16 format, 1080x1920)
+            const drawShareableGraphic = (score, levelTitle, levelDesc) => {
+                const canvas = document.getElementById('shareable-canvas');
+                if (!canvas) return;
+
+                const ctx = canvas.getContext('2d');
+                const width = 1080;
+                const height = 1920;
+
+                // Background
+                ctx.fillStyle = '#0F0F0F';
+                ctx.fillRect(0, 0, width, height);
+
+                // Gradient overlay
+                const gradient = ctx.createLinearGradient(0, 0, 0, height);
+                gradient.addColorStop(0, 'rgba(178, 140, 255, 0.05)');
+                gradient.addColorStop(1, 'rgba(178, 140, 255, 0)');
+                ctx.fillStyle = gradient;
+                ctx.fillRect(0, 0, width, height);
+
+                // Logo (text placeholder)
+                ctx.fillStyle = '#B28CFF';
+                ctx.font = 'bold 48px Satoshi, sans-serif';
+                ctx.textAlign = 'center';
+                ctx.fillText('RADICAL CLARITY', width/2, 150);
+
+                // Personalization
+                ctx.fillStyle = '#D8D8D8';
+                ctx.font = '32px Satoshi, sans-serif';
+                ctx.fillText(`${userName}`, width/2, 250);
+                ctx.fillStyle = '#707070';
+                ctx.font = '28px Satoshi, sans-serif';
+                ctx.fillText(`${brandName}`, width/2, 300);
+
+                // Score circle
+                const centerY = 750;
+                ctx.strokeStyle = '#2C2C2C';
+                ctx.lineWidth = 20;
+                ctx.beginPath();
+                ctx.arc(width/2, centerY, 200, 0, 2 * Math.PI);
+                ctx.stroke();
+
+                // Score progress arc
+                const scorePercentage = score / 60;
+                const endAngle = -Math.PI/2 + (2 * Math.PI * scorePercentage);
+
+                // Choose color based on score
+                let scoreColor = '#B28CFF';
+                if (score <= 15) scoreColor = '#FF6B6B';
+                else if (score <= 25) scoreColor = '#FFA057';
+                else if (score <= 35) scoreColor = '#FFD93D';
+                else if (score <= 45) scoreColor = '#6BCF7F';
+                else if (score <= 54) scoreColor = '#4ECDC4';
+
+                ctx.strokeStyle = scoreColor;
+                ctx.lineWidth = 20;
+                ctx.beginPath();
+                ctx.arc(width/2, centerY, 200, -Math.PI/2, endAngle);
+                ctx.stroke();
+
+                // Score text
+                ctx.fillStyle = '#FFFFFF';
+                ctx.font = 'bold 120px Satoshi, sans-serif';
+                ctx.textAlign = 'center';
+                ctx.fillText(score, width/2, centerY + 20);
+                ctx.font = '40px Satoshi, sans-serif';
+                ctx.fillStyle = '#707070';
+                ctx.fillText('/ 60', width/2, centerY + 70);
+
+                // Level title
+                ctx.fillStyle = '#FFFFFF';
+                ctx.font = 'bold 48px Satoshi, sans-serif';
+                ctx.textAlign = 'center';
+                const titleWords = levelTitle.split(' ');
+                let titleY = 1050;
+                titleWords.forEach((word, i) => {
+                    ctx.fillText(word, width/2, titleY + (i * 60));
+                });
+
+                // Level description (wrapped text)
+                ctx.fillStyle = '#A0A0A0';
+                ctx.font = '28px Satoshi, sans-serif';
+                const maxWidth = 900;
+                const words = levelDesc.split(' ');
+                let line = '';
+                let y = titleY + (titleWords.length * 60) + 80;
+                const lineHeight = 42;
+
+                words.forEach((word, i) => {
+                    const testLine = line + word + ' ';
+                    const metrics = ctx.measureText(testLine);
+                    if (metrics.width > maxWidth && i > 0) {
+                        ctx.fillText(line, width/2, y);
+                        line = word + ' ';
+                        y += lineHeight;
+                    } else {
+                        line = testLine;
+                    }
+                });
+                ctx.fillText(line, width/2, y);
+
+                // Footer
+                ctx.fillStyle = '#707070';
+                ctx.font = '24px Satoshi, sans-serif';
+                ctx.fillText('www.radicalclarity.pl', width/2, height - 100);
+                ctx.fillText('@krystiandabrowski', width/2, height - 60);
+            };
+
             const calculateTotalScore = () => {
                 let totalScore = 0;
                 const allCheckedRadios = document.querySelectorAll('#audit-form input[type="radio"]:checked');
@@ -1052,26 +1413,14 @@
                         // Nie ukrywaj loadera jeszcze - zostaw grafikę podczas analizy AI
  
                         if (isInputGibberish(answers)) {
-                            // Dla gibberish od razu pokazuj wyniki po 1 sekundzie
+                            // For gibberish, hide loader and show gibberish message
                             setTimeout(() => {
-                                const sharpResponse = "Twoje odpowiedzi na pytania otwarte wydają się być przypadkowe lub zbyt lakoniczne. Prawdziwa diagnoza strategiczna wymaga refleksji i zaangażowania. Jeśli brakuje czasu na rzetelne wypełnienie audytu, prawdopodobnie trudno będzie znaleźć go na wdrożenie fundamentalnych zmian w firmie. Gdy będziesz gotów na pogłębioną analizę, wróć i spróbuj ponownie.";
-
                                 const loader = document.getElementById('pre-results-loader');
                                 loader.classList.add('fade-out');
-                                setTimeout(() => { loader.style.display = 'none'; }, 400);
-
-                                const resultsContent = document.getElementById('results-content');
-                                resultsContent.style.display = 'block';
-                                resultsContent.style.animation = 'fadeIn 1s forwards';
-
-                                document.getElementById('ai-synthesis-text').innerText = sharpResponse;
-                                document.getElementById('score-container').style.display = 'none';
-                                document.querySelector('.result-card').style.display = 'none';
-                                document.getElementById('download-btn').style.display = 'none';
-                                document.getElementById('next-steps-standard').style.display = 'none';
-                                document.querySelector('.signature-footer').style.display = 'none';
-                                document.getElementById('ai-synthesis-container').style.display = 'block';
-                                document.getElementById('next-steps-gibberish').style.display = 'block';
+                                setTimeout(() => {
+                                    loader.style.display = 'none';
+                                    document.getElementById('next-steps-gibberish').style.display = 'block';
+                                }, 400);
                             }, 1000);
                             return;
                         }
@@ -1110,6 +1459,10 @@
                         }
                         resultTitle.innerText = title;
                         resultDescription.innerText = description;
+
+                        // Save to global variables for old download button (if needed)
+                        finalResultTitle = title;
+                        finalResultDesc = description;
                         // Nie pokazuj jeszcze result card
  
                         const nextStepsContent = document.getElementById('next-steps-content');
@@ -1136,31 +1489,33 @@
                         .then(response => { if (!response.ok) { throw new Error('Błąd serwera.'); } return response.json(); })
                         .then(data => {
                             finalAiText = data.analysis;
-                            document.getElementById('ai-synthesis-text').innerText = finalAiText;
+                            // Prepare AI text for screen 2
+                            const aiTextElement = document.getElementById('ai-analysis-text');
+                            aiTextElement.innerText = finalAiText;
                         })
                         .catch(error => {
                             console.error('Błąd:', error);
                             finalAiText = 'Wystąpił błąd podczas łączenia z serwerem analizy. Spróbuj ponownie później.';
-                            document.getElementById('ai-synthesis-text').innerText = finalAiText;
+                            const aiTextElement = document.getElementById('ai-analysis-text');
+                            aiTextElement.innerText = finalAiText;
                         })
                         .finally(() => {
-                            // Dopiero teraz ukryj loader i pokaż wszystkie wyniki
+                            // Hide loader and show SCREEN 1 (Shareable Graphic)
                             const loader = document.getElementById('pre-results-loader');
                             loader.classList.add('fade-out');
 
                             setTimeout(() => {
                                 loader.style.display = 'none';
 
-                                const resultsContent = document.getElementById('results-content');
-                                resultsContent.style.display = 'block';
-                                resultsContent.style.animation = 'fadeIn 1s forwards';
+                                // Draw shareable graphic
+                                drawShareableGraphic(finalScore, title, description);
 
-                                // Pokaż wszystkie elementy wyników
-                                animateValue(document.getElementById('score-display'), 0, finalScore, 1500);
-                                resultCard.style.display = 'block';
-                                document.getElementById('ai-synthesis-container').style.display = 'block';
-                                document.getElementById('download-btn').style.display = 'inline-block';
-                                document.getElementById('next-steps-standard').style.display = 'block';
+                                // Show Screen 1
+                                showResultScreen(1);
+
+                                // Hide AI loader in Screen 2, show AI text
+                                document.getElementById('ai-loader-screen2').style.display = 'none';
+                                document.getElementById('ai-analysis-text').style.display = 'block';
                             }, 400);
                         });
  
@@ -1300,7 +1655,59 @@
                     downloadBtn.disabled = false;
                 });
             });
- 
+
+            // === NEW: Event listeners for 3-screen flow ===
+
+            // Download graphic from canvas
+            const downloadGraphicBtn = document.getElementById('download-graphic-btn');
+            if (downloadGraphicBtn) {
+                downloadGraphicBtn.addEventListener('click', () => {
+                    const canvas = document.getElementById('shareable-canvas');
+                    if (!canvas) return;
+
+                    const originalText = downloadGraphicBtn.innerHTML;
+                    downloadGraphicBtn.innerHTML = '⏳ Generowanie...';
+                    downloadGraphicBtn.disabled = true;
+
+                    try {
+                        canvas.toBlob((blob) => {
+                            const url = URL.createObjectURL(blob);
+                            const link = document.createElement('a');
+                            link.download = `audyt-marki-${userName || 'wynik'}.png`;
+                            link.href = url;
+                            link.click();
+                            URL.revokeObjectURL(url);
+
+                            downloadGraphicBtn.innerHTML = originalText;
+                            downloadGraphicBtn.disabled = false;
+                        }, 'image/png');
+                    } catch (error) {
+                        console.error('Błąd podczas pobierania grafiki:', error);
+                        alert('Wystąpił błąd podczas pobierania grafiki.');
+                        downloadGraphicBtn.innerHTML = originalText;
+                        downloadGraphicBtn.disabled = false;
+                    }
+                });
+            }
+
+            // Go to analysis (Screen 2)
+            const goToAnalysisBtn = document.getElementById('go-to-analysis-btn');
+            if (goToAnalysisBtn) {
+                goToAnalysisBtn.addEventListener('click', () => {
+                    showResultScreen(2);
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                });
+            }
+
+            // Go to CTA hub (Screen 3)
+            const goToCtaBtn = document.getElementById('go-to-cta-btn');
+            if (goToCtaBtn) {
+                goToCtaBtn.addEventListener('click', () => {
+                    showResultScreen(3);
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                });
+            }
+
             updateScaleDescriptions();
             window.addEventListener('resize', updateScaleDescriptions);
             updateUI();
