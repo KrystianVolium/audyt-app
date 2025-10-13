@@ -218,7 +218,7 @@
         }
         #ai-loader p { animation: pulse 2s infinite; color: var(--text-muted); text-align: center; font-weight: 600;}
  
-        #final-cta-btn { margin-top: 40px; display: inline-block; }
+        #final-cta-btn { display: inline-block; }
         #download-btn { margin: 25px auto; display: none; }
         #next-steps { margin-top: 40px; }
         #next-steps h3 { margin-bottom: 15px; }
@@ -307,11 +307,17 @@
 
         /* CTA Buttons Container */
         .cta-buttons-container {
-            display: flex; gap: 15px; justify-content: center; align-items: center;
-            margin-top: 25px; flex-wrap: nowrap;
+            display: flex !important;
+            flex-direction: row !important;
+            gap: 15px;
+            justify-content: center;
+            align-items: center;
+            margin-top: 25px;
+            flex-wrap: nowrap !important;
         }
         .cta-buttons-container .btn {
             white-space: nowrap;
+            margin: 0 !important;
         }
         @media (max-width: 768px) {
             .cta-buttons-container {
@@ -407,7 +413,8 @@
                         <div class="scale-item"><input type="radio" id="q1p-5" name="q1" value="5"><label for="q1p-5">5</label><span class="scale-description"></span></div>
                     </div>
                 </div>
-                <div class="question-block">
+                <!-- Q2 dla Marki Firmy -->
+                <div class="question-block" data-segment="company">
                      <p><strong>2. Nasza długoterminowa wizja jest tak precyzyjnym filtrem, że regularnie i bez wahania odrzucamy "dobre" okazje i projekty, które do niej nie pasują.</strong></p>
                     <div class="scale-container">
                         <div class="scale-item"><input type="radio" id="q2-1" name="q2" value="1"><label for="q2-1">1</label><span class="scale-description"></span></div>
@@ -415,6 +422,17 @@
                         <div class="scale-item"><input type="radio" id="q2-3" name="q2" value="3"><label for="q2-3">3</label><span class="scale-description"></span></div>
                         <div class="scale-item"><input type="radio" id="q2-4" name="q2" value="4"><label for="q2-4">4</label><span class="scale-description"></span></div>
                         <div class="scale-item"><input type="radio" id="q2-5" name="q2" value="5"><label for="q2-5">5</label><span class="scale-description"></span></div>
+                    </div>
+                </div>
+                <!-- Q2 dla Marki Osobistej -->
+                <div class="question-block" data-segment="personal">
+                     <p><strong>2. Moja długoterminowa wizja jest tak precyzyjnym filtrem, że regularnie i bez wahania odrzucam "dobre" okazje i projekty, które do niej nie pasują.</strong></p>
+                    <div class="scale-container">
+                        <div class="scale-item"><input type="radio" id="q2p-1" name="q2" value="1"><label for="q2p-1">1</label><span class="scale-description"></span></div>
+                        <div class="scale-item"><input type="radio" id="q2p-2" name="q2" value="2"><label for="q2p-2">2</label><span class="scale-description"></span></div>
+                        <div class="scale-item"><input type="radio" id="q2p-3" name="q2" value="3"><label for="q2p-3">3</label><span class="scale-description"></span></div>
+                        <div class="scale-item"><input type="radio" id="q2p-4" name="q2" value="4"><label for="q2p-4">4</label><span class="scale-description"></span></div>
+                        <div class="scale-item"><input type="radio" id="q2p-5" name="q2" value="5"><label for="q2p-5">5</label><span class="scale-description"></span></div>
                     </div>
                 </div>
                 <!-- Q3 dla Marki Firmy -->
@@ -453,7 +471,8 @@
  
             <div class="form-step">
                 <h2>Sekcja II: Pozycjonowanie Rynkowe</h2>
-                 <div class="question-block">
+                 <!-- Q4 dla Marki Firmy -->
+                 <div class="question-block" data-segment="company">
                     <p><strong>4. Nasi idealni klienci postrzegają naszą ofertę jako unikatną i potrafią jasno wskazać, dlaczego jesteśmy dla nich jedynym logicznym wyborem na rynku.</strong></p>
                      <div class="scale-container">
                         <div class="scale-item"><input type="radio" id="q4-1" name="q4" value="1"><label for="q4-1">1</label><span class="scale-description"></span></div>
@@ -463,7 +482,19 @@
                         <div class="scale-item"><input type="radio" id="q4-5" name="q4" value="5"><label for="q4-5">5</label><span class="scale-description"></span></div>
                      </div>
                  </div>
-                 <div class="question-block">
+                 <!-- Q4 dla Marki Osobistej -->
+                 <div class="question-block" data-segment="personal">
+                    <p><strong>4. Moi idealni klienci postrzegają moją ofertę jako unikatową i potrafią jasno wskazać, dlaczego jestem dla nich jedynym logicznym wyborem na rynku.</strong></p>
+                     <div class="scale-container">
+                        <div class="scale-item"><input type="radio" id="q4p-1" name="q4" value="1"><label for="q4p-1">1</label><span class="scale-description"></span></div>
+                        <div class="scale-item"><input type="radio" id="q4p-2" name="q4" value="2"><label for="q4p-2">2</label><span class="scale-description"></span></div>
+                        <div class="scale-item"><input type="radio" id="q4p-3" name="q4" value="3"><label for="q4p-3">3</label><span class="scale-description"></span></div>
+                        <div class="scale-item"><input type="radio" id="q4p-4" name="q4" value="4"><label for="q4p-4">4</label><span class="scale-description"></span></div>
+                        <div class="scale-item"><input type="radio" id="q4p-5" name="q4" value="5"><label for="q4p-5">5</label><span class="scale-description"></span></div>
+                     </div>
+                 </div>
+                <!-- Q5 dla Marki Firmy -->
+                <div class="question-block" data-segment="company">
                      <p><strong>5. Nasze rozmowy o cenie koncentrują się na zwrocie z inwestycji (ROI) i wartości biznesowej dla klienta, a nie na porównaniach z konkurencją czy liczbie roboczogodzin.</strong></p>
                      <div class="scale-container">
                         <div class="scale-item"><input type="radio" id="q5-1" name="q5" value="1"><label for="q5-1">1</label><span class="scale-description"></span></div>
@@ -473,7 +504,19 @@
                         <div class="scale-item"><input type="radio" id="q5-5" name="q5" value="5"><label for="q5-5">5</label><span class="scale-description"></span></div>
                      </div>
                  </div>
-                 <div class="question-block">
+                <!-- Q5 dla Marki Osobistej -->
+                <div class="question-block" data-segment="personal">
+                     <p><strong>5. Moje rozmowy o cenie koncentrują się na zwrocie z inwestycji (ROI) i wartości biznesowej dla klienta, a nie na porównaniach z konkurencją czy liczbie roboczogodzin.</strong></p>
+                     <div class="scale-container">
+                        <div class="scale-item"><input type="radio" id="q5p-1" name="q5" value="1"><label for="q5p-1">1</label><span class="scale-description"></span></div>
+                        <div class="scale-item"><input type="radio" id="q5p-2" name="q5" value="2"><label for="q5p-2">2</label><span class="scale-description"></span></div>
+                        <div class="scale-item"><input type="radio" id="q5p-3" name="q5" value="3"><label for="q5p-3">3</label><span class="scale-description"></span></div>
+                        <div class="scale-item"><input type="radio" id="q5p-4" name="q5" value="4"><label for="q5p-4">4</label><span class="scale-description"></span></div>
+                        <div class="scale-item"><input type="radio" id="q5p-5" name="q5" value="5"><label for="q5p-5">5</label><span class="scale-description"></span></div>
+                     </div>
+                 </div>
+                <!-- Q6 dla Marki Firmy -->
+                <div class="question-block" data-segment="company">
                      <p><strong>6. Dzięki precyzyjnej specjalizacji i komunikacji, przyciągamy niemal wyłącznie klientów, którzy idealnie pasują do naszego profilu i z którymi chcemy pracować.</strong></p>
                      <div class="scale-container">
                         <div class="scale-item"><input type="radio" id="q6-1" name="q6" value="1"><label for="q6-1">1</label><span class="scale-description"></span></div>
@@ -481,6 +524,17 @@
                         <div class="scale-item"><input type="radio" id="q6-3" name="q6" value="3"><label for="q6-3">3</label><span class="scale-description"></span></div>
                         <div class="scale-item"><input type="radio" id="q6-4" name="q6" value="4"><label for="q6-4">4</label><span class="scale-description"></span></div>
                         <div class="scale-item"><input type="radio" id="q6-5" name="q6" value="5"><label for="q6-5">5</label><span class="scale-description"></span></div>
+                     </div>
+                 </div>
+                <!-- Q6 dla Marki Osobistej -->
+                <div class="question-block" data-segment="personal">
+                     <p><strong>6. Dzięki precyzyjnej specjalizacji i komunikacji, przyciągam niemal wyłącznie klientów, którzy idealnie pasują do mojego profilu i z którymi chcę pracować.</strong></p>
+                     <div class="scale-container">
+                        <div class="scale-item"><input type="radio" id="q6p-1" name="q6" value="1"><label for="q6p-1">1</label><span class="scale-description"></span></div>
+                        <div class="scale-item"><input type="radio" id="q6p-2" name="q6" value="2"><label for="q6p-2">2</label><span class="scale-description"></span></div>
+                        <div class="scale-item"><input type="radio" id="q6p-3" name="q6" value="3"><label for="q6p-3">3</label><span class="scale-description"></span></div>
+                        <div class="scale-item"><input type="radio" id="q6p-4" name="q6" value="4"><label for="q6p-4">4</label><span class="scale-description"></span></div>
+                        <div class="scale-item"><input type="radio" id="q6p-5" name="q6" value="5"><label for="q6p-5">5</label><span class="scale-description"></span></div>
                      </div>
                  </div>
                 <h3 class="pytanie-lustro-tytul">Pytanie Lustro</h3>
@@ -497,7 +551,8 @@
  
              <div class="form-step">
                 <h2>Sekcja III: Komunikacja i Budowanie Popytu</h2>
-                <div class="question-block">
+                <!-- Q7 dla Marki Firmy -->
+                <div class="question-block" data-segment="company">
                     <p><strong>7. Nasz głos i styl wizualny (Tone of Voice & Style) są tak wyraziste, że klienci rozpoznaliby naszą komunikację, nawet gdyby usunąć z niej logo.</strong></p>
                     <div class="scale-container">
                         <div class="scale-item"><input type="radio" id="q7-1" name="q7" value="1"><label for="q7-1">1</label><span class="scale-description"></span></div>
@@ -507,7 +562,19 @@
                         <div class="scale-item"><input type="radio" id="q7-5" name="q7" value="5"><label for="q7-5">5</label><span class="scale-description"></span></div>
                     </div>
                 </div>
-                <div class="question-block">
+                <!-- Q7 dla Marki Osobistej -->
+                <div class="question-block" data-segment="personal">
+                    <p><strong>7. Mój głos i styl wizualny (Tone of Voice & Style) są tak wyraziste, że klienci rozpoznaliby moją komunikację, nawet gdyby usunąć z niej logo.</strong></p>
+                    <div class="scale-container">
+                        <div class="scale-item"><input type="radio" id="q7p-1" name="q7" value="1"><label for="q7p-1">1</label><span class="scale-description"></span></div>
+                        <div class="scale-item"><input type="radio" id="q7p-2" name="q7" value="2"><label for="q7p-2">2</label><span class="scale-description"></span></div>
+                        <div class="scale-item"><input type="radio" id="q7p-3" name="q7" value="3"><label for="q7p-3">3</label><span class="scale-description"></span></div>
+                        <div class="scale-item"><input type="radio" id="q7p-4" name="q7" value="4"><label for="q7p-4">4</label><span class="scale-description"></span></div>
+                        <div class="scale-item"><input type="radio" id="q7p-5" name="q7" value="5"><label for="q7p-5">5</label><span class="scale-description"></span></div>
+                    </div>
+                </div>
+                <!-- Q8 dla Marki Firmy -->
+                <div class="question-block" data-segment="company">
                     <p><strong>8. Nasze treści (artykuły, wideo, case studies) są tak wartościowe, że regularnie generują konkretne zapytania od idealnych, wstępnie przekonanych klientów.</strong></p>
                     <div class="scale-container">
                         <div class="scale-item"><input type="radio" id="q8-1" name="q8" value="1"><label for="q8-1">1</label><span class="scale-description"></span></div>
@@ -515,6 +582,17 @@
                         <div class="scale-item"><input type="radio" id="q8-3" name="q8" value="3"><label for="q8-3">3</label><span class="scale-description"></span></div>
                         <div class="scale-item"><input type="radio" id="q8-4" name="q8" value="4"><label for="q8-4">4</label><span class="scale-description"></span></div>
                         <div class="scale-item"><input type="radio" id="q8-5" name="q8" value="5"><label for="q8-5">5</label><span class="scale-description"></span></div>
+                    </div>
+                </div>
+                <!-- Q8 dla Marki Osobistej -->
+                <div class="question-block" data-segment="personal">
+                    <p><strong>8. Moje treści (artykuły, wideo, case studies) są tak wartościowe, że regularnie generują konkretne zapytania od idealnych, wstępnie przekonanych klientów.</strong></p>
+                    <div class="scale-container">
+                        <div class="scale-item"><input type="radio" id="q8p-1" name="q8" value="1"><label for="q8p-1">1</label><span class="scale-description"></span></div>
+                        <div class="scale-item"><input type="radio" id="q8p-2" name="q8" value="2"><label for="q8p-2">2</label><span class="scale-description"></span></div>
+                        <div class="scale-item"><input type="radio" id="q8p-3" name="q8" value="3"><label for="q8p-3">3</label><span class="scale-description"></span></div>
+                        <div class="scale-item"><input type="radio" id="q8p-4" name="q8" value="4"><label for="q8p-4">4</label><span class="scale-description"></span></div>
+                        <div class="scale-item"><input type="radio" id="q8p-5" name="q8" value="5"><label for="q8p-5">5</label><span class="scale-description"></span></div>
                     </div>
                 </div>
                 <!-- Q9 dla Marki Firmy -->
@@ -553,7 +631,8 @@
  
             <div class="form-step">
                 <h2>Sekcja IV: Percepcja i Spójność Strategiczna</h2>
-                <div class="question-block">
+                <!-- Q10 dla Marki Firmy -->
+                <div class="question-block" data-segment="company">
                     <p><strong>10. Nasz wizerunek (design, materiały, strona WWW) jest w pełni spójny z naszą strategią cenową i pozycjonowaniem, skutecznie komunikując zamierzoną wartość klientom.</strong></p>
                     <div class="scale-container">
                         <div class="scale-item"><input type="radio" id="q10-1" name="q10" value="1"><label for="q10-1">1</label><span class="scale-description"></span></div>
@@ -563,7 +642,19 @@
                         <div class="scale-item"><input type="radio" id="q10-5" name="q10" value="5"><label for="q10-5">5</label><span class="scale-description"></span></div>
                     </div>
                 </div>
-                <div class="question-block">
+                <!-- Q10 dla Marki Osobistej -->
+                <div class="question-block" data-segment="personal">
+                    <p><strong>10. Mój wizerunek (design, materiały, strona WWW) jest w pełni spójny z moją strategią cenową i pozycjonowaniem, skutecznie komunikując zamierzoną wartość klientom.</strong></p>
+                    <div class="scale-container">
+                        <div class="scale-item"><input type="radio" id="q10p-1" name="q10" value="1"><label for="q10p-1">1</label><span class="scale-description"></span></div>
+                        <div class="scale-item"><input type="radio" id="q10p-2" name="q10" value="2"><label for="q10p-2">2</label><span class="scale-description"></span></div>
+                        <div class="scale-item"><input type="radio" id="q10p-3" name="q10" value="3"><label for="q10p-3">3</label><span class="scale-description"></span></div>
+                        <div class="scale-item"><input type="radio" id="q10p-4" name="q10" value="4"><label for="q10p-4">4</label><span class="scale-description"></span></div>
+                        <div class="scale-item"><input type="radio" id="q10p-5" name="q10" value="5"><label for="q10p-5">5</label><span class="scale-description"></span></div>
+                    </div>
+                </div>
+                <!-- Q11 dla Marki Firmy -->
+                <div class="question-block" data-segment="company">
                     <p><strong>11. Każdy punkt styku klienta z naszą marką – od reklamy, przez proces sprzedaży, po obsługę – jest celowo zaprojektowany, aby wzmacniać naszą główną obietnicę rynkową.</strong></p>
                     <div class="scale-container">
                         <div class="scale-item"><input type="radio" id="q11-1" name="q11" value="1"><label for="q11-1">1</label><span class="scale-description"></span></div>
@@ -573,7 +664,19 @@
                         <div class="scale-item"><input type="radio" id="q11-5" name="q11" value="5"><label for="q11-5">5</label><span class="scale-description"></span></div>
                     </div>
                 </div>
-                <div class="question-block">
+                <!-- Q11 dla Marki Osobistej -->
+                <div class="question-block" data-segment="personal">
+                    <p><strong>11. Każdy punkt styku klienta z moją marką – od reklamy, przez proces sprzedaży, po obsługę – jest celowo zaprojektowany, aby wzmacniać moją główną obietnicę rynkową.</strong></p>
+                    <div class="scale-container">
+                        <div class="scale-item"><input type="radio" id="q11p-1" name="q11" value="1"><label for="q11p-1">1</label><span class="scale-description"></span></div>
+                        <div class="scale-item"><input type="radio" id="q11p-2" name="q11" value="2"><label for="q11p-2">2</label><span class="scale-description"></span></div>
+                        <div class="scale-item"><input type="radio" id="q11p-3" name="q11" value="3"><label for="q11p-3">3</label><span class="scale-description"></span></div>
+                        <div class="scale-item"><input type="radio" id="q11p-4" name="q11" value="4"><label for="q11p-4">4</label><span class="scale-description"></span></div>
+                        <div class="scale-item"><input type="radio" id="q11p-5" name="q11" value="5"><label for="q11p-5">5</label><span class="scale-description"></span></div>
+                    </div>
+                </div>
+                <!-- Q12 dla Marki Firmy -->
+                <div class="question-block" data-segment="company">
                     <p><strong>12. Nasza marka jest postrzegana jako lider lub unikalny specjalista w swojej kategorii, co pozwala nam unikać bezpośredniej konkurencji cenowej.</strong></p>
                     <div class="scale-container">
                         <div class="scale-item"><input type="radio" id="q12-1" name="q12" value="1"><label for="q12-1">1</label><span class="scale-description"></span></div>
@@ -581,6 +684,17 @@
                         <div class="scale-item"><input type="radio" id="q12-3" name="q12" value="3"><label for="q12-3">3</label><span class="scale-description"></span></div>
                         <div class="scale-item"><input type="radio" id="q12-4" name="q12" value="4"><label for="q12-4">4</label><span class="scale-description"></span></div>
                         <div class="scale-item"><input type="radio" id="q12-5" name="q12" value="5"><label for="q12-5">5</label><span class="scale-description"></span></div>
+                    </div>
+                </div>
+                <!-- Q12 dla Marki Osobistej -->
+                <div class="question-block" data-segment="personal">
+                    <p><strong>12. Moja marka jest postrzegana jako lider lub unikalny specjalista w swojej kategorii, co pozwala mi unikać bezpośredniej konkurencji cenowej.</strong></p>
+                    <div class="scale-container">
+                        <div class="scale-item"><input type="radio" id="q12p-1" name="q12" value="1"><label for="q12p-1">1</label><span class="scale-description"></span></div>
+                        <div class="scale-item"><input type="radio" id="q12p-2" name="q12" value="2"><label for="q12p-2">2</label><span class="scale-description"></span></div>
+                        <div class="scale-item"><input type="radio" id="q12p-3" name="q12" value="3"><label for="q12p-3">3</label><span class="scale-description"></span></div>
+                        <div class="scale-item"><input type="radio" id="q12p-4" name="q12" value="4"><label for="q12p-4">4</label><span class="scale-description"></span></div>
+                        <div class="scale-item"><input type="radio" id="q12p-5" name="q12" value="5"><label for="q12p-5">5</label><span class="scale-description"></span></div>
                     </div>
                 </div>
                 <h3 class="pytanie-lustro-tytul">Pytanie Lustro</h3>
