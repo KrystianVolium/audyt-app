@@ -44,17 +44,63 @@ app.use(express.static(__dirname));
 
 // --- 4. FUNKCJE POMOCNICZE ---
 const isInputGibberish = (answers) => {
-    const lowQualityWords = ['nie wiem', 'trudno powiedzieć', 'test', 'asdf', 'brak', 'xd', 'ok'];
     let totalLength = 0;
+    let validAnswers = 0;
+    let suspiciousAnswers = 0;
+
     for (const answer of answers) {
         const lowerCaseAnswer = answer.toLowerCase().trim();
-        if (lowerCaseAnswer.length === 0) continue;
+        if (lowerCaseAnswer.length === 0) {
+            suspiciousAnswers++;
+            continue;
+        }
+
         totalLength += lowerCaseAnswer.length;
-        if (lowQualityWords.includes(lowerCaseAnswer)) return true;
-        if (/^(\w)\1+$/.test(lowerCaseAnswer)) return true;
-        if (/^\d+$/.test(lowerCaseAnswer)) return true;
+
+        // Sprawdź TYLKO krótkie, bezsensowne odpowiedzi (< 15 znaków)
+        if (lowerCaseAnswer.length < 15) {
+            const veryShortBadWords = ['nie wiem', 'trudno powiedzieć', 'test', 'asdf', 'brak', 'xd', 'ok', 'asd', 'qwe', 'zxc', 'brak pomysłu'];
+            if (veryShortBadWords.some(word => lowerCaseAnswer === word || lowerCaseAnswer === word + '.')) {
+                suspiciousAnswers++;
+                continue;
+            }
+        }
+
+        // Sprawdź powtarzające się znaki
+        if (/^(.{1,3})\1{2,}$/.test(lowerCaseAnswer)) {
+            suspiciousAnswers++;
+            continue;
+        }
+
+        // Sprawdź same cyfry
+        if (/^\d+$/.test(lowerCaseAnswer)) {
+            suspiciousAnswers++;
+            continue;
+        }
+
+        // Sprawdź losowe ciągi znaków
+        const vowels = (lowerCaseAnswer.match(/[aąeęioóuy]/g) || []).length;
+        const consonants = (lowerCaseAnswer.match(/[bcćdfghjklłmnńprsśtwzźż]/g) || []).length;
+        const hasConsecutiveConsonants = /[bcćdfghjklłmnńprsśtwzźż]{5,}/.test(lowerCaseAnswer);
+
+        if (consonants > 0 && vowels / (vowels + consonants) < 0.15 && hasConsecutiveConsonants) {
+            suspiciousAnswers++;
+            continue;
+        }
+
+        // Sensowne odpowiedzi
+        if (lowerCaseAnswer.length >= 20) {
+            validAnswers++;
+        } else if (lowerCaseAnswer.length >= 10) {
+            validAnswers += 0.5;
+        }
     }
-    if (totalLength < 20) return true;
+
+    // KRYTERIA ODRZUCENIA
+    if (totalLength < 50) return true;
+    if (suspiciousAnswers > 2) return true;
+    if (validAnswers < 2) return true;
+
     return false;
 };
 
@@ -81,12 +127,18 @@ app.post('/api/analyze', async (req, res) => {
 
     // Krok C: Tworzymy dynamiczną "wskazówkę" dla AI na podstawie wyniku
     let wskazowkaCTA = '';
-    if (score <= 25) {
-        wskazowkaCTA = `Bądź bezpośredni. Podkreśl, że sytuacja wymaga pilnej interwencji i że intensywny warsztat strategiczny jest najskuteczniejszym, pierwszym krokiem do jej naprawy. Zakończ słowami otuchy, ale podkreślającymi wagę podjęcia odważnej decyzji.`;
+    if (score <= 15) {
+        wskazowkaCTA = `Bądź szczerze bezpośredni. Sytuacja wymaga natychmiastowej interwencji strategicznej. Podkreśl pilność działania i wskaż, że bez fundamentów strategicznych każda akcja marketingowa będzie marnowaniem zasobów. Zakończ mocnym, ale budującym wezwaniem do działania.`;
+    } else if (score <= 25) {
+        wskazowkaCTA = `Bądź stanowczy, ale wspierający. Podkreśl, że jest to moment przełomowy – albo budujemy fundamenty, albo dalej tracimy szanse. Warsztat strategiczny to najszybsza droga do uporządkowania chaosu. Zakończ z nutą nadziei i wiary w potencjał.`;
+    } else if (score <= 35) {
+        wskazowkaCTA = `Doceniaj to, co już działa, ale wskaż na niespójności jako główny hamulec rozwoju. Zaproponuj konkretne ćwiczenie lub obszar do samodzielnej pracy, ale podkreśl, że warsztat strategiczny jest "akceleratorem" eliminującym pułapki. Zakończ motywująco.`;
     } else if (score <= 45) {
-        wskazowkaCTA = `Zaproponuj konkretne ćwiczenie lub obszar do samodzielnej pracy, ale wskaż, że dedykowany warsztat jest "akceleratorem", który pozwala uniknąć pułapek i znacznie oszczędzić czas. Zakończ inspirującym zdaniem, które zmotywuje do podjęcia tego pierwszego kroku i życz powodzenia.`;
-    } else { // Wynik 46+
-        wskazowkaCTA = `Zrezygnuj z tonu "naprawiania". Zakończ zaproszeniem na partnerską, niezobowiązującą sesję strategiczną, pozycjonując ją jako formę wymiany inspiracji między liderami rynkowymi. Zakończ z wyrazami szacunku dla dotychczasowych osiągnięć.`;
+        wskazowkaCTA = `Ton optymistyczny i budujący. Podkreśl, że są już na dobrej drodze, a niewielkie optymalizacje mogą przynieść duże rezultaty. Zaproponuj warsztat jako narzędzie precyzyjnego dostrajania, nie naprawiania. Zakończ z zachętą do kolejnego kroku rozwoju.`;
+    } else if (score <= 54) {
+        wskazowkaCTA = `Ton ekspercki i partnerski. Zrezygnuj z tonu "naprawiania". Mów o szlifowaniu mistrzostwa i wymianie doświadczeń. Zaproś na sesję strategiczną jako spotkanie równych sobie liderów branżowych. Zakończ z uznaniem dla osiągnięć.`;
+    } else { // Wynik 55-60
+        wskazowkaCTA = `Ton pełen szacunku i uznania dla elity. Całkowicie zrezygnuj z tonu doradczego. Zaproś na partnerską wymianę inspiracji i strategicznych spostrzeżeń między liderami rynkowymi. Pozycjonuj spotkanie jako okazję do networkingu na najwyższym poziomie. Zakończ z głębokim uznaniem dla mistrzowskiego poziomu.`;
     }
 
     // Krok D: Definiujemy JEDEN, kompletny prompt, który korzysta ze wszystkich naszych danych
@@ -109,6 +161,15 @@ app.post('/api/analyze', async (req, res) => {
       **📊 SEGMENT UŻYTKOWNIKA: ${segmentContext}**
 
       - Wynik Punktowy: ${score}/60
+
+      ## Interpretacja Wyniku (6-poziomowa skala):
+      - **0-15 pkt**: Fundamenty wymagają budowy (krytyczny stan, brak podstaw strategicznych)
+      - **16-25 pkt**: Pora na strategiczne podstawy (pojedyncze elementy, brak spójności)
+      - **26-35 pkt**: Dobra baza, brakuje spójności (solidne podstawy, ale chaotyczne działanie)
+      - **36-45 pkt**: Silna pozycja, potencjał wzrostu (dobra forma, przestrzeń do optymalizacji)
+      - **46-54 pkt**: Zaawansowana strategia marki (silne aktywo, czołówka branży)
+      - **55-60 pkt**: Mistrzostwo brandingowe (elita, autonomiczny lider rynku)
+
       - Odpowiedzi na Pytania Otwarte:
         1. (Wartość/Dziedzictwo): "${answers[0]}"
         2. (Niewykorzystany Potencjał): "${answers[1]}"

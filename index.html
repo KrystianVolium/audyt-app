@@ -304,6 +304,23 @@
         .segment-card p {
             color: var(--text-muted); font-size: 0.9em;
         }
+
+        /* CTA Buttons Container */
+        .cta-buttons-container {
+            display: flex; gap: 15px; justify-content: center; align-items: center;
+            margin-top: 25px; flex-wrap: nowrap;
+        }
+        .cta-buttons-container .btn {
+            white-space: nowrap;
+        }
+        @media (max-width: 768px) {
+            .cta-buttons-container {
+                flex-direction: column; gap: 12px;
+            }
+            .cta-buttons-container .btn {
+                width: 100%;
+            }
+        }
     </style>
 </head>
 <body>
@@ -523,7 +540,10 @@
                     </div>
                 </div>
                 <h3 class="pytanie-lustro-tytul">Pytanie Lustro</h3>
-                <p>Gdybyś mógł zachować tylko jeden, jedyny element waszej komunikacji (jeden artykuł, film, case study), który najskuteczniej zamienia obcych ludzi w płacących klientów – co by to było i na czym polega jego siła?</p>
+                <!-- Mirror Q3 dla Marki Firmy -->
+                <p data-segment="company">Gdybyś mógł zachować tylko jeden, jedyny element waszej komunikacji (jeden artykuł, film, case study), który najskuteczniej zamienia obcych ludzi w płacących klientów – co by to było i na czym polega jego siła?</p>
+                <!-- Mirror Q3 dla Marki Osobistej -->
+                <p data-segment="personal">Gdybyś mógł zachować tylko jeden, jedyny element twojej komunikacji (jeden post, artykuł, film, wystąpienie), który najskuteczniej przekonuje ludzi do współpracy z tobą – co by to było i na czym polega jego siła?</p>
                 <textarea id="mirror-q3" placeholder="Twoja odpowiedź..."></textarea>
                 <div class="form-navigation">
                     <button type="button" class="btn btn-prev">Wróć</button>
@@ -564,7 +584,10 @@
                     </div>
                 </div>
                 <h3 class="pytanie-lustro-tytul">Pytanie Lustro</h3>
-                <p>Jaka jest jedna, najważniejsza zmiana w postrzeganiu Waszej marki, która pozwoliłaby Wam podwoić marżę lub zdobyć klientów, którzy dziś są poza Waszym zasięgiem?</p>
+                <!-- Mirror Q4 dla Marki Firmy -->
+                <p data-segment="company">Jaka jest jedna, najważniejsza zmiana w postrzeganiu waszej marki, która pozwoliłaby wam podwoić marżę lub zdobyć klientów, którzy dziś są poza waszym zasięgiem?</p>
+                <!-- Mirror Q4 dla Marki Osobistej -->
+                <p data-segment="personal">Jaka jest jedna, najważniejsza zmiana w postrzeganiu ciebie jako eksperta, która pozwoliłaby ci podwoić stawki lub zdobyć klientów, którzy dziś są poza twoim zasięgiem?</p>
                 <textarea id="mirror-q4" placeholder="Twoja odpowiedź..."></textarea>
                 <div class="form-navigation">
                     <button type="button" class="btn btn-prev">Wróć</button>
@@ -603,17 +626,20 @@
                 </div> <div id="next-steps-standard" style="display: none; margin-top: 30px;">
                     <div id="next-steps-content">
                     </div>
-                    <a href="https://calendly.com/krystian-krystiandabrowski/30min" target="_blank" id="final-cta-btn" class="btn btn-primary">Zarezerwuj 15-minutową konsultację</a>
+                    <div class="cta-buttons-container">
+                        <a href="https://calendly.com/krystian-krystiandabrowski/30min" target="_blank" id="final-cta-btn" class="btn btn-primary">Umów bezpłatną konsultację</a>
+                        <a href="https://www.figma.com/deck/S2Rr6ywbpVeFuv4JxvAzOy/Krystian-D%C4%85browski---Oferta?node-id=33-541&t=kr2DQPRcDIY7AbDL-1&scaling=min-zoom&content-scaling=fixed&page-id=0%3A1" target="_blank" class="btn btn-primary">Zobacz moją ofertę</a>
+                    </div>
                 </div>
- 
+
                 <div id="next-steps-gibberish" style="display: none; text-align: center; margin-top: 30px;">
                     <h3>Prawdziwa diagnoza wymaga zaangażowania.</h3>
                     <p>To narzędzie zostało zaprojektowane, aby dostarczać realną wartość liderom, którzy są gotowi na szczerą autorefleksję.</p>
                     <p style="margin-top:15px;">Jeśli jesteś gotów podejść do audytu na poważnie, zacznij od nowa.</p>
                     <button type="button" id="restart-btn" class="btn btn-primary" style="margin-top: 20px;">Zacznij od nowa</button>
                 </div>
- 
-                <button type="button" id="download-btn" class="btn">Pobierz diagnozę (PNG)</button>
+
+                <button type="button" id="download-btn" class="btn" style="margin-top: 20px;">Pobierz diagnozę (PNG)</button>
  
                 <div class="signature-footer">
                     <p>Audyt przygotowany przez:</p>
@@ -815,22 +841,69 @@
  
             // NOWA WERSJA FILTRA - działa teraz też w frontendzie
             const isInputGibberish = (answers) => {
-                const lowQualityWords = ['nie wiem', 'trudno powiedzieć', 'test', 'asdf', 'brak', 'xd', 'ok'];
                 let totalLength = 0;
- 
+                let validAnswers = 0;
+                let suspiciousAnswers = 0;
+
                 for (const answer of answers) {
                     const lowerCaseAnswer = answer.toLowerCase().trim();
-                    if (lowerCaseAnswer.length === 0) continue;
- 
+                    if (lowerCaseAnswer.length === 0) {
+                        suspiciousAnswers++;
+                        continue;
+                    }
+
                     totalLength += lowerCaseAnswer.length;
- 
-                    if (lowQualityWords.includes(lowerCaseAnswer)) return true;
-                    if (/^(\w)\1+$/.test(lowerCaseAnswer)) return true;
-                    if (/^\d+$/.test(lowerCaseAnswer)) return true;
+
+                    // Sprawdź TYLKO krótkie, bezsensowne odpowiedzi (< 15 znaków)
+                    if (lowerCaseAnswer.length < 15) {
+                        const veryShortBadWords = ['nie wiem', 'trudno powiedzieć', 'test', 'asdf', 'brak', 'xd', 'ok', 'asd', 'qwe', 'zxc', 'brak pomysłu'];
+                        if (veryShortBadWords.some(word => lowerCaseAnswer === word || lowerCaseAnswer === word + '.')) {
+                            suspiciousAnswers++;
+                            continue;
+                        }
+                    }
+
+                    // Sprawdź powtarzające się znaki (np. "aaaaa", "asdasdasd")
+                    if (/^(.{1,3})\1{2,}$/.test(lowerCaseAnswer)) {
+                        suspiciousAnswers++;
+                        continue;
+                    }
+
+                    // Sprawdź same cyfry
+                    if (/^\d+$/.test(lowerCaseAnswer)) {
+                        suspiciousAnswers++;
+                        continue;
+                    }
+
+                    // Sprawdź losowe ciągi znaków - mniej niż 15% samogłosek i minimum 5 spółgłosek z rzędu
+                    const vowels = (lowerCaseAnswer.match(/[aąeęioóuy]/g) || []).length;
+                    const consonants = (lowerCaseAnswer.match(/[bcćdfghjklłmnńprsśtwzźż]/g) || []).length;
+                    const hasConsecutiveConsonants = /[bcćdfghjklłmnńprsśtwzźż]{5,}/.test(lowerCaseAnswer);
+
+                    if (consonants > 0 && vowels / (vowels + consonants) < 0.15 && hasConsecutiveConsonants) {
+                        suspiciousAnswers++;
+                        continue;
+                    }
+
+                    // Jeśli odpowiedź ma sensowną długość (>= 20 znaków), traktuj jako OK
+                    if (lowerCaseAnswer.length >= 20) {
+                        validAnswers++;
+                    } else if (lowerCaseAnswer.length >= 10) {
+                        // Średnie odpowiedzi - liczymy jako 0.5
+                        validAnswers += 0.5;
+                    }
                 }
- 
-                if (totalLength < 20) return true;
- 
+
+                // KRYTERIA ODRZUCENIA - muszą być spełnione WSZYSTKIE:
+                // 1. Łączna długość wszystkich odpowiedzi < 50 znaków
+                if (totalLength < 50) return true;
+
+                // 2. Więcej niż 2 podejrzane odpowiedzi
+                if (suspiciousAnswers > 2) return true;
+
+                // 3. Mniej niż 2 sensowne odpowiedzi
+                if (validAnswers < 2) return true;
+
                 return false;
             };
  
@@ -896,17 +969,29 @@
                         const resultDescription = document.getElementById('result-description');
                         let title = '', description = '';
  
-                        if (finalScore <= 25) {
-                            title = 'Stan krytyczny (Chaotyczny sabotażysta)';
-                            description = 'Twoja marka nie tylko nie pracuje na Twoją korzyść – ona aktywnie sabotuje Twoje wysiłki. Jest jak pracownik, który wprowadza chaos, myli klientów i podkopuje autorytet liderów. Każdego dnia tracisz pieniądze na nieskutecznym marketingu, odstraszasz idealnych klientów i rywalizujesz ceną, bo nie potrafisz zakomunikować swojej prawdziwej wartości. Działasz w trybie przetrwania, a Twoja firma jest niewidzialna dla tych, którzy powinni ją widzieć. To wymaga natychmiastowej interwencji strategicznej.';
+                        if (finalScore <= 15) {
+                            title = 'Fundamenty wymagają budowy';
+                            description = 'Twoja marka działa w trybie przetrwania. Brakuje fundamentów strategicznych, przez co każda decyzja marketingowa jest chaotyczna, a komunikacja niespójna. Tracisz klientów, zanim w ogóle Cię zauważą, a ci, którzy zostają, wybierają Cię tylko ceną. To wymaga pilnej interwencji i budowy strategicznych podstaw od zera.';
                             resultCard.className = 'result-card glow-critical';
-                        } else if (finalScore <= 51) {
-                            title = 'Działanie reaktywne (Niespójny pracownik)';
-                            description = 'Twoja marka jest jak pracownik, który ma przebłyski geniuszu, ale brakuje mu konsekwencji. Działa w zrywach – raz komunikacja jest świetna, a za chwilę przypadkowa. Generuje to nieprzewidywalne rezultaty i zmusza Twój zespół do ciągłego "zgadywania". Pracujesz ciężej, niż musisz, bo Twoja marka nie wykonuje swojej części pracy. Silnik Twojej firmy działa, ale na zanieczyszczonym paliwie i nie na pełnych obrotach. Masz potencjał, ale marnujesz go przez brak spójnego systemu.';
+                        } else if (finalScore <= 25) {
+                            title = 'Pora na strategiczne podstawy';
+                            description = 'Masz pojedyncze elementy brandingu, ale brakuje im spójnej strategii. Twoja marka nie ma jasnej tożsamości, przez co trudno Ci się wyróżnić i budować trwałe relacje z klientami. Działasz reaktywnie zamiast strategicznie. Nadszedł czas, aby zbudować solidne fundamenty marki.';
+                            resultCard.className = 'result-card glow-critical';
+                        } else if (finalScore <= 35) {
+                            title = 'Dobra baza, brakuje spójności';
+                            description = 'Masz solidne podstawy, ale Twoja marka działa w zrywach. Raz komunikacja jest świetna, a za chwilę przypadkowa. Masz potencjał, ale marnujesz go przez brak konsekwencji i systemowego podejścia. Potrzebujesz uporządkować to, co masz, i stworzyć spójny system komunikacji.';
                             resultCard.className = 'result-card glow-reactive';
-                        } else { // Wynik 52+
-                            title = 'Aktywo strategiczne (Autonomiczny lider)';
-                            description = 'Gratulacje. Twoja marka to Twój najlepszy i najciężej pracujący pracownik. To autonomiczny lider, który pracuje 24/7. Sprzedaje, gdy Ty śpisz, rekrutuje najlepsze talenty i daje Ci moc dyktowania cen. Posiadasz przewagę, która pozwala Ci definiować zasady gry w Twojej kategorii. To nie jest już tylko "wizerunek" – to potężne aktywo biznesowe, które generuje realny zysk.';
+                        } else if (finalScore <= 45) {
+                            title = 'Silna pozycja, potencjał wzrostu';
+                            description = 'Twoja marka jest w dobrej formie i zaczyna pracować na Twoją korzyść. Masz jasną tożsamość i spójną komunikację, ale wciąż jest przestrzeń do optymalizacji. Z odpowiednimi udoskonaleniami możesz przejść na wyższy poziom i zdominować swoją kategorię.';
+                            resultCard.className = 'result-card glow-proactive';
+                        } else if (finalScore <= 54) {
+                            title = 'Zaawansowana strategia marki';
+                            description = 'Gratulacje. Twoja marka to silne aktywo biznesowe, które aktywnie wspiera Twój rozwój. Masz spójną strategię, wyrazistą tożsamość i skuteczną komunikację. Jesteś w czołówce swojej branży. Teraz czas na szlifowanie detali i utrzymanie tej przewagi konkurencyjnej.';
+                            resultCard.className = 'result-card glow-strategic';
+                        } else { // Wynik 55-60
+                            title = 'Mistrzostwo brandingowe';
+                            description = 'Jesteś w elicie. Twoja marka to autonomiczny lider, który pracuje 24/7 – sprzedaje, gdy Ty śpisz, przyciąga najlepsze talenty i pozwala dyktować warunki. Posiadasz przewagę, która definiuje zasady gry w Twojej kategorii. To nie jest już tylko "wizerunek" – to potężne aktywo biznesowe generujące realny zysk.';
                             resultCard.className = 'result-card glow-strategic';
                         }
                         resultTitle.innerText = title;
@@ -914,10 +999,12 @@
                         // Nie pokazuj jeszcze result card
  
                         const nextStepsContent = document.getElementById('next-steps-content');
-                        if (finalScore >= 52) {
-                            nextStepsContent.innerHTML = `<h3>Gratulacje! Należysz do czołówki.</h3><p>Twój wynik świadczy o mistrzostwie w budowaniu marki. Utrzymanie pozycji lidera to jednak ciągłe wyzwanie. Chętnie wymienię się z Tobą spostrzeżeniami podczas partnerskiej sesji strategicznej.</p>`;
+                        if (finalScore >= 55) {
+                            nextStepsContent.innerHTML = `<h3>Gratulacje! Należysz do elity brandingowej.</h3><p>Twój wynik świadczy o mistrzostwie w budowaniu marki. Utrzymanie tej pozycji to ciągłe wyzwanie. Chętnie wymienię się z Tobą spostrzeżeniami podczas partnerskiej sesji strategicznej – inspiracją między liderami rynkowymi.</p>`;
+                        } else if (finalScore >= 46) {
+                            nextStepsContent.innerHTML = `<h3>Jesteś w czołówce. Czas na optymalizację.</h3><p>Twoja marka jest silna, ale wiesz, że w brandingu zawsze jest miejsce na doskonalenie. Jedna rozmowa strategiczna może otworzyć nowe perspektywy i przyspieszyć rozwój. Chętnie porozmawiam o tym, jak możesz wykorzystać swój potencjał jeszcze skuteczniej.</p>`;
                         } else {
-                            nextStepsContent.innerHTML = `<h3>Diagnoza to nie wyrok. To punkt startowy.</h3><p>Niezależnie od wyniku, fakt, że przeszedłeś przez ten audyt, stawia Cię w elitarnej grupie świadomych liderów, którzy wolą podejmować decyzje w oparciu o dane, a nie przeczucia. Zidentyfikowałeś słabe punkty. Zobaczyłeś, gdzie tracisz energię i pieniądze. Pytanie brzmi: co teraz z tym zrobisz?</p>`;
+                            nextStepsContent.innerHTML = `<h3>Diagnoza to nie wyrok. To punkt startowy.</h3><p>Fakt, że przeszedłeś przez ten audyt, stawia Cię w grupie świadomych liderów, którzy podejmują decyzje w oparciu o dane. Zidentyfikowałeś słabe punkty i obszary do poprawy. Pytanie brzmi: co teraz z tym zrobisz? Zapraszam na rozmowę, podczas której omówimy konkretne kroki do wzmocnienia Twojej marki.</p>`;
                         }
  
                         // Rozpocznij analizę AI w tle podczas gdy grafika jest nadal widoczna
