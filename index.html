@@ -1425,54 +1425,32 @@
                             return;
                         }
  
-                        // Przygotuj dane wyników ale nie pokazuj ich jeszcze
- 
-                        const resultCard = document.querySelector('.result-card');
-                        const resultTitle = document.getElementById('result-title');
-                        const resultDescription = document.getElementById('result-description');
+                        // Przygotuj dane wyników (tylko tytuł i opis - używane dla canvas)
                         let title = '', description = '';
- 
+
                         if (finalScore <= 15) {
                             title = 'Fundamenty wymagają budowy';
                             description = 'Twoja marka działa w trybie przetrwania. Brakuje fundamentów strategicznych, przez co każda decyzja marketingowa jest chaotyczna, a komunikacja niespójna. Tracisz klientów, zanim w ogóle Cię zauważą, a ci, którzy zostają, wybierają Cię tylko ceną. To wymaga pilnej interwencji i budowy strategicznych podstaw od zera.';
-                            resultCard.className = 'result-card glow-critical';
                         } else if (finalScore <= 25) {
                             title = 'Pora na strategiczne podstawy';
                             description = 'Masz pojedyncze elementy brandingu, ale brakuje im spójnej strategii. Twoja marka nie ma jasnej tożsamości, przez co trudno Ci się wyróżnić i budować trwałe relacje z klientami. Działasz reaktywnie zamiast strategicznie. Nadszedł czas, aby zbudować solidne fundamenty marki.';
-                            resultCard.className = 'result-card glow-critical';
                         } else if (finalScore <= 35) {
                             title = 'Dobra baza, brakuje spójności';
                             description = 'Masz solidne podstawy, ale Twoja marka działa w zrywach. Raz komunikacja jest świetna, a za chwilę przypadkowa. Masz potencjał, ale marnujesz go przez brak konsekwencji i systemowego podejścia. Potrzebujesz uporządkować to, co masz, i stworzyć spójny system komunikacji.';
-                            resultCard.className = 'result-card glow-reactive';
                         } else if (finalScore <= 45) {
                             title = 'Silna pozycja, potencjał wzrostu';
                             description = 'Twoja marka jest w dobrej formie i zaczyna pracować na Twoją korzyść. Masz jasną tożsamość i spójną komunikację, ale wciąż jest przestrzeń do optymalizacji. Z odpowiednimi udoskonaleniami możesz przejść na wyższy poziom i zdominować swoją kategorię.';
-                            resultCard.className = 'result-card glow-proactive';
                         } else if (finalScore <= 54) {
                             title = 'Zaawansowana strategia marki';
                             description = 'Gratulacje. Twoja marka to silne aktywo biznesowe, które aktywnie wspiera Twój rozwój. Masz spójną strategię, wyrazistą tożsamość i skuteczną komunikację. Jesteś w czołówce swojej branży. Teraz czas na szlifowanie detali i utrzymanie tej przewagi konkurencyjnej.';
-                            resultCard.className = 'result-card glow-strategic';
                         } else { // Wynik 55-60
                             title = 'Mistrzostwo brandingowe';
                             description = 'Jesteś w elicie. Twoja marka to autonomiczny lider, który pracuje 24/7 – sprzedaje, gdy Ty śpisz, przyciąga najlepsze talenty i pozwala dyktować warunki. Posiadasz przewagę, która definiuje zasady gry w Twojej kategorii. To nie jest już tylko "wizerunek" – to potężne aktywo biznesowe generujące realny zysk.';
-                            resultCard.className = 'result-card glow-strategic';
                         }
-                        resultTitle.innerText = title;
-                        resultDescription.innerText = description;
 
-                        // Save to global variables for old download button (if needed)
+                        // Save to global variables (if needed)
                         finalResultTitle = title;
                         finalResultDesc = description;
-                        // Nie pokazuj jeszcze result card
- 
-                        const nextStepsContent = document.getElementById('next-steps-content');
-                        if (finalScore >= 55) {
-                            nextStepsContent.innerHTML = `<h3>Gratulacje! Należysz do elity brandingowej.</h3><p>Twój wynik świadczy o mistrzostwie w budowaniu marki. Utrzymanie tej pozycji to ciągłe wyzwanie. Chętnie wymienię się z Tobą spostrzeżeniami podczas partnerskiej sesji strategicznej – inspiracją między liderami rynkowymi.</p>`;
-                        } else if (finalScore >= 46) {
-                            nextStepsContent.innerHTML = `<h3>Jesteś w czołówce. Czas na optymalizację.</h3><p>Twoja marka jest silna, ale wiesz, że w brandingu zawsze jest miejsce na doskonalenie. Jedna rozmowa strategiczna może otworzyć nowe perspektywy i przyspieszyć rozwój. Chętnie porozmawiam o tym, jak możesz wykorzystać swój potencjał jeszcze skuteczniej.</p>`;
-                        } else {
-                            nextStepsContent.innerHTML = `<h3>Diagnoza to nie wyrok. To punkt startowy.</h3><p>Fakt, że przeszedłeś przez ten audyt, stawia Cię w grupie świadomych liderów, którzy podejmują decyzje w oparciu o dane. Zidentyfikowałeś słabe punkty i obszary do poprawy. Pytanie brzmi: co teraz z tym zrobisz? Zapraszam na rozmowę, podczas której omówimy konkretne kroki do wzmocnienia Twojej marki.</p>`;
-                        }
  
                         // Rozpocznij analizę AI w tle podczas gdy grafika jest nadal widoczna
                         fetch(`${API_BASE_URL}/api/analyze`, {
@@ -1528,7 +1506,9 @@
             }
  
         };
- 
+
+            // Old download button (legacy - kept for compatibility if old HTML exists)
+            if (downloadBtn) {
             downloadBtn.addEventListener('click', () => {
                 const originalButtonText = downloadBtn.innerText;
                 downloadBtn.innerText = 'GENEROWANIE...';
@@ -1655,6 +1635,7 @@
                     downloadBtn.disabled = false;
                 });
             });
+            }
 
             // === NEW: Event listeners for 3-screen flow ===
 
