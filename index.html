@@ -296,26 +296,7 @@
             padding: 50px 80px;
             position: relative;
             overflow: visible;
-            filter: contrast(1.02) brightness(0.99);
-        }
-
-        .start-screen::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: repeating-linear-gradient(
-                0deg,
-                transparent,
-                transparent 2px,
-                rgba(0, 0, 0, 0.03) 2px,
-                rgba(0, 0, 0, 0.03) 4px
-            );
-            pointer-events: none;
-            border-radius: inherit;
-            z-index: 0;
+            filter: url(#grainNoise) contrast(1.02) brightness(0.99);
         }
 
         .start-logo {
@@ -1941,5 +1922,16 @@
  
         });
     </script>
+
+    <svg style="position: absolute; width: 0; height: 0; pointer-events: none;">
+        <filter id="grainNoise">
+            <feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="3" seed="2"/>
+            <feColorMatrix type="saturate" values="0"/>
+            <feComponentTransfer>
+                <feFuncA type="discrete" tableValues="0 0.025"/>
+            </feComponentTransfer>
+            <feBlend mode="overlay" in="SourceGraphic" in2="SourceGraphic"/>
+        </filter>
+    </svg>
 </body>
 </html>
