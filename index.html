@@ -29,7 +29,7 @@
  
         body {
             font-family: 'Satoshi', sans-serif;
-            background-color: var(--bg-color);
+            background-color: #F4F4F4;
             color: var(--text-color);
             display: flex;
             justify-content: center;
@@ -41,9 +41,12 @@
         }
 
         .audit-container {
-            width: 100%; max-width: 800px; background: var(--surface-color);
+            width: 100%;
+            max-width: 804px;
+            background: transparent;
             border: none;
-            border-radius: 16px; padding: 40px;
+            border-radius: 0;
+            padding: 0;
             box-shadow: none;
         }
  
@@ -276,118 +279,177 @@
             }
         }
 
-        /* === REDESIGN: Ekran startowy === */
+        /* === JASNY INTERFEJS - KOMPLETNY REDESIGN === */
         .start-screen {
-            width: 100%;
-            max-width: 804px;
-            height: 664px;
-            background-color: #000000;
-            background-image: url('background-dark.svg');
-            background-size: cover;
-            background-position: center;
+            width: 804px;
+            height: auto;
+            min-height: 664px;
+            background: #FFFFFF;
+            border: 1px solid rgba(44, 44, 44, 0.1);
+            border-radius: 24px;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: flex-start;
             margin: 0 auto;
-            padding: 40px 20px;
+            padding: 60px 80px 80px 80px;
+            position: relative;
+            overflow: visible;
+            filter: contrast(1.02) brightness(0.99);
+        }
+
+        .start-screen::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: repeating-linear-gradient(
+                0deg,
+                transparent,
+                transparent 2px,
+                rgba(0, 0, 0, 0.02) 2px,
+                rgba(0, 0, 0, 0.02) 4px
+            );
+            pointer-events: none;
+            border-radius: inherit;
+            z-index: 0;
         }
 
         .start-logo {
-            margin-bottom: 50px;
+            margin-bottom: 60px;
             text-align: center;
+            position: relative;
+            z-index: 1;
         }
 
         .start-logo img {
-            max-width: 200px;
-            height: auto;
+            height: 48px;
+            width: auto;
             display: block;
             margin: 0 auto;
+            filter: brightness(0) saturate(100%) invert(47%) sepia(0%) saturate(0%) hue-rotate(204deg) brightness(94%) contrast(86%);
         }
 
         .start-title {
             font-family: 'Satoshi', sans-serif;
             font-weight: 700;
             font-size: 56px;
-            color: #D8D8D8;
+            color: #2C2C2C;
             letter-spacing: -0.02em;
             margin: 0 0 16px 0;
             text-align: center;
+            line-height: 1.1;
+            position: relative;
+            z-index: 1;
         }
 
         .start-subtitle {
             font-family: 'Satoshi', sans-serif;
             font-weight: 400;
             font-size: 18px;
-            color: #D8D8D8;
-            max-width: 700px;
+            color: #2C2C2C;
+            max-width: 600px;
             text-align: center;
-            margin: 0 auto 60px;
+            margin: 0 auto 80px;
             line-height: 1.6;
+            position: relative;
+            z-index: 1;
         }
 
         .segment-question {
             font-family: 'Satoshi', sans-serif;
             font-weight: 500;
             font-size: 32px;
-            color: #D8D8D8;
+            color: #2C2C2C;
             text-align: center;
-            margin-bottom: 32px;
+            margin-bottom: 40px;
+            position: relative;
+            z-index: 1;
         }
 
         .segment-choice-container {
             display: flex;
-            gap: 20px;
+            gap: 24px;
             justify-content: center;
             align-items: stretch;
-            margin-bottom: 40px;
+            margin-bottom: 60px;
             flex-wrap: nowrap;
+            position: relative;
+            z-index: 1;
         }
 
         .segment-card {
-            width: 340px;
-            height: 160px;
-            background: rgba(255, 255, 255, 0.08);
-            border: 1px solid rgba(255, 255, 255, 0.12);
-            border-radius: 0px;
+            width: 266px;
+            height: 167px;
+            background: rgba(44, 44, 44, 0.04);
+            border: 1px solid rgba(44, 44, 44, 0.08);
+            border-radius: 12px;
             padding: 32px;
+            box-shadow: 4px 4px 5px 0px rgba(0, 0, 0, 0.25);
             cursor: pointer;
             transition: all 0.3s ease;
             display: flex;
             flex-direction: column;
-            align-items: flex-start;
+            align-items: center;
             justify-content: flex-start;
+            text-align: center;
+            position: relative;
+            filter: brightness(1) contrast(1.02);
+        }
+
+        .segment-card::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: repeating-linear-gradient(
+                0deg,
+                transparent,
+                transparent 1px,
+                rgba(0, 0, 0, 0.03) 1px,
+                rgba(0, 0, 0, 0.03) 2px
+            );
+            pointer-events: none;
+            border-radius: 12px;
         }
 
         .segment-card:hover {
-            background: rgba(255, 255, 255, 0.12);
+            background: rgba(44, 44, 44, 0.08);
+            transform: translateY(-2px);
+            box-shadow: 4px 6px 8px 0px rgba(0, 0, 0, 0.3);
         }
 
         .segment-card.selected {
-            border-color: rgba(255, 255, 255, 0.4);
-            background: rgba(255, 255, 255, 0.14);
+            background: rgba(44, 44, 44, 0.1);
+            border-color: rgba(44, 44, 44, 0.2);
+            box-shadow: 4px 6px 8px 0px rgba(0, 0, 0, 0.3);
         }
 
         .segment-icon {
             width: 48px;
             height: 48px;
-            margin-bottom: 16px;
+            margin-bottom: 20px;
         }
 
         .segment-icon img {
             width: 100%;
             height: 100%;
             object-fit: contain;
+            filter: brightness(0) saturate(100%) invert(47%) sepia(0%) saturate(0%) hue-rotate(204deg) brightness(94%) contrast(86%);
         }
 
         .segment-card h3 {
             font-family: 'Satoshi', sans-serif;
             font-weight: 500;
             font-size: 16px;
-            color: #D8D8D8;
-            letter-spacing: 0.05em;
+            color: #2C2C2C;
+            letter-spacing: 0.02em;
             margin: 0 0 8px 0;
-            text-align: left;
+            text-align: center;
             text-transform: uppercase;
         }
 
@@ -395,10 +457,9 @@
             font-family: 'Satoshi', sans-serif;
             font-weight: 400;
             font-size: 14px;
-            color: #D8D8D8;
-            opacity: 0.6;
+            color: #707070;
             margin: 0;
-            text-align: left;
+            text-align: center;
             line-height: 1.5;
         }
 
@@ -406,38 +467,48 @@
             font-family: 'Satoshi', sans-serif;
             font-weight: 500;
             font-size: 16px;
-            background: #ffffff;
-            color: #000000;
-            padding: 16px 48px;
+            background: #707070;
+            color: #FFFFFF;
+            padding: 14px 48px;
             border-radius: 50px;
             border: none;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
             cursor: pointer;
             transition: all 0.2s ease;
             display: block;
             margin: 0 auto;
+            position: relative;
+            z-index: 1;
         }
 
         .start-cta-button:hover:not(:disabled) {
-            opacity: 0.9;
+            background: #5A5A5A;
+            transform: translateY(-1px);
         }
 
         .start-cta-button:disabled {
             opacity: 0.5;
             cursor: not-allowed;
+            transform: none;
         }
 
         /* Responsive dla ekranu startowego */
         @media (max-width: 768px) {
             .start-screen {
-                padding: 40px 20px;
+                width: 100%;
+                max-width: 400px;
+                padding: 40px 20px 60px 20px;
                 height: auto;
                 min-height: 664px;
             }
             .start-logo {
                 margin-bottom: 40px;
             }
+            .start-logo img {
+                height: 36px;
+            }
             .start-title {
-                font-size: 36px;
+                font-size: 32px;
             }
             .start-subtitle {
                 font-size: 16px;
@@ -450,7 +521,7 @@
             .segment-choice-container {
                 flex-direction: column;
                 align-items: center;
-                margin-bottom: 32px;
+                margin-bottom: 40px;
             }
             .segment-card {
                 width: 100%;
