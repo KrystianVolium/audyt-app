@@ -702,3 +702,63 @@ Uruchamiam prosty, oparty na wartości, 3-etapowy proces kontaktu.
     - **Leadership dla Projektów Kreatywnych i Innowacyjnych:** Prowadzenie zespołów w projektach wymagających nieszablonowego myślenia i tworzenia "czegoś nowego".
     - **Diagnoza Potrzeb Organizacyjnych i Identyfikacja Możliwości Rozwojowych:** (Może obejmować element "wstępnej diagnozy transformacyjnej", po której ewentualnie rekomendujesz i włączasz specjalistycznych partnerów, jak Paweł Szwajkowski).
 - **USP Filaru II (Propozycja):** *"Zamieniam status quo w działanie, a potencjał w konkretne rezultaty. Jeśli masz wizję, potrzebę zmiany lub ambitny cel, ale nie wiesz, jak zacząć – pomogę Ci to zainicjować, ułożyć strategicznie i napędzić aż do sukcesu."*
+
+--- 
+
+Wchodzę także w świat Ai, ukończyłem szkolenie Umiejętności jutra 2.0 organizowane przez google i SGH, otrzymałem cvertyfikat po zdanym egzaminie. Jestem także uczestnikiem programu szkoleniowego Aideas, który rozwija kompetencje Ai. Uczestniczę także w projektach, które w zaawansowany sposób wykorzystują Ai do tworzenia zaaawnsowanych modeli predykcyjnych. Uważam że Ai zmienia wiele paradygmatów efektywności i przede wszystkim przesuwa granice "niedasizmu" Mam zamiar pomagać soloprzedsiębiorcą, małym firmom we wdrażaniu Ai, chcę edukować i uczyć jak skutecznie z Ai korzystać, pokazywać szereg możliwości jakie ze przyniosła ze sobą generatywna sztuczna inteligencja. Stworzyłem program, który rozpoczyna się od pierwszej pilotażowej wersji
+
+Jasne, oto uporządkowana dokumentacja Twojego programu akceleracji AI, gotowa do wklejenia do Twojego modelu biznesowego.
+
+***
+
+## **Katalog Oferty: Program Akceleracji AI**
+
+### **1. Podsumowanie i Specyfika Programu**
+
+**Nazwa oferty:** Program Akceleracji AI dla Pionierów
+
+**Krótki opis:** Limitowany, partnerski program wdrożeniowy, który przeprowadza uczestników od podstawowej znajomości AI do zbudowania realnej, technologicznej przewagi w ich działalności. Program koncentruje się na praktycznym zastosowaniu i implementacji indywidualnej strategii AI, a nie na masowej teorii.
+
+**Unikalna Propozycja Wartości (USP):** W przeciwieństwie do standardowych kursów online, program ten jest formą **partnerstwa w innowacji**. Uczestnik nie jest jednym z wielu słuchaczy, lecz jednym z pięciu partnerów, z którymi prowadzący osobiście pracuje nad diagnozą, strategią i wdrożeniem konkretnych rozwiązań AI. Jest to pierwsza, założycielska edycja, oferowana na preferencyjnych warunkach.
+
+### **2. Profil Uczestnika (Grupa Docelowa)**
+
+Program jest skierowany do trzech kluczowych archetypów przedsiębiorców i innowatorów, którzy chcą strategicznie wykorzystać potencjał AI.
+
+| Typ Uczestnika | Charakterystyka i Potrzeby | Rozwiązanie w Programie |
+| :--- | :--- | :--- |
+| **Wizjoner w impasie** | Posiada pomysł na biznes lub projekt, ale paraliżuje go brak wiedzy, od czego zacząć. Utknął w fazie planowania. | Narzędzia AI do błyskawicznego prototypowania pomysłów, tworzenia makiet, landing page'y i testowania koncepcji, co zamienia paraliż w działanie. |
+| **Ambitny Soloprzedsiębiorca** | Freelancer lub właściciel mikrofirmy, który osiągnął "szklany sufit" – jego rozwój jest ograniczony przez jego własny czas. | Budowa "cyfrowego zespołu" asystentów AI do automatyzacji zadań, co zapewnia dźwignię operacyjną i pozwala skalować biznes bez zatrudniania ludzi. |
+| **Strategiczny Innowator** | Prowadzi dobrze prosperującą firmę, ale obawia się pozostania w tyle z powodu rewolucji AI. Szuka bezpiecznego i strategicznego sposobu na wdrożenie AI. | Program pełni rolę "laboratorium", w którym pod okiem mentora można zbudować fundamenty pod inteligentną transformację firmy i zdobyć realną przewagę. |
+
+### **3. Struktura i Zawartość Programu**
+
+Program składa się z 5 kluczowych modułów, które w sposób kompleksowy przeprowadzają uczestnika przez cały proces wdrożenia.
+
+| Moduł | Opis | Kluczowe rezultaty dla uczestnika |
+| :--- | :--- | :--- |
+| **1. Diagnoza Potencjału i Mapa Drogowa AI** | Identyfikacja 2-3 kluczowych obszarów w biznesie lub marce osobistej, gdzie AI przyniesie największy i najszybszy zwrot z inwestycji. | Klarowny, spersonalizowany plan działania i wdrożenia AI. |
+| **2. Architektura Promptów – Sztuka Rozmowy z AI** | Nauka schematów tworzenia zaawansowanych poleceń (promptów) dla modeli językowych w celu uzyskania powtarzalnych, wysokiej jakości rezultatów. | Umiejętność precyzyjnego komunikowania się z AI i generowania oczekiwanych wyników. |
+| **3. Budowa Cyfrowego Zespołu Asystentów** | Opanowanie procesu tworzenia wielu wyspecjalizowanych asystentów AI do różnych zadań w firmie (np. marketing, sprzedaż, obsługa klienta). | Zbudowanie własnego, cyfrowego zespołu, który pracuje na żądanie 24/7. |
+| **4. Indywidualny Mentoring Wdrożeniowy** | Indywidualne sesje z prowadzącym, mające na celu praktyczne wdrożenie wiedzy, rozwiązywanie bieżących problemów i wsparcie w realizacji mapy drogowej. | Pewność, że wdrożenie AI realnie wspiera cele biznesowe; wsparcie eksperckie. |
+| **5. Tworzenie Niezależnych Aplikacji AI (Moduł Zaawansowany)** | Nauka osadzania stworzonych agentów AI w prostych aplikacjach webowych, uniezależniając się od zewnętrznych platform. | Zdolność do tworzenia prostych, niezależnych narzędzi opartych na AI. |
+
+### **4. Oczekiwane Rezultaty (Nowe Supermoce Uczestnika)**
+
+Po ukończeniu programu uczestnik staje się **samowystarczalnym, turbodoładowanym przedsiębiorcą**, który potrafi:
+* **Programować w języku naturalnym** do tworzenia logiki i procesów bez pisania kodu.
+* **Budować cyfrowych pracowników** (asystentów AI) do wykonywania powtarzalnych zadań.
+* **Tworzyć proste aplikacje i strony internetowe** w ciągu kilku godzin.
+* **Błyskawicznie prototypować produkty cyfrowe** (e-booki, kursy) i makiety (UX/UI).
+* **Automatyzować przepływy pracy** łącząc różne narzędzia, by odzyskać dziesiątki godzin miesięcznie.
+* **Generować profesjonalne aktywa marketingowe:** zdjęcia produktowe, prezentacje inwestorskie i reklamy wideo.
+
+### **5. Kluczowe Informacje Logistyczne i Inwestycja**
+
+| Kategoria | Specyfikacja |
+| :--- | :--- |
+| **Cena / Inwestycja** | **1900 PLN netto** (jednorazowa opłata) |
+| **Liczba miejsc** | **Ściśle limitowana do 5 uczestników** |
+| **Edycja** | Pierwsza, założycielska edycja programu |
+| **Format** | Indywidualne sesje wdrożeniowe, personalizowany mentoring |
+| **Zasada naboru** | Decyduje kolejność zgłoszeń |
