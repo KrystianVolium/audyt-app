@@ -51,7 +51,7 @@
         }
  
         h1, h2, h3 {
-            font-weight: 700; letter-spacing: -0.01em; line-height: 1.1;
+            font-weight: 700; letter-spacing: -0.05em; line-height: 1.1;
             text-align: center; color: var(--text-color);
         }
         h1 { font-size: 2.5em; margin-bottom: 10px; }
@@ -105,36 +105,76 @@
             overflow: hidden;
             transition: opacity 0.3s ease-in-out, height 0.3s, margin 0.3s;
         }
-        #progress {
+        .progress-fill {
             width: 0%; height: 100%; background-color: var(--primary-color);
             border-radius: 5px; transition: width 0.4s ease-in-out;
         }
  
-        .on-first-step .progress-bar, .on-results-step .progress-bar {
-            opacity: 0; height: 0; margin-bottom: 0;
+        /* Ukryj progress bar i stopkę na pierwszych dwóch ekranach */
+        .on-first-step .progress-bar {
+            display: none !important;
+        }
+
+        .on-results-step .progress-bar {
+            display: none !important;
+        }
+
+        .signature-footer {
+            text-align: center;
+            width: 100%;
+            margin-top: 50px;
+            padding-top: 30px;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .signature-footer p {
+            font-size: 0.8em;
+            color: var(--text-muted);
+            margin-bottom: 15px;
+            line-height: 1.1;
+        }
+
+        .signature-footer img {
+            width: 100px;
+            height: auto;
+            opacity: 0.7;
+            filter: brightness(0) saturate(100%) invert(47%) sepia(0%) saturate(0%) hue-rotate(204deg) brightness(94%) contrast(86%);
+        }
+
+        .on-first-step .signature-footer {
+            display: none !important;
+        }
+
+        .on-results-step .signature-footer {
+            display: none !important;
         }
  
         #audit-form { position: relative; }
 
         .form-content-wrapper {
             width: 804px;
-            margin: 0 auto;
-            background: rgba(216, 216, 216, 0.17);
-            border: 2px solid rgba(44, 44, 44, 0.15);
-            border-radius: 24px;
-            padding: 60px 80px;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
-            filter: url(#grainNoise);
+            margin: 40px auto;
+            background: transparent;
+            border: none;
+            padding: 0;
             position: relative;
             min-height: 400px;
+            pointer-events: auto;
         }
 
+        /* Box styling dla WSZYSTKICH ekranów */
         .screen {
             display: none;
             animation: fadeIn 0.5s forwards;
             flex-direction: column;
             align-items: center;
             width: 100%;
+            background: rgba(216, 216, 216, 0.17);
+            border: 2px solid rgba(44, 44, 44, 0.15);
+            border-radius: 24px;
+            padding: 60px 80px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
+            filter: url(#grainNoise);
         }
         .screen.active {
             display: flex;
@@ -213,40 +253,6 @@
  
         #screen-results { text-align: center; }
  
-        #pre-results-loader {
-            min-height: 300px; display: flex; flex-direction: column;
-            justify-content: center; align-items: center; animation: fadeIn 0.5s forwards;
-        }
-
-        #radical-clarity-image {
-            max-width: 600px; width: 100%; height: auto;
-            margin-bottom: 30px;
-            animation: subtleGlow 3s ease-in-out infinite alternate;
-            background: transparent;
-            border: none;
-            box-shadow: none;
-        }
-
-        @keyframes subtleGlow {
-            0% { filter: brightness(1) drop-shadow(0 0 10px rgba(244, 244, 244, 0.3)); }
-            100% { filter: brightness(1.05) drop-shadow(0 0 20px rgba(244, 244, 244, 0.5)); }
-        }
-
-        #processing-text {
-            font-size: 1.3em; color: var(--primary-color); font-weight: 600;
-            animation: pulse 2s ease-in-out infinite;
-            text-align: center; letter-spacing: 0.5px;
-        }
-        .progress-bar-final {
-            width: 100%; height: 12px; background-color: var(--border-color);
-            border-radius: 6px; margin-top: 20px; overflow: hidden;
-        }
-        #progress-final {
-            width: 0%; height: 100%; background-color: var(--primary-color);
-            border-radius: 6px;
-        }
-        #results-content { display: none; }
- 
         #capture-area { padding: 1px; } 
         #logo-container-results { text-align: center; margin-bottom: 40px; }
         #logo-container-results img, #logo-container-results svg { max-width: 160px; height: auto; }
@@ -285,29 +291,6 @@
         #next-steps { margin-top: 40px; }
         #next-steps h3 { margin-bottom: 15px; }
  
-        .signature-footer {
-            text-align: center;
-            width: 100%;
-            margin-top: 50px;
-            padding-top: 30px;
-            border-top: 1px solid var(--border-color);
-        }
-        .signature-footer p {
-            font-size: 0.8em;
-            color: var(--text-muted);
-            margin-bottom: 15px;
-            line-height: 1.1;
-        }
-        .signature-footer img, .signature-footer svg {
-            width: 100px;
-            height: auto;
-            opacity: 0.7;
-            filter: brightness(0) saturate(100%) invert(47%) sepia(0%) saturate(0%) hue-rotate(204deg) brightness(94%) contrast(86%);
-        }
-
-        .on-first-step .signature-footer, .on-results-step .signature-footer {
-            display: none;
-        }
  
         @keyframes fadeOut {
             from { opacity: 1; transform: translateY(0); }
@@ -334,36 +317,20 @@
             .intro-subtext { line-height: 1.1; }
             .btn { padding: 10px 20px; font-size: 0.85em; }
             .scale-container label { width: 40px; height: 40px; font-size: 1.1em; }
-
-            #radical-clarity-image {
-                max-width: 400px; margin-bottom: 25px;
-            }
-
-            #processing-text {
-                font-size: 1.1em; letter-spacing: 0.3px;
-            }
-        }
-
-        @media (max-width: 480px) {
-            #radical-clarity-image {
-                max-width: 350px; margin-bottom: 20px;
-            }
-
-            #processing-text {
-                font-size: 1em;
-            }
         }
 
         /* === JASNY INTERFEJS - KOMPLETNY REDESIGN === */
         #screen-segment {
             justify-content: flex-start;
+            position: relative;
+            z-index: 10;
         }
 
         .start-logo {
             margin-bottom: 50px;
             text-align: center;
             position: relative;
-            z-index: 1;
+            z-index: 20;
         }
 
         .start-logo img {
@@ -379,12 +346,12 @@
             font-weight: 700;
             font-size: 56px;
             color: #2C2C2C;
-            letter-spacing: -0.02em;
+            letter-spacing: -0.05em;
             margin: 0 0 16px 0;
             text-align: center;
             line-height: 1.1;
             position: relative;
-            z-index: 1;
+            z-index: 20;
         }
 
         .start-subtitle {
@@ -397,7 +364,7 @@
             margin: 0 auto 70px;
             line-height: 1.1;
             position: relative;
-            z-index: 1;
+            z-index: 20;
         }
 
         .segment-question {
@@ -408,8 +375,9 @@
             text-align: center;
             margin-bottom: 36px;
             line-height: 1.1;
+            letter-spacing: -0.05em;
             position: relative;
-            z-index: 1;
+            z-index: 20;
         }
 
         .segment-choice-container {
@@ -420,7 +388,8 @@
             margin-bottom: 50px;
             flex-wrap: nowrap;
             position: relative;
-            z-index: 1;
+            z-index: 50;
+            pointer-events: auto;
         }
 
         .segment-card {
@@ -432,7 +401,7 @@
             border-radius: 12px;
             padding: 28px 24px;
             box-shadow: 4px 4px 5px 0px rgba(0, 0, 0, 0.25);
-            cursor: pointer;
+            cursor: pointer !important;
             transition: all 0.3s ease;
             display: flex;
             flex-direction: column;
@@ -443,6 +412,8 @@
             filter: brightness(1) contrast(1.02);
             overflow: hidden;
             word-wrap: break-word;
+            z-index: 100;
+            pointer-events: auto !important;
         }
 
         .segment-card::after {
@@ -459,8 +430,9 @@
                 rgba(0, 0, 0, 0.03) 1px,
                 rgba(0, 0, 0, 0.03) 2px
             );
-            pointer-events: none;
+            pointer-events: none !important;
             border-radius: 12px;
+            z-index: 1;
         }
 
         .segment-card:hover {
@@ -530,7 +502,7 @@
             display: block;
             margin: 0 auto;
             position: relative;
-            z-index: 1;
+            z-index: 20;
             line-height: 1.1;
         }
 
@@ -575,6 +547,150 @@
             }
         }
 
+        /* === EKRAN WYNIKU PUNKTOWEGO === */
+        #screen-score {
+            justify-content: flex-start;
+            padding: 40px 60px;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        #screen-score .start-logo {
+            margin-bottom: 30px;
+        }
+
+        .progress-ring-container {
+            position: relative;
+            width: 280px;
+            height: 280px;
+            margin: 40px auto;
+        }
+
+        .progress-ring-container svg {
+            transform: rotate(0deg);
+        }
+
+        #progress-ring {
+            transition: stroke-dashoffset 2s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .score-display {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+        }
+
+        .score-display .score {
+            font-family: 'Satoshi', sans-serif;
+            font-weight: 700;
+            font-size: 96px;
+            color: #2C2C2C;
+            line-height: 1;
+            display: block;
+        }
+
+        .score-display .total {
+            font-family: 'Satoshi', sans-serif;
+            font-weight: 400;
+            font-size: 32px;
+            color: #707070;
+            line-height: 1;
+        }
+
+        .level-name {
+            font-family: 'Satoshi', sans-serif;
+            font-weight: 700;
+            font-size: 28px;
+            color: #2C2C2C;
+            text-align: center;
+            margin: 32px auto 20px;
+            line-height: 1.1;
+        }
+
+        .level-description {
+            font-family: 'Satoshi', sans-serif;
+            font-weight: 400;
+            font-size: 16px;
+            color: #2C2C2C;
+            text-align: center;
+            max-width: 600px;
+            margin: 0 auto 40px;
+            line-height: 1.5;
+        }
+
+        #see-full-analysis-btn {
+            display: block;
+            margin: 0 auto;
+            padding: 14px 40px;
+            background: #707070;
+            color: #FFFFFF;
+            border: none;
+            border-radius: 50px;
+            font-family: 'Satoshi', sans-serif;
+            font-weight: 500;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        #see-full-analysis-btn:hover {
+            background: #5A5A5A;
+            transform: translateY(-1px);
+        }
+
+        .score-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            margin-top: 50px;
+            padding-top: 30px;
+            border-top: 1px solid var(--border-color);
+            font-family: 'Satoshi', sans-serif;
+            font-weight: 400;
+            font-size: 12px;
+            color: #707070;
+        }
+
+        @media (max-width: 768px) {
+            .progress-ring-container {
+                width: 220px;
+                height: 220px;
+                margin: 30px auto;
+            }
+
+            .progress-ring-container svg {
+                width: 220px;
+                height: 220px;
+            }
+
+            .score-display .score {
+                font-size: 72px;
+            }
+
+            .score-display .total {
+                font-size: 24px;
+            }
+
+            .level-name {
+                font-size: 22px;
+                margin: 24px auto 16px;
+            }
+
+            .level-description {
+                font-size: 14px;
+                max-width: 90%;
+            }
+
+            .score-footer {
+                flex-direction: column;
+                gap: 8px;
+                text-align: center;
+            }
+        }
+
         /* CTA Buttons Container */
         .cta-buttons-container {
             display: flex !important;
@@ -607,81 +723,150 @@
             opacity: 1;
         }
 
-        /* SCREEN 1: Shareable Graphic */
-        #shareable-graphic-container {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            margin: 20px auto;
-            max-width: 100%;
-        }
-        #shareable-canvas {
-            max-width: 100%;
-            height: auto;
-            border-radius: 12px;
-            box-shadow: 0 8px 32px rgba(0,0,0,0.3);
-        }
-        .screen-1-buttons {
-            display: flex;
-            gap: 20px;
-            justify-content: center;
-            margin-top: 30px;
-            flex-wrap: wrap;
-        }
-        .screen-1-buttons .btn {
-            padding: 15px 30px;
-            font-size: 1.1em;
-            min-width: 200px;
+        /* SCREEN 1: AI Analysis - NOWY DESIGN */
+        #result-screen-1 {
+            padding: 0 !important;
+            overflow: hidden;
         }
 
-        /* SCREEN 2: AI Analysis */
-        .analysis-header {
+        .analysis-header-image {
+            width: 100%;
+            height: auto;
+            display: block;
+            border-radius: 24px 24px 0 0;
+            margin: 0;
+            padding: 0;
+        }
+
+        .analysis-title {
+            font-family: 'Satoshi', sans-serif;
+            font-weight: 700;
+            font-size: 32px;
+            color: #2C2C2C;
             text-align: center;
+            margin: 40px 60px 16px;
+            line-height: 1.2;
+        }
+
+        .analysis-intro {
+            font-family: 'Satoshi', sans-serif;
+            font-weight: 400;
+            font-style: italic;
+            font-size: 18px;
+            color: #2C2C2C;
+            text-align: center;
+            line-height: 1.4;
+            margin: 16px 80px 40px;
+            max-width: 650px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .analysis-subtitle {
+            font-family: 'Satoshi', sans-serif;
+            font-weight: 400;
+            font-size: 16px;
+            color: #707070;
+            text-align: center;
+            margin: 0 60px 32px;
+            line-height: 1.4;
+        }
+
+        .ai-analysis-content {
+            font-family: 'Satoshi', sans-serif;
+            font-weight: 400;
+            font-size: 16px;
+            color: #2C2C2C;
+            line-height: 1.6;
+            padding: 0 60px;
+            max-height: 400px;
+            overflow-y: auto;
             margin-bottom: 40px;
         }
-        .author-photo {
-            width: 120px;
-            height: 120px;
-            border-radius: 50%;
-            margin: 0 auto 20px;
-            display: block;
-            border: 3px solid var(--primary-color);
-            box-shadow: 0 4px 16px rgba(178, 140, 255, 0.3);
+
+        /* Stylowany scrollbar */
+        .ai-analysis-content::-webkit-scrollbar {
+            width: 8px;
         }
-        .author-greeting {
-            font-size: 2em;
-            font-weight: 700;
-            color: var(--text-primary);
-            margin: 0;
+
+        .ai-analysis-content::-webkit-scrollbar-track {
+            background: rgba(44, 44, 44, 0.05);
+            border-radius: 4px;
         }
-        .ai-analysis-content {
+
+        .ai-analysis-content::-webkit-scrollbar-thumb {
+            background: rgba(44, 44, 44, 0.2);
+            border-radius: 4px;
+        }
+
+        .ai-analysis-content::-webkit-scrollbar-thumb:hover {
             background: rgba(44, 44, 44, 0.3);
-            border: 1px solid #2C2C2C;
-            border-radius: 12px;
-            padding: 40px;
-            margin: 30px auto;
-            max-width: 800px;
-            line-height: 1.8;
-            font-size: 1.1em;
         }
+
         #ai-loader-screen2 {
             text-align: center;
             padding: 60px 20px;
-            color: var(--text-muted);
+            color: #707070;
         }
+
         #ai-loader-screen2 p {
             animation: pulse 2s infinite;
         }
+
         #ai-analysis-text {
-            color: var(--text-primary);
+            color: #2C2C2C;
             white-space: pre-wrap;
         }
+
+        .analysis-buttons {
+            display: flex;
+            gap: 16px;
+            justify-content: center;
+            align-items: center;
+            margin: 0 60px 40px;
+        }
+
+        .btn-secondary-outline {
+            background: transparent;
+            color: #2C2C2C;
+            border: 2px solid #2C2C2C;
+            padding: 14px 32px;
+            font-family: 'Satoshi', sans-serif;
+            font-weight: 700;
+            font-size: 14px;
+            letter-spacing: 0.5px;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-secondary-outline:hover {
+            background: #2C2C2C;
+            color: #FFFFFF;
+        }
+
         #go-to-cta-btn {
-            display: block;
-            margin: 40px auto 0;
-            padding: 15px 40px;
-            font-size: 1.1em;
-            min-width: 250px;
+            padding: 14px 32px;
+            font-size: 14px;
+            min-width: auto;
+            margin: 0;
+        }
+
+        .analysis-footer {
+            position: sticky;
+            bottom: 0;
+            background: rgba(216, 216, 216, 0.17);
+            border-top: 1px solid rgba(44, 44, 44, 0.1);
+            padding: 20px 60px;
+            text-align: center;
+        }
+
+        .analysis-footer p {
+            font-family: 'Satoshi', sans-serif;
+            font-weight: 400;
+            font-size: 12px;
+            color: #707070;
+            margin: 0;
         }
 
         /* SCREEN 3: CTA Hub */
@@ -762,17 +947,6 @@
 
         /* Responsive adjustments for new screens */
         @media (max-width: 768px) {
-            #shareable-canvas {
-                border-radius: 8px;
-            }
-            .screen-1-buttons {
-                flex-direction: column;
-                gap: 15px;
-            }
-            .screen-1-buttons .btn {
-                width: 100%;
-                min-width: auto;
-            }
             .author-photo {
                 width: 100px;
                 height: 100px;
@@ -812,10 +986,6 @@
     <div class="audit-container">
         <form id="audit-form" autocomplete="off">
             <div class="form-content-wrapper">
-                <div class="progress-bar">
-                    <div id="progress"></div>
-                </div>
-
                 <!-- Ekran 0: Wybór segmentu - REDESIGN -->
                 <div class="screen active" id="screen-segment">
                     <div class="start-logo">
@@ -873,6 +1043,9 @@
                 </div>
 
                 <div class="screen" id="screen-section1">
+                <div class="progress-bar">
+                    <div class="progress-fill"></div>
+                </div>
                 <h2>Sekcja I: Rdzeń Strategiczny</h2>
                 <!-- Q1 dla Marki Firmy -->
                 <div class="question-block" data-segment="company">
@@ -950,9 +1123,16 @@
                     <button type="button" class="btn btn-prev">Wróć</button>
                     <button type="button" class="btn btn-primary btn-next">Dalej</button>
                 </div>
+                <div class="signature-footer">
+                    <p>Audyt przygotowany przez:</p>
+                    <img src="twoje-logo.svg.svg" alt="Logo Firmy">
+                </div>
             </div>
 
             <div class="screen" id="screen-section2">
+                <div class="progress-bar">
+                    <div class="progress-fill"></div>
+                </div>
                 <h2>Sekcja II: Pozycjonowanie Rynkowe</h2>
                  <!-- Q4 dla Marki Firmy -->
                  <div class="question-block" data-segment="company">
@@ -1030,9 +1210,16 @@
                     <button type="button" class="btn btn-prev">Wróć</button>
                     <button type="button" class="btn btn-primary btn-next">Dalej</button>
                 </div>
+                <div class="signature-footer">
+                    <p>Audyt przygotowany przez:</p>
+                    <img src="twoje-logo.svg.svg" alt="Logo Firmy">
+                </div>
             </div>
 
             <div class="screen" id="screen-section3">
+                <div class="progress-bar">
+                    <div class="progress-fill"></div>
+                </div>
                 <h2>Sekcja III: Komunikacja i Budowanie Popytu</h2>
                 <!-- Q7 dla Marki Firmy -->
                 <div class="question-block" data-segment="company">
@@ -1110,9 +1297,16 @@
                     <button type="button" class="btn btn-prev">Wróć</button>
                     <button type="button" class="btn btn-primary btn-next">Dalej</button>
                 </div>
+                <div class="signature-footer">
+                    <p>Audyt przygotowany przez:</p>
+                    <img src="twoje-logo.svg.svg" alt="Logo Firmy">
+                </div>
             </div>
 
             <div class="screen" id="screen-section4">
+                <div class="progress-bar">
+                    <div class="progress-fill"></div>
+                </div>
                 <h2>Sekcja IV: Percepcja i Spójność Strategiczna</h2>
                 <!-- Q10 dla Marki Firmy -->
                 <div class="question-block" data-segment="company">
@@ -1190,52 +1384,99 @@
                     <button type="button" class="btn btn-prev">Wróć</button>
                     <button type="button" id="calculate-btn" class="btn btn-primary">Zakończ i analizuj</button>
                 </div>
+                <div class="signature-footer">
+                    <p>Audyt przygotowany przez:</p>
+                    <img src="twoje-logo.svg.svg" alt="Logo Firmy">
+                </div>
+            </div>
+
+            <!-- EKRAN WYNIKU PUNKTOWEGO -->
+            <div class="screen" id="screen-score">
+                <div class="start-logo">
+                    <img src="twoje-logo.svg.svg" alt="Logo">
+                </div>
+                <h1 class="start-title">Audyt Kondycji Marki</h1>
+                <h2 class="segment-question">Wynik marki <span id="brand-name-result"></span></h2>
+
+                <div class="progress-ring-container">
+                    <svg width="280" height="280" viewBox="0 0 280 280">
+                        <defs>
+                            <linearGradient id="progressGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" id="gradientStart" stop-color="#A8FF00" />
+                                <stop offset="100%" id="gradientEnd" stop-color="#2C2C2C" />
+                            </linearGradient>
+                        </defs>
+                        <!-- Background ring -->
+                        <circle cx="140" cy="140" r="116" fill="none" stroke="#E8E8E8" stroke-width="24" />
+                        <!-- Progress ring -->
+                        <circle
+                            id="progress-ring"
+                            cx="140"
+                            cy="140"
+                            r="116"
+                            fill="none"
+                            stroke="url(#progressGradient)"
+                            stroke-width="24"
+                            stroke-linecap="round"
+                            stroke-dasharray="728.5"
+                            stroke-dashoffset="728.5"
+                            transform="rotate(-90 140 140)"
+                        />
+                    </svg>
+                    <div class="score-display">
+                        <span class="score" id="score-value">0</span>
+                        <span class="total">/60</span>
+                    </div>
+                </div>
+
+                <h3 class="level-name" id="level-name">Obliczam wynik...</h3>
+                <p class="level-description" id="level-description"></p>
+
+                <button type="button" id="see-full-analysis-btn" class="btn btn-primary">ZOBACZ PEŁNĄ ANALIZĘ</button>
+
+                <div class="score-footer">
+                    <span>©Krystian Dąbrowski</span>
+                    <span>www.krystiandabrowski.com</span>
+                </div>
             </div>
 
             <div class="screen" id="screen-results">
-                <!-- Pre-loader (pokazywany na początku) -->
-                <div id="pre-results-loader">
-                    <img id="radical-clarity-image" src="Radical Clarity.svg" alt="Radical Clarity">
-                    <p id="processing-text">Przetwarzam wnioski</p>
-                    <div class="progress-bar-final" style="display: none;">
-                        <div id="progress-final"></div>
-                    </div>
-                </div>
-
-                <!-- EKRAN 1: Shareable Graphic -->
+                <!-- EKRAN 1: AI Analysis -->
                 <div id="result-screen-1" class="result-screen" style="display: none;">
-                    <div id="shareable-graphic-container">
-                        <canvas id="shareable-canvas" width="1080" height="1920"></canvas>
-                    </div>
-                    <div class="screen-1-buttons">
-                        <button type="button" id="download-graphic-btn" class="btn btn-primary">
-                            📥 Pobierz PNG
-                        </button>
-                        <button type="button" id="go-to-analysis-btn" class="btn btn-primary">
-                            Zobacz pełną analizę →
-                        </button>
-                    </div>
-                </div>
+                    <!-- Header Image -->
+                    <img id="analysis-header-image" src="Janawnioski.svg" alt="Analiza" class="analysis-header-image">
 
-                <!-- EKRAN 2: AI Analysis -->
-                <div id="result-screen-2" class="result-screen" style="display: none;">
-                    <div class="analysis-header">
-                        <img src="Janawnioski.svg" alt="Krystian Dąbrowski" class="author-photo">
-                        <h2 class="author-greeting">Cześć, tu Krystian</h2>
-                    </div>
+                    <!-- Tytuł z personalizacją -->
+                    <h2 class="analysis-title">Cześć <span id="analysis-user-name"></span> tu Krystian</h2>
+
+                    <!-- Intro -->
+                    <p class="analysis-intro">Tak właściwie to mój Asystent Analytik AI, ale bez obaw, jest tak skonstruowany że korzysta tylko z dobrodziejstw mojej wiedzy i metod sprawdzonych w dziesiątkach projektów strategicznych.</p>
+
+                    <!-- Podtytuł -->
+                    <p class="analysis-subtitle">Na podstawie Twojego Audytu Kondycji Marki...</p>
+
+                    <!-- Treść analizy -->
                     <div class="ai-analysis-content">
                         <div id="ai-loader-screen2">
-                            <p>AI analizuje dane, proszę czekać...</p>
+                            <p>Przetwarzam analizę...</p>
                         </div>
                         <div id="ai-analysis-text" style="display: none;"></div>
                     </div>
-                    <button type="button" id="go-to-cta-btn" class="btn btn-primary">
-                        Dalej - Zobacz opcje →
-                    </button>
+
+                    <!-- Przyciski -->
+                    <div class="analysis-buttons">
+                        <button type="button" id="download-analysis-btn" class="btn btn-secondary-outline">POBIERZ PEŁNĄ ANALIZĘ</button>
+                        <button type="button" id="go-to-cta-btn" class="btn btn-primary">SPRAWDŹ OFERTĘ</button>
+                    </div>
+
+                    <!-- Stopka -->
+                    <div class="analysis-footer">
+                        <p>©Krystian Dąbrowski | www.krystiandabrowski.com</p>
+                    </div>
                 </div>
 
-                <!-- EKRAN 3: CTA Hub -->
-                <div id="result-screen-3" class="result-screen" style="display: none;">
+                <!-- EKRAN 2: CTA Hub -->
+                <div id="result-screen-2" class="result-screen" style="display: none;">
                     <h2 class="cta-hub-title">Gotowy na przełom?</h2>
                     <div class="cta-hub-container">
                         <a href="https://calendly.com/krystian-krystiandabrowski/30min" target="_blank" class="cta-hub-card">
@@ -1272,11 +1513,6 @@
                     <button type="button" id="restart-btn" class="btn btn-primary" style="margin-top: 20px;">Zacznij od nowa</button>
                 </div>
             </div>
-
-                <div class="signature-footer">
-                    <p>Audyt przygotowany przez:</p>
-                    <img src="twoje-logo.svg.svg" alt="Logo Firmy">
-                </div>
             </div>
         </form>
     </div>
@@ -1290,7 +1526,7 @@
         document.addEventListener('DOMContentLoaded', () => {
             const auditContainer = document.querySelector('.audit-container');
             const screens = document.querySelectorAll('.screen');
-            const progress = document.getElementById('progress');
+            const progressBars = document.querySelectorAll('.progress-fill');
             const downloadBtn = document.getElementById('download-btn');
             let currentScreenId = 'screen-segment';
             let userSegment = ''; // 'company' lub 'personal'
@@ -1303,6 +1539,7 @@
                 'screen-section2',
                 'screen-section3',
                 'screen-section4',
+                'screen-score',
                 'screen-results'
             ];
 
@@ -1332,8 +1569,12 @@
                 // Ekrany pytań to indeksy 2-5 (4 sekcje)
                 if (currentIndex >= 2 && currentIndex <= 5) {
                     const questionProgress = ((currentIndex - 2) / 4) * 100;
-                    progress.style.width = `${questionProgress}%`;
+                    // Aktualizuj wszystkie progress bary
+                    progressBars.forEach(bar => {
+                        bar.style.width = `${questionProgress}%`;
+                    });
                 }
+                // Dla screen-score i screen-results progress bar jest ukryty
             };
 
             // Funkcja aktualizacji klas kontenera
@@ -1342,14 +1583,16 @@
                 const currentIndex = screenOrder.indexOf(currentScreenId);
                 if (currentIndex <= 1) {
                     auditContainer.classList.add('on-first-step');
-                } else if (currentScreenId === 'screen-results') {
+                } else if (currentScreenId === 'screen-score' || currentScreenId === 'screen-results') {
                     auditContainer.classList.add('on-results-step');
                 }
             };
 
             // Obsługa wyboru segmentu
             document.querySelectorAll('.segment-card').forEach(card => {
-                card.addEventListener('click', function() {
+                card.addEventListener('click', function(e) {
+                    console.log('Segment card clicked!', this.dataset.segment);
+                    e.stopPropagation();
                     document.querySelectorAll('.segment-card').forEach(c => c.classList.remove('selected'));
                     this.classList.add('selected');
                     userSegment = this.dataset.segment;
@@ -1482,8 +1725,16 @@
                     // Przycisk "Zakończ i analizuj"
                     if (validateScreen(currentScreenId)) {
                         handleCalculation();
-                        showScreen('screen-results');
+                        showScreen('screen-score');
+                        // Animuj wynik po pokazaniu ekranu
+                        setTimeout(() => {
+                            animateScoreScreen();
+                        }, 300);
                     }
+                } else if (e.target.matches('#see-full-analysis-btn')) {
+                    // Przycisk "Zobacz pełną analizę"
+                    showScreen('screen-results');
+                    handleResultsScreen();
                 } else if (e.target.matches('.btn-prev')) {
                     // Przycisk "Wróć"
                     const currentIndex = screenOrder.indexOf(currentScreenId);
@@ -1519,113 +1770,6 @@
                 }
             };
 
-            // Function to draw shareable graphic on canvas (9:16 format, 1080x1920)
-            const drawShareableGraphic = (score, levelTitle, levelDesc) => {
-                const canvas = document.getElementById('shareable-canvas');
-                if (!canvas) return;
-
-                const ctx = canvas.getContext('2d');
-                const width = 1080;
-                const height = 1920;
-
-                // Background
-                ctx.fillStyle = '#0F0F0F';
-                ctx.fillRect(0, 0, width, height);
-
-                // Gradient overlay
-                const gradient = ctx.createLinearGradient(0, 0, 0, height);
-                gradient.addColorStop(0, 'rgba(178, 140, 255, 0.05)');
-                gradient.addColorStop(1, 'rgba(178, 140, 255, 0)');
-                ctx.fillStyle = gradient;
-                ctx.fillRect(0, 0, width, height);
-
-                // Logo (text placeholder)
-                ctx.fillStyle = '#B28CFF';
-                ctx.font = 'bold 48px Satoshi, sans-serif';
-                ctx.textAlign = 'center';
-                ctx.fillText('RADICAL CLARITY', width/2, 150);
-
-                // Personalization
-                ctx.fillStyle = '#D8D8D8';
-                ctx.font = '32px Satoshi, sans-serif';
-                ctx.fillText(`${userName}`, width/2, 250);
-                ctx.fillStyle = '#707070';
-                ctx.font = '28px Satoshi, sans-serif';
-                ctx.fillText(`${brandName}`, width/2, 300);
-
-                // Score circle
-                const centerY = 750;
-                ctx.strokeStyle = '#2C2C2C';
-                ctx.lineWidth = 20;
-                ctx.beginPath();
-                ctx.arc(width/2, centerY, 200, 0, 2 * Math.PI);
-                ctx.stroke();
-
-                // Score progress arc
-                const scorePercentage = score / 60;
-                const endAngle = -Math.PI/2 + (2 * Math.PI * scorePercentage);
-
-                // Choose color based on score
-                let scoreColor = '#B28CFF';
-                if (score <= 15) scoreColor = '#FF6B6B';
-                else if (score <= 25) scoreColor = '#FFA057';
-                else if (score <= 35) scoreColor = '#FFD93D';
-                else if (score <= 45) scoreColor = '#6BCF7F';
-                else if (score <= 54) scoreColor = '#4ECDC4';
-
-                ctx.strokeStyle = scoreColor;
-                ctx.lineWidth = 20;
-                ctx.beginPath();
-                ctx.arc(width/2, centerY, 200, -Math.PI/2, endAngle);
-                ctx.stroke();
-
-                // Score text
-                ctx.fillStyle = '#FFFFFF';
-                ctx.font = 'bold 120px Satoshi, sans-serif';
-                ctx.textAlign = 'center';
-                ctx.fillText(score, width/2, centerY + 20);
-                ctx.font = '40px Satoshi, sans-serif';
-                ctx.fillStyle = '#707070';
-                ctx.fillText('/ 60', width/2, centerY + 70);
-
-                // Level title
-                ctx.fillStyle = '#FFFFFF';
-                ctx.font = 'bold 48px Satoshi, sans-serif';
-                ctx.textAlign = 'center';
-                const titleWords = levelTitle.split(' ');
-                let titleY = 1050;
-                titleWords.forEach((word, i) => {
-                    ctx.fillText(word, width/2, titleY + (i * 60));
-                });
-
-                // Level description (wrapped text)
-                ctx.fillStyle = '#A0A0A0';
-                ctx.font = '28px Satoshi, sans-serif';
-                const maxWidth = 900;
-                const words = levelDesc.split(' ');
-                let line = '';
-                let y = titleY + (titleWords.length * 60) + 80;
-                const lineHeight = 42;
-
-                words.forEach((word, i) => {
-                    const testLine = line + word + ' ';
-                    const metrics = ctx.measureText(testLine);
-                    if (metrics.width > maxWidth && i > 0) {
-                        ctx.fillText(line, width/2, y);
-                        line = word + ' ';
-                        y += lineHeight;
-                    } else {
-                        line = testLine;
-                    }
-                });
-                ctx.fillText(line, width/2, y);
-
-                // Footer
-                ctx.fillStyle = '#707070';
-                ctx.font = '24px Satoshi, sans-serif';
-                ctx.fillText('www.radicalclarity.pl', width/2, height - 100);
-                ctx.fillText('@krystiandabrowski', width/2, height - 60);
-            };
 
             const calculateTotalScore = () => {
                 let totalScore = 0;
@@ -1635,7 +1779,90 @@
                 });
                 return totalScore;
             };
- 
+
+            // Funkcja animacji ekranu wyniku punktowego
+            const animateScoreScreen = () => {
+                const score = calculateTotalScore();
+                const percentage = (score / 60) * 100;
+
+                // Ustaw personalizację nazwy marki
+                const brandNameResult = document.getElementById('brand-name-result');
+                if (brandName && brandName.trim() !== '') {
+                    brandNameResult.textContent = brandName;
+                } else if (userName && userName.trim() !== '') {
+                    brandNameResult.textContent = userName;
+                } else {
+                    brandNameResult.textContent = '';
+                }
+
+                // Oblicz długość obwodu koła (2 * π * r), gdzie r = 116
+                const radius = 116;
+                const circumference = 2 * Math.PI * radius; // ~728.5
+                const progressRing = document.getElementById('progress-ring');
+
+                // Ustaw początkową wartość
+                progressRing.style.strokeDasharray = circumference;
+                progressRing.style.strokeDashoffset = circumference;
+
+                // Ustaw gradient wg wyniku
+                const gradientStart = document.getElementById('gradientStart');
+                const gradientEnd = document.getElementById('gradientEnd');
+
+                if (score <= 15) {
+                    gradientStart.setAttribute('stop-color', '#FF4444');
+                    gradientEnd.setAttribute('stop-color', '#FF8800');
+                } else if (score <= 25) {
+                    gradientStart.setAttribute('stop-color', '#FF8800');
+                    gradientEnd.setAttribute('stop-color', '#FFB800');
+                } else if (score <= 35) {
+                    gradientStart.setAttribute('stop-color', '#FFB800');
+                    gradientEnd.setAttribute('stop-color', '#FFE600');
+                } else if (score <= 45) {
+                    gradientStart.setAttribute('stop-color', '#FFE600');
+                    gradientEnd.setAttribute('stop-color', '#C8FF00');
+                } else if (score <= 54) {
+                    gradientStart.setAttribute('stop-color', '#C8FF00');
+                    gradientEnd.setAttribute('stop-color', '#A8FF00');
+                } else {
+                    gradientStart.setAttribute('stop-color', '#A8FF00');
+                    gradientEnd.setAttribute('stop-color', '#80FF00');
+                }
+
+                // Animuj progress ring
+                setTimeout(() => {
+                    const offset = circumference - (percentage / 100) * circumference;
+                    progressRing.style.strokeDashoffset = offset;
+                }, 100);
+
+                // Animuj wartość wyniku
+                const scoreValue = document.getElementById('score-value');
+                animateValue(scoreValue, 0, score, 2000);
+
+                // Ustaw poziom i opis
+                const levelName = document.getElementById('level-name');
+                const levelDescription = document.getElementById('level-description');
+
+                if (score <= 15) {
+                    levelName.textContent = 'Fundamenty wymagają budowy';
+                    levelDescription.textContent = 'Twoja marka działa w trybie przetrwania. Brakuje fundamentów strategicznych, przez co każda decyzja marketingowa jest chaotyczna i intuicyjna. To poziom, na którym nie budujesz marki – tylko reagujesz na sytuację. Czas na zmianę podejścia i zbudowanie solidnych podstaw, które pozwolą Ci działać strategicznie.';
+                } else if (score <= 25) {
+                    levelName.textContent = 'Pora na strategiczne podstawy';
+                    levelDescription.textContent = 'Masz pojedyncze elementy brandingu, ale brakuje im spójnej strategii. Twoja marka nie ma jasnej tożsamości, co sprawia, że komunikacja jest niespójna, a działania marketingowe nie przynoszą zakładanych efektów. Potrzebujesz uporządkować podstawy i stworzyć fundament, na którym zbudujesz silną pozycję.';
+                } else if (score <= 35) {
+                    levelName.textContent = 'Dobra baza, brakuje spójności';
+                    levelDescription.textContent = 'Masz solidne podstawy, ale Twoja marka działa w zrywach. Poszczególne elementy są na miejscu, ale brakuje im systemowego połączenia i konsekwentnej realizacji. Potrzebujesz uporządkować to, co masz, wprowadzić spójność i zacząć działać bardziej strategicznie. Jest potencjał – czas go wykorzystać.';
+                } else if (score <= 45) {
+                    levelName.textContent = 'Silna pozycja, potencjał wzrostu';
+                    levelDescription.textContent = 'Twoja marka jest w dobrej formie i zaczyna pracować na Twoją korzyść. Masz jasną tożsamość i spójną komunikację, ale wciąż jest przestrzeń do optymalizacji. Z odpowiednimi udoskonaleniami możesz przejść na wyższy poziom i zdominować swoją kategorię.';
+                } else if (score <= 54) {
+                    levelName.textContent = 'Strategiczny lider';
+                    levelDescription.textContent = 'Twoja marka działa jak dobrze naoliwiona maszyna strategiczna. Masz jasną pozycję, spójną komunikację i świadomość swojej wartości. Koncentruj się na maksymalizacji efektów, skalowaniu działań i utrzymaniu konsekwencji. Jesteś w czołówce swojej branży – teraz chodzi o to, żeby tam pozostać i poszerzać przewagę.';
+                } else {
+                    levelName.textContent = 'Mistrzostwo strategiczne';
+                    levelDescription.textContent = 'Twoja marka jest w elitarnym gronie marek, które nie konkurują – one kreują kategorie i dyktują warunki rynkowi. Działasz w pełni strategicznie, Twoja komunikacja jest spójna na każdym poziomie, a wartość marki jest klarownie zdefiniowana i wykorzystywana. To poziom najwyższej dojrzałości brandingowej.';
+                }
+            };
+
             // NOWA WERSJA FILTRA - działa teraz też w frontendzie
             const isInputGibberish = (answers) => {
                 let totalLength = 0;
@@ -1707,333 +1934,160 @@
             // ZASTĄP STARĄ WERSJĘ FUNKCJI TĄ PONIŻEJ:
             const handleCalculation = () => {
                 finalScore = calculateTotalScore();
+                // Wynik jest już obliczony i będzie użyty w screen-score
+            };
+
+            // NOWA WERSJA handleResultsScreen - obsługuje AI analysis
+            const handleResultsScreen = () => {
                 const answers = [
-                document.getElementById('mirror-q1').value,
-                document.getElementById('mirror-q2').value,
-                document.getElementById('mirror-q3').value,
-                document.getElementById('mirror-q4').value
-            ];
-            document.getElementById('pre-results-loader').style.display = 'flex';
+                    document.getElementById('mirror-q1').value,
+                    document.getElementById('mirror-q2').value,
+                    document.getElementById('mirror-q3').value,
+                    document.getElementById('mirror-q4').value
+                ];
 
-            // Najpierw pokaż ekran z wynikami (już obsłużone przez showScreen)
-            // Pokaż loader
+                // Sprawdź czy odpowiedzi są sensowne
+                if (isInputGibberish(answers)) {
+                    document.getElementById('next-steps-gibberish').style.display = 'block';
+                    return;
+                }
 
-            document.getElementById('pre-results-loader').style.display = 'flex';
- 
-            const progressBar = document.getElementById('progress-final');
-            if (progressBar) {
-                let width = 0;
-                const interval = setInterval(frame, 35);
- 
-                function frame() {
-                    if (width >= 100) {
-                        clearInterval(interval);
- 
-                        // Nie ukrywaj loadera jeszcze - zostaw grafikę podczas analizy AI
- 
-                        if (isInputGibberish(answers)) {
-                            // For gibberish, hide loader and show gibberish message
-                            setTimeout(() => {
-                                const loader = document.getElementById('pre-results-loader');
-                                loader.classList.add('fade-out');
-                                setTimeout(() => {
-                                    loader.style.display = 'none';
-                                    document.getElementById('next-steps-gibberish').style.display = 'block';
-                                }, 400);
-                            }, 1000);
-                            return;
-                        }
- 
-                        // Przygotuj dane wyników (tylko tytuł i opis - używane dla canvas)
-                        let title = '', description = '';
+                // Pokaż ekran AI analysis
+                showResultScreen(1);
 
-                        if (finalScore <= 15) {
-                            title = 'Fundamenty wymagają budowy';
-                            description = 'Twoja marka działa w trybie przetrwania. Brakuje fundamentów strategicznych, przez co każda decyzja marketingowa jest chaotyczna, a komunikacja niespójna. Tracisz klientów, zanim w ogóle Cię zauważą, a ci, którzy zostają, wybierają Cię tylko ceną. To wymaga pilnej interwencji i budowy strategicznych podstaw od zera.';
-                        } else if (finalScore <= 25) {
-                            title = 'Pora na strategiczne podstawy';
-                            description = 'Masz pojedyncze elementy brandingu, ale brakuje im spójnej strategii. Twoja marka nie ma jasnej tożsamości, przez co trudno Ci się wyróżnić i budować trwałe relacje z klientami. Działasz reaktywnie zamiast strategicznie. Nadszedł czas, aby zbudować solidne fundamenty marki.';
-                        } else if (finalScore <= 35) {
-                            title = 'Dobra baza, brakuje spójności';
-                            description = 'Masz solidne podstawy, ale Twoja marka działa w zrywach. Raz komunikacja jest świetna, a za chwilę przypadkowa. Masz potencjał, ale marnujesz go przez brak konsekwencji i systemowego podejścia. Potrzebujesz uporządkować to, co masz, i stworzyć spójny system komunikacji.';
-                        } else if (finalScore <= 45) {
-                            title = 'Silna pozycja, potencjał wzrostu';
-                            description = 'Twoja marka jest w dobrej formie i zaczyna pracować na Twoją korzyść. Masz jasną tożsamość i spójną komunikację, ale wciąż jest przestrzeń do optymalizacji. Z odpowiednimi udoskonaleniami możesz przejść na wyższy poziom i zdominować swoją kategorię.';
-                        } else if (finalScore <= 54) {
-                            title = 'Zaawansowana strategia marki';
-                            description = 'Gratulacje. Twoja marka to silne aktywo biznesowe, które aktywnie wspiera Twój rozwój. Masz spójną strategię, wyrazistą tożsamość i skuteczną komunikację. Jesteś w czołówce swojej branży. Teraz czas na szlifowanie detali i utrzymanie tej przewagi konkurencyjnej.';
-                        } else { // Wynik 55-60
-                            title = 'Mistrzostwo brandingowe';
-                            description = 'Jesteś w elicie. Twoja marka to autonomiczny lider, który pracuje 24/7 – sprzedaje, gdy Ty śpisz, przyciąga najlepsze talenty i pozwala dyktować warunki. Posiadasz przewagę, która definiuje zasady gry w Twojej kategorii. To nie jest już tylko "wizerunek" – to potężne aktywo biznesowe generujące realny zysk.';
-                        }
-
-                        // Save to global variables (if needed)
-                        finalResultTitle = title;
-                        finalResultDesc = description;
- 
-                        // Rozpocznij analizę AI w tle podczas gdy grafika jest nadal widoczna
-                        fetch(`${API_BASE_URL}/api/analyze`, {
-                            method: 'POST',
-                            headers: { 'Content-Type': 'application/json' },
-                            body: JSON.stringify({
-                                score: finalScore,
-                                answers: answers,
-                                userName: userName,
-                                brandName: brandName,
-                                userSegment: userSegment
-                            }),
-                        })
-                        .then(response => { if (!response.ok) { throw new Error('Błąd serwera.'); } return response.json(); })
-                        .then(data => {
-                            finalAiText = data.analysis;
-                            // Prepare AI text for screen 2
-                            const aiTextElement = document.getElementById('ai-analysis-text');
-                            aiTextElement.innerText = finalAiText;
-                        })
-                        .catch(error => {
-                            console.error('Błąd:', error);
-                            finalAiText = 'Wystąpił błąd podczas łączenia z serwerem analizy. Spróbuj ponownie później.';
-                            const aiTextElement = document.getElementById('ai-analysis-text');
-                            aiTextElement.innerText = finalAiText;
-                        })
-                        .finally(() => {
-                            // Hide loader and show SCREEN 1 (Shareable Graphic)
-                            const loader = document.getElementById('pre-results-loader');
-                            loader.classList.add('fade-out');
-
-                            setTimeout(() => {
-                                loader.style.display = 'none';
-
-                                // Draw shareable graphic
-                                drawShareableGraphic(finalScore, title, description);
-
-                                // Show Screen 1
-                                showResultScreen(1);
-
-                                // Hide AI loader in Screen 2, show AI text
-                                document.getElementById('ai-loader-screen2').style.display = 'none';
-                                document.getElementById('ai-analysis-text').style.display = 'block';
-                            }, 400);
-                        });
- 
+                // Ustaw personalizację - imię użytkownika w tytule
+                const analysisUserName = document.getElementById('analysis-user-name');
+                if (analysisUserName) {
+                    if (userName && userName.trim() !== '') {
+                        analysisUserName.textContent = userName;
+                    } else if (brandName && brandName.trim() !== '') {
+                        analysisUserName.textContent = brandName;
                     } else {
-                        width++;
-                        progressBar.style.width = width + '%';
-
+                        analysisUserName.textContent = '';
                     }
                 }
-            }
- 
-        };
 
-            // Old download button (legacy - kept for compatibility if old HTML exists)
-            if (downloadBtn) {
-            downloadBtn.addEventListener('click', () => {
-                const originalButtonText = downloadBtn.innerText;
-                downloadBtn.innerText = 'GENEROWANIE...';
-                downloadBtn.disabled = true;
- 
-                const printableArea = document.createElement('div');
-                document.body.appendChild(printableArea);
- 
-                Object.assign(printableArea.style, {
-                    width: '800px', position: 'absolute', top: '-9999px', left: '-9999px',
-                    backgroundColor: '#0F0F0F', fontFamily: 'Satoshi, sans-serif',
-                    padding: '40px', textAlign: 'center', color: '#D8D8D8'
-                });
- 
-                const logoHTML = document.getElementById('logo-container-results').innerHTML;
-                const signatureHTML = document.querySelector('#results-content .signature-footer').innerHTML;
- 
-                // NOWA LOGIKA - Odczytujemy styl poświaty z widocznej karty
-                const resultCardVisible = document.querySelector('.result-card');
-                const glowStyle = {
-                    border: resultCardVisible.style.borderColor ? `1px solid ${resultCardVisible.style.borderColor}` : '1px solid #2C2C2C',
-                    boxShadow: resultCardVisible.style.boxShadow || 'none'
-                };
- 
-                const printableResultCard = document.createElement('div');
-                Object.assign(printableResultCard.style, {
-                    background: '#0F0F0F', padding: '30px', borderRadius: '12px',
-                    marginTop: '20px', textAlign: 'center',
-                    border: glowStyle.border,
-                    boxShadow: glowStyle.boxShadow
-                });
- 
-                const resultCardTitle = document.createElement('h3');
-                resultCardTitle.style.fontSize = '1.5em';
-                resultCardTitle.style.fontWeight = '700';
-                resultCardTitle.style.color = '#D8D8D8';
-                resultCardTitle.style.marginBottom = '15px';
-                resultCardTitle.style.lineHeight = '1.1';
-                resultCardTitle.innerText = finalResultTitle;
- 
-                const resultCardDesc = document.createElement('p');
-                resultCardDesc.style.fontSize = '1em';
-                resultCardDesc.style.color = '#707070';
-                resultCardDesc.style.lineHeight = '1.7';
-                resultCardDesc.style.fontWeight = '400';
-                resultCardDesc.innerText = finalResultDesc;
- 
-                printableResultCard.appendChild(resultCardTitle);
-                printableResultCard.appendChild(resultCardDesc);
- 
-                // Reszta budowania PNG pozostaje bez zmian
-                const logoDiv = document.createElement('div');
-                logoDiv.style.textAlign = 'center';
-                logoDiv.style.marginBottom = '40px';
-                logoDiv.innerHTML = logoHTML;
- 
-                const mainTitle = document.createElement('h2');
-                mainTitle.style.fontSize = '2em';
-                mainTitle.style.fontWeight = '700';
-                mainTitle.style.color = '#D8D8D8';
-                mainTitle.style.marginBottom = '25px';
-                mainTitle.style.lineHeight = '1.1';
-                mainTitle.innerText = 'Twoja diagnoza';
- 
-                const scoreContainer = document.createElement('div');
-                scoreContainer.style.fontSize = '3em';
-                scoreContainer.style.fontWeight = '700';
-                scoreContainer.style.color = '#D8D8D8';
-                scoreContainer.style.lineHeight = '1.1';
-                scoreContainer.innerHTML = `<span style="color: #F4F4F4; font-size: 2em;">${finalScore}</span> / 60`;
- 
-                const aiCard = document.createElement('div');
-                 Object.assign(aiCard.style, {
-                    background: '#0F0F0F', padding: '30px', borderRadius: '12px',
-                    border: '1px solid #2C2C2C', marginTop: '20px', textAlign: 'center'
-                });
- 
-                const aiCardTitle = document.createElement('h3');
-                aiCardTitle.style.fontSize = '1.5em';
-                aiCardTitle.style.fontWeight = '700';
-                aiCardTitle.style.color = '#D8D8D8';
-                aiCardTitle.style.marginBottom = '15px';
-                aiCardTitle.style.lineHeight = '1.1';
-                aiCardTitle.innerText = 'Kluczowe wnioski z analizy';
- 
-                const aiCardText = document.createElement('p');
-                aiCardText.style.fontSize = '1em';
-                aiCardText.style.color = '#707070';
-                aiCardText.style.lineHeight = '1.7';
-                aiCardText.style.fontWeight = '400';
-                aiCardText.innerText = finalAiText;
- 
-                aiCard.appendChild(aiCardTitle);
-                aiCard.appendChild(aiCardText);
- 
-                const signatureDiv = document.createElement('div');
-                Object.assign(signatureDiv.style, {
-                    textAlign: 'center', marginTop: '50px',
-                    borderTop: '1px solid #2C2C2C', paddingTop: '30px'
-                });
-                signatureDiv.innerHTML = signatureHTML;
- 
-                printableArea.appendChild(logoDiv);
-                printableArea.appendChild(mainTitle);
-                printableArea.appendChild(scoreContainer);
-                printableArea.appendChild(printableResultCard); // Używamy nowej karty z poświatą
-                printableArea.appendChild(aiCard);
-                printableArea.appendChild(signatureDiv);
- 
-                document.body.appendChild(printableArea);
- 
-                html2canvas(printableArea, { scale: 2, useCORS: true })
-                .then(canvas => {
-                    let downloadLink = document.createElement('a');
-                    downloadLink.setAttribute('download', 'Diagnoza-Marki.png');
-                    downloadLink.setAttribute('href', canvas.toDataURL('image/png'));
-                    downloadLink.click();
-                }).catch(err => {
-                    console.error('Błąd podczas generowania obrazu:', err);
-                    alert('Wystąpił błąd podczas generowania obrazu.');
-                }).finally(() => {
-                    document.body.removeChild(printableArea);
-                    downloadBtn.innerText = originalButtonText;
-                    downloadBtn.disabled = false;
-                });
-            });
-            }
+                // Zmień obrazek na Radical Clarity.svg podczas ładowania
+                const headerImage = document.getElementById('analysis-header-image');
+                if (headerImage) {
+                    headerImage.src = 'Radical Clarity.svg';
+                }
 
-            // === NEW: Event listeners for 3-screen flow ===
+                // Pokaż loader AI
+                const aiLoader = document.getElementById('ai-loader-screen2');
+                if (aiLoader) aiLoader.style.display = 'block';
 
-            // Download graphic from canvas
-            const downloadGraphicBtn = document.getElementById('download-graphic-btn');
-            if (downloadGraphicBtn) {
-                downloadGraphicBtn.addEventListener('click', () => {
-                    const canvas = document.getElementById('shareable-canvas');
-                    if (!canvas) return;
+                const aiTextElement = document.getElementById('ai-analysis-text');
+                if (aiTextElement) aiTextElement.style.display = 'none';
 
-                    const originalText = downloadGraphicBtn.innerHTML;
-                    downloadGraphicBtn.innerHTML = '⏳ Generowanie...';
-                    downloadGraphicBtn.disabled = true;
-
-                    try {
-                        canvas.toBlob((blob) => {
-                            const url = URL.createObjectURL(blob);
-                            const link = document.createElement('a');
-                            link.download = `audyt-marki-${userName || 'wynik'}.png`;
-                            link.href = url;
-                            link.click();
-                            URL.revokeObjectURL(url);
-
-                            downloadGraphicBtn.innerHTML = originalText;
-                            downloadGraphicBtn.disabled = false;
-                        }, 'image/png');
-                    } catch (error) {
-                        console.error('Błąd podczas pobierania grafiki:', error);
-                        alert('Wystąpił błąd podczas pobierania grafiki.');
-                        downloadGraphicBtn.innerHTML = originalText;
-                        downloadGraphicBtn.disabled = false;
+                // Wywołaj API AI
+                fetch(`${API_BASE_URL}/api/analyze`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        score: finalScore,
+                        answers: answers,
+                        userName: userName,
+                        brandName: brandName,
+                        userSegment: userSegment
+                    }),
+                })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Błąd serwera.');
                     }
+                    return response.json();
+                })
+                .then(data => {
+                    finalAiText = data.analysis;
+                    aiTextElement.innerText = finalAiText;
+                })
+                .catch(error => {
+                    console.error('Błąd:', error);
+                    finalAiText = 'Wystąpił błąd podczas łączenia z serwerem analizy. Spróbuj ponownie później.';
+                    aiTextElement.innerText = finalAiText;
+                })
+                .finally(() => {
+                    // Zmień obrazek z powrotem na Janawnioski.svg
+                    if (headerImage) {
+                        headerImage.src = 'Janawnioski.svg';
+                    }
+
+                    // Ukryj loader, pokaż tekst
+                    if (aiLoader) aiLoader.style.display = 'none';
+                    if (aiTextElement) aiTextElement.style.display = 'block';
+                });
+            };
+
+            // === EVENT LISTENERS ===
+
+            // Restart button
+            const restartBtn = document.getElementById('restart-btn');
+            if (restartBtn) {
+                restartBtn.addEventListener('click', () => {
+                    location.reload();
                 });
             }
 
-            // Go to analysis (Screen 2)
-            const goToAnalysisBtn = document.getElementById('go-to-analysis-btn');
-            if (goToAnalysisBtn) {
-                goToAnalysisBtn.addEventListener('click', () => {
+            // Go to CTA hub button
+            const goToCtaBtn = document.getElementById('go-to-cta-btn');
+            if (goToCtaBtn) {
+                goToCtaBtn.addEventListener('click', () => {
                     showResultScreen(2);
                     window.scrollTo({ top: 0, behavior: 'smooth' });
                 });
             }
 
-            // Go to CTA hub (Screen 3)
-            const goToCtaBtn = document.getElementById('go-to-cta-btn');
-            if (goToCtaBtn) {
-                goToCtaBtn.addEventListener('click', () => {
-                    showResultScreen(3);
-                    window.scrollTo({ top: 0, behavior: 'smooth' });
+            // Download analysis button
+            const downloadAnalysisBtn = document.getElementById('download-analysis-btn');
+            if (downloadAnalysisBtn) {
+                downloadAnalysisBtn.addEventListener('click', () => {
+                    if (!finalAiText || finalAiText.trim() === '') {
+                        alert('Analiza nie jest jeszcze gotowa. Proszę czekać...');
+                        return;
+                    }
+
+                    // Utwórz pełny tekst do pobrania
+                    const fullText = `Audyt Kondycji Marki - Analiza
+
+Wynik: ${finalScore}/60 punktów
+${userName ? 'Imię: ' + userName : ''}
+${brandName ? 'Marka: ' + brandName : ''}
+${userSegment ? 'Segment: ' + userSegment : ''}
+
+=== ANALIZA ===
+
+${finalAiText}
+
+---
+©Krystian Dąbrowski
+www.krystiandabrowski.com`;
+
+                    // Pobierz jako plik tekstowy
+                    const blob = new Blob([fullText], { type: 'text/plain;charset=utf-8' });
+                    const url = URL.createObjectURL(blob);
+                    const a = document.createElement('a');
+                    a.href = url;
+                    a.download = `Analiza_Marki_${brandName || userName || 'Raport'}.txt`;
+                    document.body.appendChild(a);
+                    a.click();
+                    document.body.removeChild(a);
+                    URL.revokeObjectURL(url);
                 });
             }
 
+            // === USUNIĘTE: Stare funkcje i event listenery ===
+            // - drawShareableGraphic() - usunięte
+            // - download-graphic-btn - usunięty
+            // - go-to-analysis-btn - usunięty
+            // - pre-results-loader logic - usunięty
+
+            // Inicjalizuj UI przy starcie
+            updateContainerClasses();
             updateScaleDescriptions();
             window.addEventListener('resize', updateScaleDescriptions);
+        });
 
-            // Inicjalizacja - ustaw właściwe klasy dla pierwszego ekranu
-            updateProgressBar();
-            updateContainerClasses();
-            // Dodajemy obsługę przycisku "Zacznij od nowa"
-            document.addEventListener('click', e => {
- 
-             if (e.target.matches('#restart-btn')) {
-                location.reload();
-            }
-        });
- 
-        });
     </script>
-
-    <svg style="position: absolute; width: 0; height: 0; pointer-events: none;">
-        <filter id="grainNoise">
-            <feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="3" seed="2"/>
-            <feColorMatrix type="saturate" values="0"/>
-            <feComponentTransfer>
-                <feFuncA type="discrete" tableValues="0 0.025"/>
-            </feComponentTransfer>
-            <feBlend mode="overlay" in="SourceGraphic" in2="SourceGraphic"/>
-        </filter>
-    </svg>
 </body>
 </html>
