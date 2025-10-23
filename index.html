@@ -88,7 +88,85 @@
             color: var(--text-muted);
             line-height: 1.1;
         }
- 
+
+        /* Audit Principles Section */
+        .audit-principles-section {
+            max-width: 700px;
+            margin: 20px auto 30px;
+            text-align: left;
+        }
+
+        .audit-principles-title {
+            font-family: 'Satoshi', sans-serif;
+            font-weight: 500;
+            font-size: 26px;
+            color: #2C2C2C;
+            text-align: center;
+            margin-bottom: 24px;
+            line-height: 1.1;
+            letter-spacing: -0.05em;
+        }
+
+        .principles-list {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .principle-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 12px;
+            padding: 20px 24px;
+            background: rgba(44, 44, 44, 0.03);
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .principle-icon {
+            font-size: 28px;
+            line-height: 1;
+            margin-bottom: 4px;
+        }
+
+        .principle-content {
+            width: 100%;
+        }
+
+        .principle-content h3 {
+            font-family: 'Satoshi', sans-serif;
+            font-weight: 600;
+            font-size: 15px;
+            color: #2C2C2C;
+            margin: 0 0 8px 0;
+            line-height: 1.2;
+            text-align: center;
+        }
+
+        .principle-content p {
+            font-family: 'Satoshi', sans-serif;
+            font-weight: 400;
+            font-size: 14px;
+            color: #707070;
+            margin: 0;
+            line-height: 1.4;
+            text-align: center;
+        }
+
+        /* Personalization Inputs */
+        .personalization-inputs-wrapper {
+            max-width: 700px;
+            margin: 30px auto;
+            display: flex;
+            gap: 20px;
+            align-items: flex-start;
+        }
+
+        .input-group {
+            flex: 1;
+        }
+
         #logo-container { text-align: center; margin: 0 0 30px 0; }
         #logo-container img, #logo-container svg {
             max-width: 160px;
@@ -317,6 +395,34 @@
             .intro-subtext { line-height: 1.1; }
             .btn { padding: 10px 20px; font-size: 0.85em; }
             .scale-container label { width: 40px; height: 40px; font-size: 1.1em; }
+
+            .audit-principles-section {
+                max-width: 100%;
+                padding: 0 10px;
+            }
+            .audit-principles-title {
+                font-size: 20px;
+            }
+            .principle-item {
+                padding: 18px 20px;
+                gap: 10px;
+            }
+            .principle-icon {
+                font-size: 24px;
+            }
+            .principle-content h3 {
+                font-size: 14px;
+            }
+            .principle-content p {
+                font-size: 13px;
+                line-height: 1.5;
+            }
+
+            .personalization-inputs-wrapper {
+                flex-direction: column;
+                max-width: 100%;
+                padding: 0 10px;
+            }
         }
 
         /* === JASNY INTERFEJS - KOMPLETNY REDESIGN === */
@@ -414,25 +520,6 @@
             word-wrap: break-word;
             z-index: 100;
             pointer-events: auto !important;
-        }
-
-        .segment-card::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: repeating-linear-gradient(
-                0deg,
-                transparent,
-                transparent 1px,
-                rgba(0, 0, 0, 0.03) 1px,
-                rgba(0, 0, 0, 0.03) 2px
-            );
-            pointer-events: none !important;
-            border-radius: 12px;
-            z-index: 1;
         }
 
         .segment-card:hover {
@@ -559,6 +646,11 @@
             margin-bottom: 30px;
         }
 
+        #screen-score .segment-question {
+            margin-top: 40px;
+            margin-bottom: 32px;
+        }
+
         .progress-ring-container {
             position: relative;
             width: 280px;
@@ -617,7 +709,7 @@
             text-align: center;
             max-width: 600px;
             margin: 0 auto 40px;
-            line-height: 1.5;
+            line-height: 1.1;
         }
 
         #see-full-analysis-btn {
@@ -729,6 +821,15 @@
             overflow: hidden;
         }
 
+        #analysis-full-loader {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 500px;
+            padding: 60px;
+        }
+
         .analysis-header-image {
             width: 100%;
             height: auto;
@@ -744,8 +845,8 @@
             font-size: 32px;
             color: #2C2C2C;
             text-align: center;
-            margin: 40px 60px 16px;
-            line-height: 1.2;
+            margin: 16px 60px 12px;
+            line-height: 1.1;
         }
 
         .analysis-intro {
@@ -755,8 +856,8 @@
             font-size: 18px;
             color: #2C2C2C;
             text-align: center;
-            line-height: 1.4;
-            margin: 16px 80px 40px;
+            line-height: 1.1;
+            margin: 12px 80px 32px;
             max-width: 650px;
             margin-left: auto;
             margin-right: auto;
@@ -768,8 +869,8 @@
             font-size: 16px;
             color: #707070;
             text-align: center;
-            margin: 0 60px 32px;
-            line-height: 1.4;
+            margin: 0 60px 24px;
+            line-height: 1.1;
         }
 
         .ai-analysis-content {
@@ -777,7 +878,7 @@
             font-weight: 400;
             font-size: 16px;
             color: #2C2C2C;
-            line-height: 1.6;
+            line-height: 1.1;
             padding: 0 60px;
             max-height: 400px;
             overflow-y: auto;
@@ -820,165 +921,166 @@
 
         .analysis-buttons {
             display: flex;
-            gap: 16px;
             justify-content: center;
-            align-items: center;
-            margin: 0 60px 40px;
-        }
-
-        .btn-secondary-outline {
-            background: transparent;
-            color: #2C2C2C;
-            border: 2px solid #2C2C2C;
-            padding: 14px 32px;
-            font-family: 'Satoshi', sans-serif;
-            font-weight: 700;
-            font-size: 14px;
-            letter-spacing: 0.5px;
-            border-radius: 12px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .btn-secondary-outline:hover {
-            background: #2C2C2C;
-            color: #FFFFFF;
-        }
-
-        #go-to-cta-btn {
-            padding: 14px 32px;
-            font-size: 14px;
-            min-width: auto;
-            margin: 0;
+            width: 100%;
+            margin: 40px 0;
+            padding: 0;
         }
 
         .analysis-footer {
-            position: sticky;
-            bottom: 0;
-            background: rgba(216, 216, 216, 0.17);
-            border-top: 1px solid rgba(44, 44, 44, 0.1);
-            padding: 20px 60px;
-            text-align: center;
-        }
-
-        .analysis-footer p {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: calc(100% + 120px);
+            margin-left: -60px;
+            margin-right: -60px;
+            margin-top: 50px;
+            padding: 30px 60px 0;
+            border-top: 1px solid rgba(44, 44, 44, 0.15);
             font-family: 'Satoshi', sans-serif;
             font-weight: 400;
             font-size: 12px;
             color: #707070;
-            margin: 0;
         }
 
-        /* SCREEN 3: CTA Hub */
-        .cta-hub-title {
+        /* RESULT SCREEN 2: CTA Hub - Zgodny z kluczem wizualnym */
+        #result-screen-2 {
+            width: 100%;
+            max-width: 100%;
             text-align: center;
-            font-size: 2.5em;
+        }
+
+        #result-screen-2 h1 {
+            font-family: 'Satoshi', sans-serif;
             font-weight: 700;
-            color: var(--text-primary);
-            margin-bottom: 50px;
-        }
-        .cta-hub-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 30px;
-            max-width: 1000px;
-            margin: 0 auto 60px;
-        }
-        .cta-hub-card {
-            background: rgba(44, 44, 44, 0.3);
-            border: 2px solid #2C2C2C;
-            border-radius: 16px;
-            padding: 40px 30px;
+            font-size: 32px;
+            color: #2C2C2C;
+            margin: 0 0 30px 0;
             text-align: center;
-            text-decoration: none;
-            color: var(--text-primary);
-            transition: all 0.3s ease;
+            line-height: 1.1;
+        }
+
+        #result-screen-2 .profile-photo {
+            display: block;
+            margin: 0 auto 20px;
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            object-fit: cover;
+            object-position: 68% 48%;
+        }
+
+        #result-screen-2 .cta-boxes {
+            margin: 30px 0;
             display: flex;
             flex-direction: column;
+            gap: 16px;
             align-items: center;
-            cursor: pointer;
-        }
-        .cta-hub-card:hover {
-            border-color: var(--primary-color);
-            box-shadow: 0 8px 32px rgba(178, 140, 255, 0.3);
-            transform: translateY(-5px);
-        }
-        .cta-icon {
-            font-size: 3em;
-            margin-bottom: 20px;
-        }
-        .cta-hub-card h3 {
-            font-size: 1.5em;
-            font-weight: 700;
-            margin: 0 0 15px 0;
-            color: var(--text-primary);
-        }
-        .cta-hub-card p {
-            font-size: 1em;
-            color: var(--text-muted);
-            margin: 0;
-            line-height: 1.6;
-        }
-        .social-footer {
-            text-align: center;
-            padding-top: 40px;
-            border-top: 1px solid #2C2C2C;
-            max-width: 600px;
-            margin: 0 auto;
-        }
-        .social-footer p {
-            color: var(--text-muted);
-            margin-bottom: 15px;
-        }
-        .social-links {
-            display: flex;
-            gap: 20px;
-            justify-content: center;
-        }
-        .social-links a {
-            color: var(--text-muted);
-            text-decoration: none;
-            font-size: 0.95em;
-            transition: color 0.3s ease;
-        }
-        .social-links a:hover {
-            color: var(--primary-color);
         }
 
-        /* Responsive adjustments for new screens */
-        @media (max-width: 768px) {
-            .author-photo {
-                width: 100px;
-                height: 100px;
-            }
-            .author-greeting {
-                font-size: 1.5em;
-            }
-            .ai-analysis-content {
-                padding: 25px;
-                font-size: 1em;
-            }
-            .cta-hub-title {
-                font-size: 1.8em;
-            }
-            .cta-hub-container {
-                grid-template-columns: 1fr;
-                gap: 20px;
-            }
-            .cta-hub-card {
-                padding: 30px 20px;
-            }
+        #result-screen-2 .cta-box {
+            width: 100%;
+            max-width: 600px;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            padding: 24px 28px;
+            /* Dokładnie jak segment-card */
+            background: rgba(44, 44, 44, 0.04);
+            border: 2px solid rgba(44, 44, 44, 0.08);
+            border-radius: 12px;
+            box-shadow: 4px 4px 5px 0px rgba(0, 0, 0, 0.25);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: left;
+            filter: brightness(1) contrast(1.02);
+            text-decoration: none;
+            color: inherit;
         }
-        @media (max-width: 480px) {
-            .author-greeting {
-                font-size: 1.3em;
-            }
-            .cta-hub-title {
-                font-size: 1.5em;
-            }
-            .cta-icon {
-                font-size: 2.5em;
-            }
+
+        #result-screen-2 .cta-box:hover {
+            background: rgba(44, 44, 44, 0.12);
+            border: 2px solid rgba(44, 44, 44, 0.2);
+            box-shadow: 0 6px 16px rgba(44, 44, 44, 0.15);
+            transform: translateY(-2px);
+        }
+
+        #result-screen-2 .cta-box img {
+            width: 48px;
+            height: 48px;
+            flex-shrink: 0;
+            filter: brightness(0) saturate(100%) invert(47%) sepia(0%) saturate(0%) hue-rotate(204deg) brightness(94%) contrast(86%);
+        }
+
+        #result-screen-2 .cta-box div {
+            flex: 1;
+            text-align: center;
+        }
+
+        #result-screen-2 .cta-box h3 {
+            font-family: 'Satoshi', sans-serif;
+            font-weight: 700;
+            font-size: 16px;
+            color: #2C2C2C;
+            margin: 0 0 6px 0;
+            text-transform: uppercase;
+            letter-spacing: 0.02em;
+            line-height: 1.1;
+        }
+
+        #result-screen-2 .cta-box p {
+            font-family: 'Satoshi', sans-serif;
+            font-weight: 400;
+            font-size: 14px;
+            color: #707070;
+            margin: 0;
+            line-height: 1.1;
+        }
+
+        #result-screen-2 .social-section {
+            margin: 40px 0 30px;
+            text-align: center;
+        }
+
+        #result-screen-2 .social-section p {
+            font-family: 'Satoshi', sans-serif;
+            font-weight: 400;
+            font-size: 14px;
+            color: #707070;
+            margin: 0 0 16px 0;
+        }
+
+        #result-screen-2 .social-icons {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        #result-screen-2 .social-icons a {
+            display: block;
+            transition: opacity 0.3s ease;
+            text-decoration: none;
+        }
+
+        #result-screen-2 .social-icons a:hover {
+            opacity: 0.6;
+        }
+
+        #result-screen-2 .social-icons img {
+            width: 32px;
+            height: 32px;
+        }
+
+        #result-screen-2 .footer {
+            margin: 30px 0 0;
+            padding: 20px 0 0;
+            border-top: 1px solid rgba(44, 44, 44, 0.15);
+            display: flex;
+            justify-content: space-between;
+            font-family: 'Satoshi', sans-serif;
+            font-weight: 400;
+            font-size: 12px;
+            color: #707070;
         }
     </style>
 </head>
@@ -1023,15 +1125,44 @@
                         <img src="twoje-logo.svg.svg" alt="Logo Firmy">
                     </div>
                     <h1>Audyt Kondycji Marki</h1>
-                    <p class="intro-subtext">Narzędzie diagnostyczne dla liderów, którzy chcą przestać zgadywać i zacząć wygrywać.</p>
 
-                    <div style="max-width: 400px; margin: 30px auto;">
-                        <div style="margin-bottom: 20px;">
+                    <div class="audit-principles-section">
+                        <p class="audit-principles-title">Zanim zaczniesz, poznaj 3 kluczowe zasady tego audytu:</p>
+
+                        <div class="principles-list">
+                            <div class="principle-item">
+                                <div class="principle-icon" style="filter: grayscale(1) brightness(0.4);">🔍</div>
+                                <div class="principle-content">
+                                    <h3>Bądź lustrem, nie ideałem</h3>
+                                    <p>Odpowiadaj szczerze. Audyt ma pokazać prawdziwy obraz Twojej marki, a nie jej wyobrażenie.</p>
+                                </div>
+                            </div>
+
+                            <div class="principle-item">
+                                <div class="principle-icon" style="filter: grayscale(1) brightness(0.4);">✍️</div>
+                                <div class="principle-content">
+                                    <h3>W pytaniach otwartych leży klucz</h3>
+                                    <p>Poświęć im najwięcej uwagi. To tam kryją się najcenniejsze wnioski i punkty zwrotne dla Twojej strategii.</p>
+                                </div>
+                            </div>
+
+                            <div class="principle-item">
+                                <div class="principle-icon" style="filter: grayscale(1) brightness(0.4);">💡</div>
+                                <div class="principle-content">
+                                    <h3>Pamiętaj: Jakość odpowiedzi = Jakość diagnozy</h3>
+                                    <p>To narzędzie działa w myśl zasady "Garbage In, Garbage Out". Twoje zaangażowanie jest bezpośrednią inwestycją w wynik.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="personalization-inputs-wrapper">
+                        <div class="input-group">
                             <label for="user-name" style="display: block; margin-bottom: 8px; font-weight: 500; color: var(--text-color);">Twoje imię:</label>
                             <input type="text" id="user-name" placeholder="np. Anna" style="width: 100%; padding: 12px; font-family: 'Satoshi', sans-serif; font-size: 1em; border: 1px solid var(--border-color); border-radius: 8px; background-color: var(--bg-color); color: var(--text-color); transition: border-color 0.3s, box-shadow 0.3s;">
                         </div>
-                        <div style="margin-bottom: 20px;">
-                            <label for="brand-name" id="brand-name-label" style="display: block; margin-bottom: 8px; font-weight: 500; color: var(--text-color);">Nazwa Twojej marki/firmy:</label>
+                        <div class="input-group">
+                            <label for="brand-name" id="brand-name-label" style="display: block; margin-bottom: 8px; font-weight: 500; color: var(--text-color);">Nazwa marki/firmy:</label>
                             <input type="text" id="brand-name" placeholder="np. ABC Marketing" style="width: 100%; padding: 12px; font-family: 'Satoshi', sans-serif; font-size: 1em; border: 1px solid var(--border-color); border-radius: 8px; background-color: var(--bg-color); color: var(--text-color); transition: border-color 0.3s, box-shadow 0.3s;">
                         </div>
                     </div>
@@ -1443,65 +1574,88 @@
             <div class="screen" id="screen-results">
                 <!-- EKRAN 1: AI Analysis -->
                 <div id="result-screen-1" class="result-screen" style="display: none;">
-                    <!-- Header Image -->
-                    <img id="analysis-header-image" src="Janawnioski.svg" alt="Analiza" class="analysis-header-image">
+                    <!-- Full Screen Loader -->
+                    <div id="analysis-full-loader" style="display: none;">
+                        <img src="Radical Clarity.svg" alt="Przetwarzanie" style="max-width: 900px; width: 100%; height: auto; margin-bottom: 30px;">
+                        <p style="font-size: 1.3em; color: #707070; font-weight: 600; animation: pulse 2s ease-in-out infinite; text-align: center;">Przetwarzam wnioski</p>
+                    </div>
 
-                    <!-- Tytuł z personalizacją -->
-                    <h2 class="analysis-title">Cześć <span id="analysis-user-name"></span> tu Krystian</h2>
+                    <!-- Analysis Content (ukryte podczas ładowania) -->
+                    <div id="analysis-content-wrapper">
+                        <!-- Header Image -->
+                        <img id="analysis-header-image" src="Janawnioski.svg" alt="Analiza" class="analysis-header-image">
 
-                    <!-- Intro -->
-                    <p class="analysis-intro">Tak właściwie to mój Asystent Analytik AI, ale bez obaw, jest tak skonstruowany że korzysta tylko z dobrodziejstw mojej wiedzy i metod sprawdzonych w dziesiątkach projektów strategicznych.</p>
+                        <!-- Tytuł z personalizacją -->
+                        <h2 class="analysis-title">Cześć <span id="analysis-user-name"></span> tu Krystian</h2>
 
-                    <!-- Podtytuł -->
-                    <p class="analysis-subtitle">Na podstawie Twojego Audytu Kondycji Marki...</p>
+                        <!-- Intro -->
+                        <p class="analysis-intro">Tak właściwie to mój Asystent Analityk AI, ale bez obaw, jest tak skonstruowany że korzysta tylko z dobrodziejstw mojej wiedzy i metod sprawdzonych w dziesiątkach projektów strategicznych.</p>
 
-                    <!-- Treść analizy -->
-                    <div class="ai-analysis-content">
-                        <div id="ai-loader-screen2">
-                            <p>Przetwarzam analizę...</p>
+                        <!-- Podtytuł -->
+                        <p class="analysis-subtitle">Na podstawie Twojego Audytu Kondycji Marki...</p>
+
+                        <!-- Treść analizy -->
+                        <div class="ai-analysis-content">
+                            <div id="ai-analysis-text"></div>
                         </div>
-                        <div id="ai-analysis-text" style="display: none;"></div>
-                    </div>
 
-                    <!-- Przyciski -->
-                    <div class="analysis-buttons">
-                        <button type="button" id="download-analysis-btn" class="btn btn-secondary-outline">POBIERZ PEŁNĄ ANALIZĘ</button>
-                        <button type="button" id="go-to-cta-btn" class="btn btn-primary">SPRAWDŹ OFERTĘ</button>
-                    </div>
+                        <!-- Przycisk CTA -->
+                        <div class="analysis-buttons">
+                            <button type="button" id="go-to-cta-btn" class="btn btn-primary">ZOBACZ OFERTĘ</button>
+                        </div>
 
-                    <!-- Stopka -->
-                    <div class="analysis-footer">
-                        <p>©Krystian Dąbrowski | www.krystiandabrowski.com</p>
+                        <!-- Stopka -->
+                        <div class="analysis-footer">
+                            <span>©Krystian Dąbrowski</span>
+                            <span>www.krystiandabrowski.com</span>
+                        </div>
                     </div>
                 </div>
 
-                <!-- EKRAN 2: CTA Hub -->
+                <!-- EKRAN 2: CTA Hub - SIMPLIFIED -->
                 <div id="result-screen-2" class="result-screen" style="display: none;">
-                    <h2 class="cta-hub-title">Gotowy na przełom?</h2>
-                    <div class="cta-hub-container">
-                        <a href="https://calendly.com/krystian-krystiandabrowski/30min" target="_blank" class="cta-hub-card">
-                            <div class="cta-icon">🗓️</div>
-                            <h3>Umów konsultację</h3>
-                            <p>15 minut, darmowa rozmowa strategiczna</p>
+                    <img src="krystian-photo.png" class="profile-photo" alt="Krystian Dąbrowski">
+
+                    <h1>Gotowy na PRZEŁOM?</h1>
+
+                    <div class="cta-boxes">
+                        <a href="https://calendly.com/krystian-krystiandabrowski/30min" target="_blank" class="cta-box">
+                            <img src="icon-calendar.svg">
+                            <div>
+                                <h3>UMÓW KONSULTACJĘ</h3>
+                                <p>15 min, darmowa rozmowa strategiczna</p>
+                            </div>
                         </a>
-                        <a href="https://www.figma.com/deck/S2Rr6ywbpVeFuv4JxvAzOy/Krystian-D%C4%85browski---Oferta?node-id=33-541&t=kr2DQPRcDIY7AbDL-1&scaling=min-zoom&content-scaling=fixed&page-id=0%3A1" target="_blank" class="cta-hub-card">
-                            <div class="cta-icon">📋</div>
-                            <h3>Zobacz ofertę</h3>
-                            <p>Strategia & Branding dla ambitnych marek</p>
+
+                        <a href="https://tiny.pl/b4rypbk4" target="_blank" class="cta-box">
+                            <img src="icon-document.svg">
+                            <div>
+                                <h3>ZOBACZ OFERTĘ</h3>
+                                <p>Strategia & Branding dla ambitnych marek</p>
+                            </div>
                         </a>
-                        <a href="#newsletter" class="cta-hub-card" id="newsletter-cta">
-                            <div class="cta-icon">💌</div>
-                            <h3>Zapisz się na newsletter</h3>
-                            <p>Tygodniowe insights o strategii marki</p>
+
+                        <a href="https://tiny.pl/thsnykhv" target="_blank" class="cta-box">
+                            <img src="icon-ai.svg">
+                            <div>
+                                <h3>PROGRAM AKCELERACJI AI</h3>
+                                <p>Rozwój umiejętności AI, zdobądź szczegóły</p>
+                            </div>
                         </a>
                     </div>
-                    <div class="social-footer">
+
+                    <div class="social-section">
                         <p>Znajdź mnie również na:</p>
-                        <div class="social-links">
-                            <a href="#" target="_blank">LinkedIn</a>
-                            <a href="#" target="_blank">Instagram</a>
-                            <a href="#" target="_blank">Twitter</a>
+                        <div class="social-icons">
+                            <a href="https://www.linkedin.com/in/krystian-dąbrowski-913b1919a" target="_blank"><img src="icon-linkedin.svg" alt="LinkedIn"></a>
+                            <a href="https://www.instagram.com/krystian_dabrowski_b2h/" target="_blank"><img src="icon-instagram.svg" alt="Instagram"></a>
+                            <a href="https://www.facebook.com/krystian.dabrowski.925602/" target="_blank"><img src="icon-facebook.svg" alt="Facebook"></a>
                         </div>
+                    </div>
+
+                    <div class="footer">
+                        <span>©Krystian Dąbrowski</span>
+                        <span>www.krystiandabrowski.com</span>
                     </div>
                 </div>
 
@@ -1604,10 +1758,10 @@
                     const brandLabel = document.getElementById('brand-name-label');
                     const brandInput = document.getElementById('brand-name');
                     if (userSegment === 'personal') {
-                        brandLabel.innerHTML = 'Nazwa Twojej marki osobistej <span style="color: var(--text-muted); font-weight: 400;">(opcjonalne)</span>:';
+                        brandLabel.innerHTML = 'Nazwa marki <span style="color: var(--text-muted); font-weight: 400;">(opcjonalnie)</span>:';
                         brandInput.placeholder = 'np. Anna Kowalska Coaching';
                     } else {
-                        brandLabel.textContent = 'Nazwa Twojej marki/firmy:';
+                        brandLabel.textContent = 'Nazwa marki/firmy:';
                         brandInput.placeholder = 'np. ABC Marketing';
                     }
 
@@ -1955,7 +2109,13 @@
                 // Pokaż ekran AI analysis
                 showResultScreen(1);
 
-                // Ustaw personalizację - imię użytkownika w tytule
+                // Pokaż full screen loader, ukryj content
+                const fullLoader = document.getElementById('analysis-full-loader');
+                const contentWrapper = document.getElementById('analysis-content-wrapper');
+                if (fullLoader) fullLoader.style.display = 'flex';
+                if (contentWrapper) contentWrapper.style.display = 'none';
+
+                // Ustaw personalizację - imię użytkownika w tytule (w tle, nie widoczne jeszcze)
                 const analysisUserName = document.getElementById('analysis-user-name');
                 if (analysisUserName) {
                     if (userName && userName.trim() !== '') {
@@ -1967,18 +2127,7 @@
                     }
                 }
 
-                // Zmień obrazek na Radical Clarity.svg podczas ładowania
-                const headerImage = document.getElementById('analysis-header-image');
-                if (headerImage) {
-                    headerImage.src = 'Radical Clarity.svg';
-                }
-
-                // Pokaż loader AI
-                const aiLoader = document.getElementById('ai-loader-screen2');
-                if (aiLoader) aiLoader.style.display = 'block';
-
                 const aiTextElement = document.getElementById('ai-analysis-text');
-                if (aiTextElement) aiTextElement.style.display = 'none';
 
                 // Wywołaj API AI
                 fetch(`${API_BASE_URL}/api/analyze`, {
@@ -2000,22 +2149,17 @@
                 })
                 .then(data => {
                     finalAiText = data.analysis;
-                    aiTextElement.innerText = finalAiText;
+                    if (aiTextElement) aiTextElement.innerText = finalAiText;
                 })
                 .catch(error => {
                     console.error('Błąd:', error);
                     finalAiText = 'Wystąpił błąd podczas łączenia z serwerem analizy. Spróbuj ponownie później.';
-                    aiTextElement.innerText = finalAiText;
+                    if (aiTextElement) aiTextElement.innerText = finalAiText;
                 })
                 .finally(() => {
-                    // Zmień obrazek z powrotem na Janawnioski.svg
-                    if (headerImage) {
-                        headerImage.src = 'Janawnioski.svg';
-                    }
-
-                    // Ukryj loader, pokaż tekst
-                    if (aiLoader) aiLoader.style.display = 'none';
-                    if (aiTextElement) aiTextElement.style.display = 'block';
+                    // Ukryj loader, pokaż pełną treść analizy
+                    if (fullLoader) fullLoader.style.display = 'none';
+                    if (contentWrapper) contentWrapper.style.display = 'block';
                 });
             };
 
@@ -2038,43 +2182,8 @@
                 });
             }
 
-            // Download analysis button
-            const downloadAnalysisBtn = document.getElementById('download-analysis-btn');
-            if (downloadAnalysisBtn) {
-                downloadAnalysisBtn.addEventListener('click', () => {
-                    if (!finalAiText || finalAiText.trim() === '') {
-                        alert('Analiza nie jest jeszcze gotowa. Proszę czekać...');
-                        return;
-                    }
-
-                    // Utwórz pełny tekst do pobrania
-                    const fullText = `Audyt Kondycji Marki - Analiza
-
-Wynik: ${finalScore}/60 punktów
-${userName ? 'Imię: ' + userName : ''}
-${brandName ? 'Marka: ' + brandName : ''}
-${userSegment ? 'Segment: ' + userSegment : ''}
-
-=== ANALIZA ===
-
-${finalAiText}
-
----
-©Krystian Dąbrowski
-www.krystiandabrowski.com`;
-
-                    // Pobierz jako plik tekstowy
-                    const blob = new Blob([fullText], { type: 'text/plain;charset=utf-8' });
-                    const url = URL.createObjectURL(blob);
-                    const a = document.createElement('a');
-                    a.href = url;
-                    a.download = `Analiza_Marki_${brandName || userName || 'Raport'}.txt`;
-                    document.body.appendChild(a);
-                    a.click();
-                    document.body.removeChild(a);
-                    URL.revokeObjectURL(url);
-                });
-            }
+            // Download analysis button - USUNIĘTE
+            // Funkcjonalność pobierania analizy została usunięta z tego etapu workflow
 
             // === USUNIĘTE: Stare funkcje i event listenery ===
             // - drawShareableGraphic() - usunięte
