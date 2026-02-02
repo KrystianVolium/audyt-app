@@ -152,7 +152,7 @@ app.post('/api/analyze', async (req, res) => {
     }
 
     // Krok D: Definiujemy JEDEN, kompletny prompt, który korzysta ze wszystkich naszych danych
-    const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash-001" });
+    const model = genAI.getGenerativeModel({ model: "gemini-3-flash-preview" });
 
     let prompt = `
       ## Persona & Rola: Wytrawny Strateg-Mentor
