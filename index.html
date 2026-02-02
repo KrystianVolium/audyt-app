@@ -2324,7 +2324,7 @@
                 const aiTextElement = document.getElementById('ai-analysis-text');
 
                 // Wywołaj API AI
-                fetch(`${AIzaSyDuXBMk6C3lwWsFTYYtKyv3uqkNOHLmzvo}/api/analyze`, {
+                fetch(`${API_BASE_URL}/api/analyze`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
